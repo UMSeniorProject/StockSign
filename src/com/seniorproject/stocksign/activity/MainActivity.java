@@ -1,6 +1,12 @@
-package com.seniorproject.stocksign;
+package com.seniorproject.stocksign.activity;
 
 import java.util.Locale;
+
+import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.R.id;
+import com.seniorproject.stocksign.R.layout;
+import com.seniorproject.stocksign.R.menu;
+import com.seniorproject.stocksign.R.string;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -136,7 +142,7 @@ public class MainActivity extends FragmentActivity implements
 			Locale l = Locale.getDefault();
 			switch (position) {
 			case 0:
-				return getString(R.string.title_section1).toUpperCase(l);
+				return getString(R.string.title_home).toUpperCase(l);
 			case 1:
 				return getString(R.string.title_section2).toUpperCase(l);
 			case 2:
