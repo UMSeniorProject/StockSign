@@ -7,6 +7,7 @@ import com.seniorproject.stocksign.R.id;
 import com.seniorproject.stocksign.R.layout;
 import com.seniorproject.stocksign.R.menu;
 import com.seniorproject.stocksign.R.string;
+import com.seniorproject.stocksign.database.MySQLiteHelper.Debugme;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -47,7 +48,9 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
+		Debugme.out();
+		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
