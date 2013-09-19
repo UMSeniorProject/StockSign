@@ -14,8 +14,7 @@ public final class StockDataContract {
      
      /* Inner class that defines the table contents */
      public static abstract class StockData implements BaseColumns {
-    	 private static final String DATABASE_NAME = "stockdata.db";
-    	 private static final int DATABASE_VERSION = 1;
+
     	 
          public static final String TABLE_NAME_STOCKS = "stocks";
          public static final String COLUMN_NAME_STOCK_ID = "stockid";
@@ -26,12 +25,21 @@ public final class StockDataContract {
          public static final String COLUMN_NAME_PE = "pe";
          public static final String COLUMN_NAME_FORWARD_PE = "forward_pe";
          
-		public static String getDatabaseName() {
-			return DATABASE_NAME;
-		}
-		public static int getDatabaseVersion() {
-			return DATABASE_VERSION;
-		}
+         
+     	// Database creation sql statement
+     	//private static final String TAG = "MyMessage";
+     	private static final String TEXT_TYPE = " TEXT";
+     	//private static final String REAL_TYPE = " REAL";
+     	//private static final String COMMA_SEP = ",";
+     	public static final String DATABASE_CREATE = "CREATE TABLE " + StockData.TABLE_NAME_STOCKS 
+     			+ " (" + StockData._ID + " INTEGER PRIMARY KEY, " 
+     			+ StockData.COLUMN_NAME_STOCK_ID + TEXT_TYPE + ") " ;
+     	
+     	public static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + StockData.TABLE_NAME_STOCKS;
+     	
+     	
+         
+
          
      }
 

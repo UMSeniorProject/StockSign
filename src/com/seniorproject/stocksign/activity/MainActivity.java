@@ -1,5 +1,6 @@
 package com.seniorproject.stocksign.activity;
 
+import java.util.List;
 import java.util.Locale;
 
 import com.seniorproject.stocksign.R;
@@ -7,7 +8,11 @@ import com.seniorproject.stocksign.R.id;
 import com.seniorproject.stocksign.R.layout;
 import com.seniorproject.stocksign.R.menu;
 import com.seniorproject.stocksign.R.string;
-import com.seniorproject.stocksign.database.MySQLiteHelper.Debugme;
+import com.seniorproject.stocksign.database.Stock;
+import com.seniorproject.stocksign.database.StockDataSource;
+
+import com.seniorproject.stocksign.debugging.Debugger;
+
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -24,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements
@@ -43,14 +49,33 @@ public class MainActivity extends FragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	
+	private StockDataSource datasource;
+	
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		Debugme.out();
+		//Debugger.error("MyMessage", "TESTING");
 		
+		//Stock stock = null;
+		Stock teststock= new Stock();
+		
+		
+		
+		teststock.setStockid("Test");
+		teststock.setId(1);
+		
+		datasource = new StockDataSource(this);
+	    datasource.open();
+	    
+	    teststock = datasource.createStock("GOOG");
+	    datasource.close();
+	    
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -172,12 +197,15 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
+			
 			View rootView = inflater.inflate(R.layout.fragment_main_dummy,
 					container, false);
 			TextView dummyTextView = (TextView) rootView
 					.findViewById(R.id.section_label);
 			dummyTextView.setText(Integer.toString(getArguments().getInt(
 					ARG_SECTION_NUMBER)));
+			
+			
 			return rootView;
 		}
 	}

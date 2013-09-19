@@ -10,31 +10,19 @@ import com.seniorproject.stocksign.database.StockDataContract.StockData;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
+	 private static final String DATABASE_NAME = "stockdata.db";
+	 private static final int DATABASE_VERSION = 1;
 
 
 
-	// Database creation sql statement
-	private static final String TAG = "MyMessage";
-	private static final String TEXT_TYPE = " TEXT";
-	private static final String REAL_TYPE = " REAL";
-	private static final String COMMA_SEP = ",";
-	private static final String DATABASE_CREATE = "CREATE TABLE " 
-			+ StockData.TABLE_NAME_STOCKS 
-			+ " (" + StockData._ID + " INTEGER PRIMARY KEY, " 
-			+ StockData.COLUMN_NAME_STOCK_ID + TEXT_TYPE ;
-	
-	//System.out.println(DATABASE_CREATE);
-	
-	
-	//create table stock_data (_id integer primary key autoincrement, comment text not null);
   
 	public MySQLiteHelper(Context context) {
-		super(context, StockData.getDatabaseName(), null, StockData.getDatabaseVersion());
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		//database.execSQL(DATABASE_CREATE);
+		database.execSQL(StockData.DATABASE_CREATE);
 	}
 
 	@Override
@@ -42,16 +30,15 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		Log.w(MySQLiteHelper.class.getName(),
 				"Upgrading database from version " + oldVersion + " to "
 						+ newVersion + ", which will destroy all old data");
-		db.execSQL("DROP TABLE IF EXISTS " + StockData.TABLE_NAME_STOCKS);
+		db.execSQL(StockData.SQL_DELETE_ENTRIES + StockData.TABLE_NAME_STOCKS);
 		onCreate(db);
 	}
 	
-	public final static class Debugme{
-	    private Debugme (){}
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        onUpgrade(db, oldVersion, newVersion);
+    }
+	
+	//MySQLiteHelper mDbHelper = new MySQLiteHelper(getContext());
 
-	    public static  void out (){
-	        Log.i(TAG, DATABASE_CREATE);
-	    }
-	}
 
 } 
