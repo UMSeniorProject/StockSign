@@ -12,6 +12,7 @@ import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.database.StockDataSource;
 
 import com.seniorproject.stocksign.debugging.Debugger;
+import com.seniorproject.stocksign.fragment.HomeSectionFragment;
 
 
 import android.app.ActionBar;
@@ -152,7 +153,27 @@ public class MainActivity extends FragmentActivity implements
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
-			Fragment fragment = new DummySectionFragment();
+			Fragment fragment;
+			switch (position){
+			case 0:
+				fragment = new HomeSectionFragment();
+				break;
+				
+			case 1:
+				fragment = new DummySectionFragment();
+				break;
+				
+			default:
+				fragment = new DummySectionFragment();
+				break;
+			}
+			
+			/*if(position == 0)
+				fragment = new DummySectionFragment();
+			else
+				fragment = new HomeSectionFragment();*/
+			Debugger.info("Position = ", Integer.toString(position));
+
 			Bundle args = new Bundle();
 			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 			fragment.setArguments(args);
@@ -202,7 +223,7 @@ public class MainActivity extends FragmentActivity implements
 					container, false);
 			TextView dummyTextView = (TextView) rootView
 					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
+			dummyTextView.setText("Test Page #" + Integer.toString(getArguments().getInt(
 					ARG_SECTION_NUMBER)));
 			
 			
