@@ -17,6 +17,7 @@ import com.seniorproject.stocksign.fragment.HomeSectionFragment;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -32,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -51,7 +53,7 @@ public class MainActivity extends FragmentActivity implements
 	 */
 	ViewPager mViewPager;
 	
-	private StockDataSource datasource;
+	public static StockDataSource datasource;
 	
 
 
@@ -75,7 +77,10 @@ public class MainActivity extends FragmentActivity implements
 	    datasource.open();
 	    
 	    teststock = datasource.createStock("GOOG");
+	  
 	    datasource.close();
+	    
+
 	    
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -119,6 +124,29 @@ public class MainActivity extends FragmentActivity implements
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	  
+	  	Context context = getApplicationContext();
+		CharSequence refreshtoast = "Refreshing...";
+		int duration = Toast.LENGTH_SHORT;
+	    // Handle item selection
+		
+	    switch (item.getItemId()) {
+	        case R.id.action_settings:
+	            //open settings activity
+	            return true;
+	        case R.id.action_refresh:
+	        	Toast.makeText(context, refreshtoast, duration).show();;
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
@@ -138,6 +166,18 @@ public class MainActivity extends FragmentActivity implements
 			FragmentTransaction fragmentTransaction) {
 	}
 
+	/*@Override
+	protected void onResume() {
+		datasource.open();
+	    super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		datasource.close();
+		super.onPause();
+	}
+	*/
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
