@@ -11,13 +11,27 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * Data Access Object that maintains the database connection 
+ * and supports adding new stocks and fetching all stocks.
+ * 
+ * @author Sean Wilkinson
+ * @since 1.0
+ *
+ */
 public class StockDataSource {
 
 	// Database fields
 	private SQLiteDatabase database;
 	private MySQLiteHelper dbHelper;
 	private String[] allColumns = { StockData._ID,
-			StockData.COLUMN_NAME_STOCK_ID };
+			StockData.COLUMN_NAME_STOCK_ID, 
+			StockData.COLUMN_NAME_SECTOR,
+			StockData.COLUMN_NAME_INDUSTRY,
+			StockData.COLUMN_NAME_COUNTRY,
+			StockData.COLUMN_NAME_PE,
+			StockData.COLUMN_NAME_FORWARD_PE,
+			StockData.COLUMN_NAME_PS};
 
 	public StockDataSource(Context context) {
 		dbHelper = new MySQLiteHelper(context);

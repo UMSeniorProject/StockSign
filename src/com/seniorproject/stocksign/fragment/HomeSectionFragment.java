@@ -17,14 +17,25 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+/**
+ * Fragment to be displayed on the Home section of the Main Activity
+ * 
+ * @author Sean Wilkinson
+ * @since 1.0
+ *
+ */
 public class HomeSectionFragment extends Fragment {
 	
 	private StockDataSource datasource;
-	
+	/**Should not be instantiated, empty constructor */
 	public HomeSectionFragment() {
 	}
 
-
+	/**
+	 * Called when fragment is starting, where most inistialization should go
+	 * @param 
+	 * @return rootView The view to be displayed
+	 * */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		

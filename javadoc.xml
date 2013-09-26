@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="private" additionalparam="-bootclasspath /Users/Sean/Documents/AndroidDev/android-sdk-macosx/platforms/android-18 " author="true" classpath="libs/android-support-v4.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.seniorproject.stocksign.fragment,com.seniorproject.stocksign.database,com.seniorproject.stocksign.debugging,com.seniorproject.stocksign.activity" source="1.6" sourcepath="src:gen" splitindex="true" use="true" version="true">
+            <link href="file:/Users/Sean/Documents/AndroidDev/android-sdk-macosx/docs/reference"/>
+            <link href="file:/Users/Sean/Documents/AndroidDev/StockSign/doc/"/>
+        </javadoc>
+    </target>
+</project>

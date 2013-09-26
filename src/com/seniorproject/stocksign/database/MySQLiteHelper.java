@@ -7,7 +7,16 @@ import android.util.Log;
 
 import com.seniorproject.stocksign.database.StockDataContract.StockData;
 
-
+/**
+ * This class is responsible for creating the database. 
+ * The {@link onUpgrade()} method will simply delete all existing 
+ * data and re-create the table. It also defines several 
+ * constants for the table name and the table columns.
+ * 
+ * @author Sean Wilkinson
+ * @since 1.0
+ *
+ */
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	 private static final String DATABASE_NAME = "stockdata.db";

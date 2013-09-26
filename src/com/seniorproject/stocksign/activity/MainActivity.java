@@ -35,6 +35,13 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * First Activity to be displayed when application is run.
+ * 
+ * @author Sean Wilkinson
+ * @since 1.0
+ *
+ */
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
