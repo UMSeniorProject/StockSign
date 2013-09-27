@@ -34,6 +34,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		database.execSQL(StockData.DATABASE_CREATE);
 	}
 
+	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.w(MySQLiteHelper.class.getName(),

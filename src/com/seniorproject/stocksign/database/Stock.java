@@ -11,10 +11,10 @@ package com.seniorproject.stocksign.database;
 public class Stock {
 	
 	private int _id;
-	private String stockid;
-	private String stocktitle;
+	private String ticker;
+	private String company;
 	private String sector;
-	private String indutry;
+	private String industry;
 	private String country;
 	private float pe;
 	private float forward_pe;
@@ -62,32 +62,34 @@ public class Stock {
 		this._id = _id;
 	}
 
+	
+
 	/**
-	 * @return the stockid
+	 * @return the ticker
 	 */
-	public String getStockid() {
-		return stockid;
+	public String getTicker() {
+		return ticker;
 	}
 
 	/**
-	 * @param string the stockid to set
+	 * @param ticker the ticker to set
 	 */
-	public void setStockid(String string) {
-		this.stockid = string;
+	public void setTicker(String ticker) {
+		this.ticker = ticker;
 	}
 
 	/**
-	 * @return the stocktitle
+	 * @return the company
 	 */
-	public String getStocktitle() {
-		return stocktitle;
+	public String getCompany() {
+		return company;
 	}
 
 	/**
-	 * @param stocktitle the stocktitle to set
+	 * @param company the company to set
 	 */
-	public void setStocktitle(String stocktitle) {
-		this.stocktitle = stocktitle;
+	public void setCompany(String company) {
+		this.company = company;
 	}
 
 	/**
@@ -105,17 +107,17 @@ public class Stock {
 	}
 
 	/**
-	 * @return the indutry
+	 * @return the industry
 	 */
-	public String getIndutry() {
-		return indutry;
+	public String getIndustry() {
+		return industry;
 	}
 
 	/**
-	 * @param indutry the indutry to set
+	 * @param industry the industry to set
 	 */
-	public void setIndutry(String indutry) {
-		this.indutry = indutry;
+	public void setIndustry(String industry) {
+		this.industry = industry;
 	}
 
 	/**

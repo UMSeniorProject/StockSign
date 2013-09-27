@@ -8,6 +8,7 @@ import com.seniorproject.stocksign.R.id;
 import com.seniorproject.stocksign.R.layout;
 import com.seniorproject.stocksign.R.menu;
 import com.seniorproject.stocksign.R.string;
+import com.seniorproject.stocksign.database.DataEntry;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.database.StockDataSource;
 
@@ -74,18 +75,24 @@ public class MainActivity extends FragmentActivity implements
 		
 		//Stock stock = null;
 		Stock teststock= new Stock();
+		Stock teststock2= new Stock();
 		
 		
-		
-		teststock.setStockid("Test");
-		teststock.setId(1);
+		teststock.setTicker("Test1");
+		teststock.setPe(2.3f);
+		teststock.setCompany("Test Company");
 		
 		datasource = new StockDataSource(this);
 	    datasource.open();
-	    
-	    teststock = datasource.createStock("GOOG");
-	  
+
+
+
+	    datasource.createStock(teststock);
+	    //datasource.deleteStock(teststock);
+	    //datasource.deleteAllStocks();
 	    datasource.close();
+	    DataEntry.createURL(null);
+	    
 	    
 
 	    

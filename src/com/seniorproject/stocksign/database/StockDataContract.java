@@ -22,8 +22,8 @@ public final class StockDataContract {
 
     	 
          public static final String TABLE_NAME_STOCKS = "stocks";
-         public static final String COLUMN_NAME_STOCK_ID = "stockid";
-         public static final String COLUMN_NAME_STOCK_TITLE = "stocktitle";
+         public static final String COLUMN_NAME_TICKER = "ticker";
+         public static final String COLUMN_NAME_COMPANY = "company";
          public static final String COLUMN_NAME_SECTOR = "sector";
          public static final String COLUMN_NAME_INDUSTRY = "industry";
          public static final String COLUMN_NAME_COUNTRY = "country";
@@ -68,13 +68,15 @@ public final class StockDataContract {
      	private static final String COMMA_SEP = ",";
      	public static final String DATABASE_CREATE = "CREATE TABLE " + StockData.TABLE_NAME_STOCKS 
      			+ " (" 
-     			+ StockData._ID + " INTEGER PRIMARY KEY, " 
-     			+ StockData.COLUMN_NAME_STOCK_ID + TEXT_TYPE + COMMA_SEP 
+     			+ StockData._ID + " INTEGER NOT NULL PRIMARY KEY, " 
+     			+ StockData.COLUMN_NAME_TICKER + TEXT_TYPE+ " NOT NULL UNIQUE, " 
+     			+ StockData.COLUMN_NAME_COMPANY + TEXT_TYPE + COMMA_SEP 
      			+ StockData.COLUMN_NAME_SECTOR + TEXT_TYPE + COMMA_SEP 
      			+ StockData.COLUMN_NAME_INDUSTRY + TEXT_TYPE + COMMA_SEP 
      			+ StockData.COLUMN_NAME_COUNTRY + TEXT_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_PE + REAL_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_FORWARD_PE + REAL_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_PEG + REAL_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_PS + REAL_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_PB + REAL_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_PC + REAL_TYPE + COMMA_SEP
@@ -100,7 +102,9 @@ public final class StockDataContract {
      			+ StockData.COLUMN_NAME_institutionalTransactions + REAL_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_floatShort + REAL_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_optionShort + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_rsi + REAL_TYPE
+     			+ StockData.COLUMN_NAME_rsi + REAL_TYPE 
+     			
+     			
      			
      			+") " ;
      	
