@@ -27,6 +27,14 @@ public final class StockDataContract {
          public static final String COLUMN_NAME_SECTOR = "sector";
          public static final String COLUMN_NAME_INDUSTRY = "industry";
          public static final String COLUMN_NAME_COUNTRY = "country";
+         public static final String COLUMN_NAME_DATE = "date";
+         public static final String COLUMN_NAME_OPEN = "open";
+         public static final String COLUMN_NAME_HIGH = "high";
+         public static final String COLUMN_NAME_LOW = "low";
+         public static final String COLUMN_NAME_CLOSE = "close";
+         public static final String COLUMN_NAME_VOLUME = "volume";
+         public static final String COLUMN_NAME_ADJCLOSE = "adjclose";
+         
          public static final String COLUMN_NAME_PE = "pe";
          public static final String COLUMN_NAME_FORWARD_PE = "forward_pe";
          public static final String COLUMN_NAME_PEG = "peg";
@@ -74,6 +82,13 @@ public final class StockDataContract {
      			+ StockData.COLUMN_NAME_SECTOR + TEXT_TYPE + COMMA_SEP 
      			+ StockData.COLUMN_NAME_INDUSTRY + TEXT_TYPE + COMMA_SEP 
      			+ StockData.COLUMN_NAME_COUNTRY + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_OPEN + REAL_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_HIGH + REAL_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_LOW + REAL_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_CLOSE + REAL_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_VOLUME + REAL_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_ADJCLOSE + REAL_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_PE + REAL_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_FORWARD_PE + REAL_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_PEG + REAL_TYPE + COMMA_SEP

@@ -47,6 +47,15 @@ public class Stock {
 	private float optionShort;
 	private float rsi;
 	
+	private String date;
+	private float open;
+	private float high;
+	private float low;
+	private float close;
+	private float volume;
+	private float adjclose;
+	
+	
 	
 	/**
 	 * @return the _id
@@ -552,6 +561,104 @@ public class Stock {
 	 */
 	public void setRsi(float rsi) {
 		this.rsi = rsi;
+	}
+
+	/**
+	 * @return the date
+	 */
+	public String getDate() {
+		return date;
+	}
+
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	/**
+	 * @return the open
+	 */
+	public float getOpen() {
+		return open;
+	}
+
+	/**
+	 * @param open the open to set
+	 */
+	public void setOpen(float open) {
+		this.open = open;
+	}
+
+	/**
+	 * @return the low
+	 */
+	public float getLow() {
+		return low;
+	}
+
+	/**
+	 * @return the high
+	 */
+	public float getHigh() {
+		return high;
+	}
+
+	/**
+	 * @param high the high to set
+	 */
+	public void setHigh(float high) {
+		this.high = high;
+	}
+
+	/**
+	 * @param low the low to set
+	 */
+	public void setLow(float low) {
+		this.low = low;
+	}
+
+	/**
+	 * @return the close
+	 */
+	public float getClose() {
+		return close;
+	}
+
+	/**
+	 * @param close the close to set
+	 */
+	public void setClose(float close) {
+		this.close = close;
+	}
+
+	/**
+	 * @return the volume
+	 */
+	public float getVolume() {
+		return volume;
+	}
+
+	/**
+	 * @param volume the volume to set
+	 */
+	public void setVolume(float volume) {
+		this.volume = volume;
+	}
+
+	/**
+	 * @return the adjclose
+	 */
+	public float getAdjclose() {
+		return adjclose;
+	}
+
+	/**
+	 * @param adj the adjclose to set
+	 */
+	public void setAdjclose(float adjclose) {
+		this.adjclose = adjclose;
 	}
 	
 

@@ -1,14 +1,19 @@
 package com.seniorproject.stocksign.activity;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+
+import org.apache.http.client.ClientProtocolException;
 
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.R.id;
 import com.seniorproject.stocksign.R.layout;
 import com.seniorproject.stocksign.R.menu;
 import com.seniorproject.stocksign.R.string;
+import com.seniorproject.stocksign.database.CSVReader;
 import com.seniorproject.stocksign.database.DataEntry;
+import com.seniorproject.stocksign.database.DownloadDataTask;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.database.StockDataSource;
 
@@ -77,11 +82,10 @@ public class MainActivity extends FragmentActivity implements
 		Stock teststock= new Stock();
 		Stock teststock2= new Stock();
 		
-		
-		teststock.setTicker("Test1");
-		teststock.setPe(2.3f);
-		teststock.setCompany("Test Company");
-		
+		CSVReader csvreader;
+		Debugger.info("Main", "Got here");
+
+		teststock.setTicker("hgcgh");
 		datasource = new StockDataSource(this);
 	    datasource.open();
 
@@ -91,10 +95,10 @@ public class MainActivity extends FragmentActivity implements
 	    //datasource.deleteStock(teststock);
 	    //datasource.deleteAllStocks();
 	    datasource.close();
-	    DataEntry.createURL(null);
+	    //DownloadDataTask.createPriceURL(teststock.getTicker());
 	    
 	    
-
+	    new DownloadDataTask().execute("GOOG");
 	    
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();

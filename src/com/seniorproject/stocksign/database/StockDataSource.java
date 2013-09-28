@@ -108,69 +108,43 @@ public class StockDataSource {
 	/**
 	 * Create a new row in database with a new stock	  
 	 * @param stock
-	 * @return newStock
+	 * 
 	 */
-	public Stock createStock(String ticker, String company,	String sector, String industry,
-								String country, float pe, float forward_pe, float peg){
-								/*float ps, float pb,	float pc, float priceFreeCashFlow,
-								float epsgThisYear, float epsgPast5Years, float epsgNext5Years, float salesgPast5Years,
-								float epsg, float salesg, float dividendYield,	 float returnOnAssets,
-								float returnOnEquity, float returnOnInvestment, float currentRatio, float quickRatio,
-								float ltDebtEquity, float debtEquity, float grossMargin, float operatingMargin,
-								float netProfitMargin,	 float payoutRatio,	 float insiderOwnership, float institutionalTransactions,
-								float floatShort, float optionShort, float rsi)*/ 
-		ContentValues values = new ContentValues();
-		values.put(StockData.COLUMN_NAME_TICKER, ticker);
-		values.put(StockData.COLUMN_NAME_COMPANY, company);
-		values.put(StockData.COLUMN_NAME_SECTOR, sector);
-		values.put(StockData.COLUMN_NAME_INDUSTRY, industry);
-		values.put(StockData.COLUMN_NAME_COUNTRY, country);
-		values.put(StockData.COLUMN_NAME_PE, pe);
-		values.put(StockData.COLUMN_NAME_FORWARD_PE, forward_pe);
-		values.put(StockData.COLUMN_NAME_PEG, peg);
-		
-		long insertId = database.insert(StockData.TABLE_NAME_STOCKS, null,
-				values);
-		
-		if(insertId==-1)
-		{
-			Debugger.error("CreateStock", "DATABASE INSERT FAILED");
-		}
-		else
-			Debugger.info("CreateStock", StockData.COLUMN_NAME_TICKER + " has been added to database");
-		
-		Cursor cursor = database.query(StockData.TABLE_NAME_STOCKS,
-				allColumns, StockData._ID + " = " + insertId, null,
-				null, null, null);
-			    cursor.moveToFirst();
-			    Stock newStock = cursorToStock(cursor);
-			    cursor.close();
-		  
-			    return newStock;
-	}
-	
 	public void createStock(Stock stock){
 		ContentValues values = new ContentValues();
-		values.put(StockData.COLUMN_NAME_TICKER, stock.getTicker());
-		values.put(StockData.COLUMN_NAME_COMPANY, stock.getCompany());
-		values.put(StockData.COLUMN_NAME_SECTOR, stock.getSector());
-		values.put(StockData.COLUMN_NAME_INDUSTRY, stock.getIndustry());
-		values.put(StockData.COLUMN_NAME_COUNTRY, stock.getCountry());
-		values.put(StockData.COLUMN_NAME_PE, stock.getPe());
-		values.put(StockData.COLUMN_NAME_FORWARD_PE, stock.getForward_pe());
-		values.put(StockData.COLUMN_NAME_PEG, stock.getPeg());	
+		
+		values = loadValues(values, stock);
 		
 		long insertId = database.insert(StockData.TABLE_NAME_STOCKS, null,
 				values);
 		//If insert fails it returns a -1
 		if(insertId==-1)
 		{
-			Debugger.error("CreateStock", "DATABASE INSERT FAILED: " + StockData.COLUMN_NAME_TICKER);
+			Debugger.error("CreateStock", "DATABASE INSERT FAILED: " + stock.getTicker());
 		}
 		else
 			Debugger.info("CreateStock", StockData.COLUMN_NAME_TICKER + " has been added to database");
 		
 		
+	}
+	
+	/**
+	 *Load values of new stock into table variables
+	 * @param v
+	 * @param stock
+	 * @return v
+	 */
+	public ContentValues loadValues(ContentValues v, Stock stock){
+		v.put(StockData.COLUMN_NAME_TICKER, stock.getTicker());
+		v.put(StockData.COLUMN_NAME_COMPANY, stock.getCompany());
+		v.put(StockData.COLUMN_NAME_SECTOR, stock.getSector());
+		v.put(StockData.COLUMN_NAME_INDUSTRY, stock.getIndustry());
+		v.put(StockData.COLUMN_NAME_COUNTRY, stock.getCountry());
+		v.put(StockData.COLUMN_NAME_PE, stock.getPe());
+		v.put(StockData.COLUMN_NAME_FORWARD_PE, stock.getForward_pe());
+		v.put(StockData.COLUMN_NAME_PEG, stock.getPeg());
+		
+		return v;
 	}
 	public void modifyStock(String stockid){
 		
