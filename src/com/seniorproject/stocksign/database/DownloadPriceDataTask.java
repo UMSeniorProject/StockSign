@@ -23,12 +23,12 @@ import com.seniorproject.stocksign.debugging.Debugger;
 
 
 /**
- * Manages fetching the data 
+ * Manages fetching the price data in a separate async thread
  * @author Sean
  * @since 1.0
  */
 
-public class DownloadDataTask extends AsyncTask<String, Integer, String>{
+public class DownloadPriceDataTask extends AsyncTask<String, Integer, String>{
 	static Date date = new Date();
 	static Calendar cal = Calendar.getInstance();
 	
@@ -51,7 +51,11 @@ public class DownloadDataTask extends AsyncTask<String, Integer, String>{
 		sb.append("&d="+ String.valueOf(month));
 		sb.append("&e="+ String.valueOf(day));
 		sb.append("&f="+ String.valueOf(year));
-		sb.append("&g=d&a=8&b=10&c=2013&ignore=.csv");
+		sb.append("&g=d");
+		sb.append("&a="+ String.valueOf(month-1));
+		sb.append("&b="+ String.valueOf(day));
+		sb.append("&c="+ String.valueOf(year));
+		sb.append("2013&ignore=.csv");
 		//
 		
 
@@ -62,34 +66,13 @@ public class DownloadDataTask extends AsyncTask<String, Integer, String>{
 		
 		return sb.toString();
 	}
-	
-	
-	protected CSVReader doInBackground(String ticker) throws ClientProtocolException, IOException {
 
-	//public static void getPriceData(String ticker) throws ClientProtocolException, IOException {
-		String url = createPriceURL(ticker);
-		
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpContext localContext = new BasicHttpContext();
-		HttpGet httpGet = new HttpGet(url);
-		HttpResponse response = httpClient.execute(httpGet, localContext);
-		//String result = "";
-
-		BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-		
-		
-		CSVReader csvreader = new CSVReader(reader);
-
-		
-		
-		return csvreader;
-	}
 	
 	protected void onProgressUpdate() {
         
     }
 	
-    protected void onPostExecute(CSVReader result) throws IOException {
+    protected void onPostExecute() {
 
 	        
 	    
@@ -105,6 +88,7 @@ public class DownloadDataTask extends AsyncTask<String, Integer, String>{
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpContext localContext = new BasicHttpContext();
 		HttpGet httpGet = new HttpGet(url);
+		
 		HttpResponse response = null;
 		try {
 			response = httpClient.execute(httpGet, localContext);
@@ -115,7 +99,7 @@ public class DownloadDataTask extends AsyncTask<String, Integer, String>{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//String result = "";
+		
 
 		BufferedReader reader = null;
 		try {
@@ -134,7 +118,10 @@ public class DownloadDataTask extends AsyncTask<String, Integer, String>{
 		Debugger.info("bg", "Got here");
 		
 	    String [] nextLine;
+	    
 	    try {
+	    	//read first entry
+	    	csvreader.readNext();
 			while ((nextLine = csvreader.readNext()) != null) {
 			    // nextLine[] is an array of values from the line
 			    System.out.println(nextLine[0] + nextLine[1] + "etc...");

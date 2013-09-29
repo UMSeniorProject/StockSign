@@ -13,7 +13,8 @@ import com.seniorproject.stocksign.R.menu;
 import com.seniorproject.stocksign.R.string;
 import com.seniorproject.stocksign.database.CSVReader;
 import com.seniorproject.stocksign.database.DataEntry;
-import com.seniorproject.stocksign.database.DownloadDataTask;
+import com.seniorproject.stocksign.database.DownloadPriceDataTask;
+import com.seniorproject.stocksign.database.DownloadRatioDataTask;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.database.StockDataSource;
 
@@ -50,6 +51,9 @@ import android.widget.Toast;
  */
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
+	
+	public static StockDataSource datasource;
+
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -66,7 +70,7 @@ public class MainActivity extends FragmentActivity implements
 	 */
 	ViewPager mViewPager;
 	
-	public static StockDataSource datasource;
+	//public static StockDataSource datasource;
 	
 
 
@@ -76,30 +80,11 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		//Debugger.error("MyMessage", "TESTING");
-		
-		//Stock stock = null;
-		Stock teststock= new Stock();
-		Stock teststock2= new Stock();
-		
-		CSVReader csvreader;
-		Debugger.info("Main", "Got here");
 
-		teststock.setTicker("hgcgh");
+
 		datasource = new StockDataSource(this);
-	    datasource.open();
-
-
-
-	    datasource.createStock(teststock);
-	    //datasource.deleteStock(teststock);
-	    //datasource.deleteAllStocks();
-	    datasource.close();
-	    //DownloadDataTask.createPriceURL(teststock.getTicker());
-	    
-	    
-	    new DownloadDataTask().execute("GOOG");
-	    
+		new DownloadRatioDataTask().execute("GOOG");
+		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

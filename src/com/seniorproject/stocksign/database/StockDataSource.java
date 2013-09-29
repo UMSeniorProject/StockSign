@@ -123,7 +123,7 @@ public class StockDataSource {
 			Debugger.error("CreateStock", "DATABASE INSERT FAILED: " + stock.getTicker());
 		}
 		else
-			Debugger.info("CreateStock", StockData.COLUMN_NAME_TICKER + " has been added to database");
+			Debugger.info("CreateStock", stock.getTicker() + " has been added to database");
 		
 		
 	}

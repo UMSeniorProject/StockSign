@@ -13,8 +13,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <receiver android:name="com.seniorproject.stocksign.database.DownloadDataTask" android:exported="true"></receiver>
-        
+        <receiver android:name="com.seniorproject.stocksign.database.DownloadPriceDataTask" android:exported="true"></receiver>
+        <receiver android:name="com.seniorproject.stocksign.database.DownloadRatioDataTask" android:exported="true"></receiver>
+         
         <activity
             android:name="com.seniorproject.stocksign.activity.MainActivity"
             android:label="@string/app_name" >
