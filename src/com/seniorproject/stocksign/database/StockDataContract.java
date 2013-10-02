@@ -27,13 +27,13 @@ public final class StockDataContract {
          public static final String COLUMN_NAME_SECTOR = "sector";
          public static final String COLUMN_NAME_INDUSTRY = "industry";
          public static final String COLUMN_NAME_COUNTRY = "country";
-         public static final String COLUMN_NAME_DATE = "date";
+        /* public static final String COLUMN_NAME_DATE = "date";
          public static final String COLUMN_NAME_OPEN = "open";
          public static final String COLUMN_NAME_HIGH = "high";
          public static final String COLUMN_NAME_LOW = "low";
          public static final String COLUMN_NAME_CLOSE = "close";
          public static final String COLUMN_NAME_VOLUME = "volume";
-         public static final String COLUMN_NAME_ADJCLOSE = "adjclose";
+         public static final String COLUMN_NAME_ADJCLOSE = "adjclose";*/
          
          public static final String COLUMN_NAME_PE = "pe";
          public static final String COLUMN_NAME_FORWARD_PE = "forward_pe";
@@ -63,7 +63,7 @@ public final class StockDataContract {
          public static final String COLUMN_NAME_insiderOwnership = "insiderOwnership";
          public static final String COLUMN_NAME_institutionalTransactions = "institutionalTransactions";
          public static final String COLUMN_NAME_floatShort = "floatShort";
-         public static final String COLUMN_NAME_optionShort = "optionShort";
+         public static final String COLUMN_NAME_shortRatio = "shortRatio";
          public static final String COLUMN_NAME_rsi = "rsi";
          
          
@@ -72,7 +72,7 @@ public final class StockDataContract {
      	// Database creation sql statement
      	//private static final String TAG = "MyMessage";
      	private static final String TEXT_TYPE = " TEXT";
-     	private static final String REAL_TYPE = " REAL";
+     	//private static final String REAL_TYPE = " REAL";
      	private static final String COMMA_SEP = ",";
      	public static final String DATABASE_CREATE = "CREATE TABLE " + StockData.TABLE_NAME_STOCKS 
      			+ " (" 
@@ -82,42 +82,42 @@ public final class StockDataContract {
      			+ StockData.COLUMN_NAME_SECTOR + TEXT_TYPE + COMMA_SEP 
      			+ StockData.COLUMN_NAME_INDUSTRY + TEXT_TYPE + COMMA_SEP 
      			+ StockData.COLUMN_NAME_COUNTRY + TEXT_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_OPEN + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_HIGH + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_LOW + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_CLOSE + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_VOLUME + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_ADJCLOSE + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_PE + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_FORWARD_PE + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_PEG + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_PS + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_PB + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_PC + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_priceFreeCashFlow + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_epsgThisYear + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_epsgPast5Years + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_epsgNext5Years + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_salesgPast5Years + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_epsg + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_dividendYield + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_returnOnAssets + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_returnOnEquity + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_returnOnInvestment + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_currentRatio + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_quickRatio + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_ltDebtEquity + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_debtEquity + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_grossMargin + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_operatingMargin + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_netProfitMargin + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_payoutRatio + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_insiderOwnership + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_institutionalTransactions + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_floatShort + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_optionShort + REAL_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_rsi + REAL_TYPE 
+     			/*+ StockData.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_OPEN + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_HIGH + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_LOW + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_CLOSE + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_VOLUME + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_ADJCLOSE + TEXT_TYPE + COMMA_SEP*/
+     			+ StockData.COLUMN_NAME_PE + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_FORWARD_PE + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_PEG + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_PS + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_PB + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_PC + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_priceFreeCashFlow + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_epsgThisYear + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_epsgPast5Years + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_epsgNext5Years + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_salesgPast5Years + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_epsg + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_dividendYield + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_returnOnAssets + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_returnOnEquity + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_returnOnInvestment + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_currentRatio + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_quickRatio + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_ltDebtEquity + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_debtEquity + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_grossMargin + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_operatingMargin + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_netProfitMargin + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_payoutRatio + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_insiderOwnership + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_institutionalTransactions + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_floatShort + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_shortRatio + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_rsi + TEXT_TYPE 
      			
      			
      			

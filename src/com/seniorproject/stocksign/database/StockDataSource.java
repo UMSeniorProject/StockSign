@@ -56,7 +56,7 @@ public class StockDataSource {
 			StockData.COLUMN_NAME_insiderOwnership,
 			StockData.COLUMN_NAME_institutionalTransactions,
 			StockData.COLUMN_NAME_floatShort,
-			StockData.COLUMN_NAME_optionShort,
+			StockData.COLUMN_NAME_shortRatio,
 			StockData.COLUMN_NAME_rsi};
 
 	
@@ -122,8 +122,8 @@ public class StockDataSource {
 		{
 			Debugger.error("CreateStock", "DATABASE INSERT FAILED: " + stock.getTicker());
 		}
-		else
-			Debugger.info("CreateStock", stock.getTicker() + " has been added to database");
+		//else
+			//Debugger.info("CreateStock", stock.getTicker() + " has been added to database");
 		
 		
 	}
@@ -143,6 +143,34 @@ public class StockDataSource {
 		v.put(StockData.COLUMN_NAME_PE, stock.getPe());
 		v.put(StockData.COLUMN_NAME_FORWARD_PE, stock.getForward_pe());
 		v.put(StockData.COLUMN_NAME_PEG, stock.getPeg());
+		v.put(StockData.COLUMN_NAME_PS, stock.getPs());
+		v.put(StockData.COLUMN_NAME_PB, stock.getPeg());
+		v.put(StockData.COLUMN_NAME_PC, stock.getPc());
+		v.put(StockData.COLUMN_NAME_priceFreeCashFlow, stock.getPriceFreeCashFlow());
+		v.put(StockData.COLUMN_NAME_epsgThisYear, stock.getEpsgThisYear());
+		v.put(StockData.COLUMN_NAME_epsgPast5Years, stock.getEpsgPast5Years());
+		v.put(StockData.COLUMN_NAME_epsgNext5Years, stock.getEpsgNext5Years());
+		v.put(StockData.COLUMN_NAME_epsgNext5Years, stock.getEpsgNext5Years());
+		v.put(StockData.COLUMN_NAME_salesgPast5Years, stock.getSalesgPast5Years());
+		v.put(StockData.COLUMN_NAME_epsg, stock.getEpsg());
+		v.put(StockData.COLUMN_NAME_dividendYield, stock.getDividendYield());
+		v.put(StockData.COLUMN_NAME_returnOnAssets, stock.getReturnOnAssets());
+		v.put(StockData.COLUMN_NAME_returnOnEquity, stock.getReturnOnEquity());
+		v.put(StockData.COLUMN_NAME_returnOnInvestment, stock.getReturnOnInvestment());
+		v.put(StockData.COLUMN_NAME_currentRatio, stock.getCurrentRatio());
+		v.put(StockData.COLUMN_NAME_quickRatio, stock.getQuickRatio());
+		v.put(StockData.COLUMN_NAME_ltDebtEquity, stock.getLtDebtEquity());
+		v.put(StockData.COLUMN_NAME_debtEquity, stock.getDebtEquity());
+		v.put(StockData.COLUMN_NAME_grossMargin, stock.getGrossMargin());
+		v.put(StockData.COLUMN_NAME_operatingMargin, stock.getOperatingMargin());
+		v.put(StockData.COLUMN_NAME_netProfitMargin, stock.getNetProfitMargin());
+		v.put(StockData.COLUMN_NAME_payoutRatio, stock.getPayoutRatio());
+		v.put(StockData.COLUMN_NAME_insiderOwnership, stock.getInsiderOwnership());
+		v.put(StockData.COLUMN_NAME_institutionalTransactions, stock.getInstitutionalTransactions());
+		v.put(StockData.COLUMN_NAME_floatShort, stock.getFloatShort());
+		v.put(StockData.COLUMN_NAME_shortRatio, stock.getShortRatio());
+		v.put(StockData.COLUMN_NAME_rsi, stock.getRsi());
+		
 		
 		return v;
 	}

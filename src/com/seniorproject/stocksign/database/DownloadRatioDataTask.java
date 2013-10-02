@@ -29,8 +29,16 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 	
 
 	public static String createRatioURL(String ticker){
+		//everything they have
+		/*return "http://finviz.com/export.ashx?v=151&c=0,1,2,3,4,5,6,7,8,9,10," +
+				"11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30," +
+				"31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50," +
+				"51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68";*/
 		
-		return "http://finviz.com/export.ashx?v=152&ft=4";
+		//what we need
+		return "http://finviz.com/export.ashx?v=151&c=0,1,2,3,4,5,7,8,9,10," +
+		"11,12,13,14,15,16,18,19,20,21,22,23,26,27,28,29,30," +
+		"31,32,33,34,35,36,37,38,39,40,41,59";
 	}
 	
 	protected String doInBackground(String... params){
@@ -70,19 +78,18 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 		
 		Debugger.info("bg", "Got here");
 		
-	    String [] nextLine;
+	    String [] nextLine = new String[40];
+	     
 	    
 	    
 	    StockDataSource datasource  = MainActivity.datasource;
+	    
 	    Debugger.info("dl ratio data", "open db");
 	    datasource.open();
 	    
-	    try {
-	    	
-	    	
-	    	
-	    	//read first entry
-	    	csvreader.readNext();
+	    
+	    
+		try {
 			while ((nextLine = csvreader.readNext()) != null) {
 			    
 				Stock stock = new Stock();
@@ -92,52 +99,59 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 				stock.setSector(nextLine[3]);
 				stock.setIndustry(nextLine[4]);
 				stock.setCountry(nextLine[5]);
-				/*stock.setPe(Float.valueOf(nextLine[6]));
-				stock.setForward_pe(Float.valueOf(nextLine[7]));
-				stock.setPeg(Float.valueOf(nextLine[8]));
-				stock.setPs(Float.valueOf(nextLine[9]));
-				stock.setPb(Float.valueOf(nextLine[10]));
-				stock.setPc(Float.valueOf(nextLine[11]));
-				stock.setPriceFreeCashFlow(Float.valueOf(nextLine[12]));
-				stock.setDividendYield(Float.valueOf(nextLine[13]));
-				//nextline[14] may not need eps ttm
-				stock.setEpsgThisYear(Float.valueOf(nextLine[15]));
+				stock.setPe(nextLine[6]);
+				stock.setForward_pe(nextLine[7]);
+				stock.setPeg(nextLine[8]);
+				stock.setPs(nextLine[9]);
+				stock.setPb(nextLine[10]);
+				//System.out.println(csvreader.readNext().length);
+				
+				stock.setPc(nextLine[11]);
+				stock.setPriceFreeCashFlow(nextLine[12]);
+				stock.setDividendYield(nextLine[13]);
+				stock.setPayoutRatio(nextLine[14]);
+		
+				stock.setEpsgThisYear(nextLine[15]);
 				//nextline[16] eps growth next year
-				stock.setEpsgPast5Years(Float.valueOf(nextLine[17]));
-				stock.setEpsgNext5Years(Float.valueOf(nextLine[18]));
-				stock.setSalesgPast5Years(Float.valueOf(nextLine[19]));
-				stock.setEpsg(Float.valueOf(nextLine[20]));
-				stock.setSalesg(Float.valueOf(nextLine[21]));
-				stock.setInsiderOwnership(Float.valueOf(nextLine[22]));
-				//nextline[23] institutional transaction
-				stock.setFloatShort(Float.valueOf(nextLine[24]));
-				stock.setReturnOnAssets(Float.valueOf(nextLine[25]));
-				stock.setReturnOnEquity(Float.valueOf(nextLine[26]));
-				stock.setReturnOnInvestment(Float.valueOf(nextLine[27]));
-				stock.setCurrentRatio(Float.valueOf(nextLine[28]));
-				stock.setQuickRatio(Float.valueOf(nextLine[29]));
-				stock.setLtDebtEquity(Float.valueOf(nextLine[30]));
-				stock.setGrossMargin(Float.valueOf(nextLine[31]));
-				stock.setOperatingMargin(Float.valueOf(nextLine[32]));
-				//Profit Margin 33
-				//Relative Strength Index 34
-				//Price 35
-				//Change36
-				stock.setVolume(Float.valueOf(nextLine[37]));
-				*/
+				stock.setEpsgPast5Years(nextLine[17]);
+				stock.setEpsgNext5Years(nextLine[18]);
+				stock.setSalesgPast5Years(nextLine[19]);
+				stock.setEpsg(nextLine[20]);
+				stock.setSalesg(nextLine[21]);
+				stock.setInsiderOwnership(nextLine[22]);
+				//nextline[23] insider transaction
+				stock.setInstitutionalTransactions(nextLine[24]);
+				stock.setFloatShort(nextLine[25]);
+				stock.setShortRatio(nextLine[26]);
+		//
+				
+				stock.setReturnOnAssets(nextLine[27]);
+				stock.setReturnOnEquity(nextLine[28]);
+				stock.setReturnOnInvestment(nextLine[29]);
+				stock.setCurrentRatio(nextLine[30]);
+				stock.setQuickRatio(nextLine[31]);
+				stock.setLtDebtEquity(nextLine[32]);
+				stock.setGrossMargin(nextLine[33]);
+				stock.setOperatingMargin(nextLine[34]);
+				//Profit Margin 35
+				stock.setRsi(nextLine[36]);
+				
+				
 				
 				datasource.createStock(stock);
 				
-				Debugger.info("database", "entered");
+				//Debugger.info("database", "entered");
 				// nextLine[] is an array of values from the line
 			    //System.out.println(nextLine[0] + nextLine[1] + "etc...");
 			}
-			//datasource.close();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// TODO Auto-generated method stub
+
 	    datasource.close();
 	    Debugger.info("dl ratio data", "db closed");
 		return null;

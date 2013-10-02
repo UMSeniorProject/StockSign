@@ -64,7 +64,7 @@ public class CSVReader {
    /**
     * The default line to start reading.
     */
-   public static final int DEFAULT_SKIP_LINES = 0;
+   public static final int DEFAULT_SKIP_LINES = 1;
 
    /**
     * Constructs CSVReader using a comma for the separator.
@@ -126,6 +126,7 @@ public class CSVReader {
            this.linesSkiped = true;
        }
        String nextLine = br.readLine();
+       //System.out.println(nextLine);
        if (nextLine == null) {
            hasNext = false;
        }
@@ -145,7 +146,7 @@ public class CSVReader {
        if (nextLine == null) {
            return null;
        }
-
+       
        List<String> tokensOnThisLine = new ArrayList<String>();
        StringBuffer sb = new StringBuffer();
        boolean inQuotes = false;
