@@ -127,7 +127,17 @@ public class DownloadPriceDataTask extends AsyncTask<String, Integer, String>{
 	    	
 			while ((nextLine = csvreader.readNext()) != null) {
 			    // nextLine[] is an array of values from the line
-			    System.out.println(nextLine[0]);
+			    System.out.println(nextLine.length);
+			    Stock stock = new Stock();
+			    stock.setDate(nextLine[0]);
+			    stock.setOpen(nextLine[1]);
+			    stock.setHigh(nextLine[2]);
+			    stock.setLow(nextLine[3]);
+			    stock.setClose(nextLine[4]);
+			    stock.setVolume(nextLine[5]);
+			    stock.setAdjclose(nextLine[6]);
+			    
+			    datasource.createStock(stock);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

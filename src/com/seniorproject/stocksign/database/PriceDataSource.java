@@ -118,7 +118,7 @@ public class PriceDataSource {
 		v.put(PriceData.COLUMN_NAME_SECTOR, stock.getSector());
 		v.put(PriceData.COLUMN_NAME_INDUSTRY, stock.getIndustry());
 		v.put(PriceData.COLUMN_NAME_COUNTRY, stock.getCountry());
-		//fix
+		
 		v.put(PriceData.COLUMN_NAME_DATE, stock.getDate());
 		v.put(PriceData.COLUMN_NAME_OPEN, stock.getOpen());
 		v.put(PriceData.COLUMN_NAME_HIGH, stock.getHigh());
