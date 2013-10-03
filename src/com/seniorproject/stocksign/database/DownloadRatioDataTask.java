@@ -19,7 +19,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 /**
- * Manages fetching the price data in a separate async thread
+ * Manages fetching the ratio data in a separate async thread
  * @author Sean
  * @since 1.0
  */
@@ -97,7 +97,7 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 			while ((nextLine = csvreader.readNext()) != null) {
 			    
 				Stock stock = new Stock();
-				System.out.println(nextLine.length);
+				//System.out.println(nextLine.length);
 				stock.setId(Integer.valueOf(nextLine[0]));
 				stock.setTicker(nextLine[1]);
 				stock.setCompany(nextLine[2]);

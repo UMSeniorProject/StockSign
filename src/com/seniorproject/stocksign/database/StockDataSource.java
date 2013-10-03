@@ -81,7 +81,15 @@ public class StockDataSource {
 	public void close() {
 		dbHelper.close();
 	}
-	
+	/**
+	 * Create stock with specified ticker 
+	 * @deprecated
+	 * 
+	 * @param ticker
+	 *
+	 * @return stock
+	 * 			The stock that was created
+	 */
 	public Stock createStock(String ticker){
 		ContentValues values = new ContentValues();
 		values.put(StockData.COLUMN_NAME_TICKER, ticker);
@@ -108,6 +116,7 @@ public class StockDataSource {
 	/**
 	 * Create a new row in database with a new stock	  
 	 * @param stock
+	 * 			The stock to be added into the db
 	 * 
 	 */
 	public void createStock(Stock stock){
@@ -130,9 +139,9 @@ public class StockDataSource {
 	
 	/**
 	 *Load values of new stock into table variables
-	 * @param v
-	 * @param stock
-	 * @return v
+	 * @param v The ContentValues object the values will be added to
+	 * @param stock The stock that contains the data to be added
+	 * @return v The ContentValues loaded with the stocks data
 	 */
 	public ContentValues loadValues(ContentValues v, Stock stock){
 		v.put(StockData.COLUMN_NAME_TICKER, stock.getTicker());
@@ -180,7 +189,7 @@ public class StockDataSource {
 	
 	/**
 	 * Deletes the specified stock
-	 * @param stock
+	 * @param stock The stock to be deleted
 	 */
 	public void deleteStock(Stock stock) {
 		int id = stock.getId();
