@@ -86,7 +86,7 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 	     
 	    
 	    
-	    StockDataSource datasource  = MainActivity.datasource;
+	    RatioDataSource datasource  = MainActivity.rdatasource;
 	    
 	    Debugger.info("dl ratio data", "open db");
 	    datasource.open();

@@ -19,6 +19,7 @@ import org.apache.http.protocol.HttpContext;
 
 import android.os.AsyncTask;
 
+import com.seniorproject.stocksign.activity.MainActivity;
 import com.seniorproject.stocksign.debugging.Debugger;
 
 
@@ -52,10 +53,10 @@ public class DownloadPriceDataTask extends AsyncTask<String, Integer, String>{
 		sb.append("&e="+ String.valueOf(day));
 		sb.append("&f="+ String.valueOf(year));
 		sb.append("&g=d");
-		sb.append("&a="+ String.valueOf(month-1));
-		sb.append("&b="+ String.valueOf(day));
-		sb.append("&c="+ String.valueOf(year));
-		sb.append("2013&ignore=.csv");
+		sb.append("&a=8");
+		sb.append("&b=10");
+		sb.append("&c=2013");
+		sb.append("&ignore=.csv");
 		//
 		
 
@@ -118,19 +119,23 @@ public class DownloadPriceDataTask extends AsyncTask<String, Integer, String>{
 		Debugger.info("bg", "Got here");
 		
 	    String [] nextLine;
-	    
+	    PriceDataSource datasource  = MainActivity.pdatasource;
+	    Debugger.info("dl price data", "open db");
+	    datasource.open();
 	    try {
-	    	//read first entry
-	    	csvreader.readNext();
+	    	
+	    	
 			while ((nextLine = csvreader.readNext()) != null) {
 			    // nextLine[] is an array of values from the line
-			    System.out.println(nextLine[0] + nextLine[1] + "etc...");
+			    System.out.println(nextLine[0]);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// TODO Auto-generated method stub
+	    datasource.open();
+	    Debugger.info("dl price data", "db closed");
 		return null;
 	}
 
