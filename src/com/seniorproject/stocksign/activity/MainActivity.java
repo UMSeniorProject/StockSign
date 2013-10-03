@@ -81,9 +81,9 @@ public class MainActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_main);
 		
 
-
+		
 		datasource = new StockDataSource(this);
-		new DownloadRatioDataTask().execute("GOOG");
+		new DownloadRatioDataTask().execute();
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();

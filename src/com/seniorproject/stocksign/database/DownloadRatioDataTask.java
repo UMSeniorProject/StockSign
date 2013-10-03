@@ -27,8 +27,12 @@ import android.os.AsyncTask;
 public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 	
 	
-
-	public static String createRatioURL(String ticker){
+/**
+ * Creates the finviz url to download the ratio data.
+ * 
+ * @return The url for the ratio request
+ */
+	public static String createRatioURL(){
 		//everything they have
 		/*return "http://finviz.com/export.ashx?v=151&c=0,1,2,3,4,5,6,7,8,9,10," +
 				"11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30," +
@@ -37,14 +41,14 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 		
 		//what we need
 		return "http://finviz.com/export.ashx?v=151&c=0,1,2,3,4,5,7,8,9,10," +
-		"11,12,13,14,15,16,18,19,20,21,22,23,26,27,28,29,30," +
-		"31,32,33,34,35,36,37,38,39,40,41,59";
+		"11,12,13,14,15,17,18,19,20,21,22,23,26,27,28,29,30," +
+		"31,32,33,34,35,36,37,39,40,41,59";
 	}
 	
 	protected String doInBackground(String... params){
-		String ticker = params[0];
 		
-		String url = createRatioURL(ticker);
+		
+		String url = createRatioURL();
 		
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpContext localContext = new BasicHttpContext();
@@ -93,6 +97,7 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 			while ((nextLine = csvreader.readNext()) != null) {
 			    
 				Stock stock = new Stock();
+				System.out.println(nextLine.length);
 				stock.setId(Integer.valueOf(nextLine[0]));
 				stock.setTicker(nextLine[1]);
 				stock.setCompany(nextLine[2]);
@@ -104,7 +109,7 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 				stock.setPeg(nextLine[8]);
 				stock.setPs(nextLine[9]);
 				stock.setPb(nextLine[10]);
-				//System.out.println(csvreader.readNext().length);
+				
 				
 				stock.setPc(nextLine[11]);
 				stock.setPriceFreeCashFlow(nextLine[12]);
@@ -120,21 +125,23 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 				stock.setSalesg(nextLine[21]);
 				stock.setInsiderOwnership(nextLine[22]);
 				//nextline[23] insider transaction
-				stock.setInstitutionalTransactions(nextLine[24]);
-				stock.setFloatShort(nextLine[25]);
-				stock.setShortRatio(nextLine[26]);
+				//Institutional Ownership nextLine[24]
+				stock.setInstitutionalTransactions(nextLine[25]);
+				stock.setFloatShort(nextLine[26]);
+				stock.setShortRatio(nextLine[27]);
 		//
 				
-				stock.setReturnOnAssets(nextLine[27]);
-				stock.setReturnOnEquity(nextLine[28]);
-				stock.setReturnOnInvestment(nextLine[29]);
-				stock.setCurrentRatio(nextLine[30]);
-				stock.setQuickRatio(nextLine[31]);
-				stock.setLtDebtEquity(nextLine[32]);
-				stock.setGrossMargin(nextLine[33]);
-				stock.setOperatingMargin(nextLine[34]);
-				//Profit Margin 35
-				stock.setRsi(nextLine[36]);
+				stock.setReturnOnAssets(nextLine[28]);
+				stock.setReturnOnEquity(nextLine[29]);
+				stock.setReturnOnInvestment(nextLine[30]);
+				stock.setCurrentRatio(nextLine[31]);
+				
+				stock.setQuickRatio(nextLine[32]);
+				stock.setLtDebtEquity(nextLine[33]);
+				stock.setGrossMargin(nextLine[34]);
+				stock.setOperatingMargin(nextLine[35]);
+				//Profit Margin 36
+				stock.setRsi(nextLine[37]);
 				
 				
 				
