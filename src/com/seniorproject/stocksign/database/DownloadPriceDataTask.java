@@ -19,6 +19,7 @@ import org.apache.http.protocol.HttpContext;
 
 import android.os.AsyncTask;
 
+import com.seniorproject.stocksign.activity.MainActivity;
 import com.seniorproject.stocksign.debugging.Debugger;
 
 
@@ -52,16 +53,16 @@ public class DownloadPriceDataTask extends AsyncTask<String, Integer, String>{
 		sb.append("&e="+ String.valueOf(day));
 		sb.append("&f="+ String.valueOf(year));
 		sb.append("&g=d");
-		sb.append("&a="+ String.valueOf(month-1));
-		sb.append("&b="+ String.valueOf(day));
-		sb.append("&c="+ String.valueOf(year));
-		sb.append("2013&ignore=.csv");
+		sb.append("&a=8");
+		sb.append("&b=10");
+		sb.append("&c=2013");
+		sb.append("&ignore=.csv");
 		//
 		
 
-		Debugger.info("DownloadData: url= ", sb.toString());
+		Debugger.info("DownloadPriceData: url= ", sb.toString());
 		
-		Debugger.info("DownloadData: Date", "Month: "+ String.valueOf(month) + " Day: "+String.valueOf(day)+ " Year: "+String.valueOf(year));
+		//Debugger.info("DownloadData: Date", "Month: "+ String.valueOf(month) + " Day: "+String.valueOf(day)+ " Year: "+String.valueOf(year));
 		//http://ichart.finance.yahoo.com/table.csv?s=GOOG&d=9&e=28&f=2013r&g=d&a=8&b=10&c=2013&ignore=.csv
 		
 		return sb.toString();
@@ -115,22 +116,37 @@ public class DownloadPriceDataTask extends AsyncTask<String, Integer, String>{
 		
 		CSVReader csvreader = new CSVReader(reader);
 		
-		Debugger.info("bg", "Got here");
+		//Debugger.info("bg", "Got here");
 		
 	    String [] nextLine;
-	    
+	    PriceDataSource datasource  = MainActivity.pdatasource;
+	    Debugger.info("dl price data", "open db");
+	    datasource.open();
 	    try {
-	    	//read first entry
-	    	csvreader.readNext();
+	    	
+	    	
 			while ((nextLine = csvreader.readNext()) != null) {
 			    // nextLine[] is an array of values from the line
-			    System.out.println(nextLine[0] + nextLine[1] + "etc...");
+			    //System.out.println(nextLine.length);
+			    Stock stock = new Stock();
+			    stock.setDate(nextLine[0]);
+			    stock.setOpen(nextLine[1]);
+			    stock.setHigh(nextLine[2]);
+			    stock.setLow(nextLine[3]);
+			    stock.setClose(nextLine[4]);
+			    stock.setVolume(nextLine[5]);
+			    stock.setAdjclose(nextLine[6]);
+			    stock.setTicker(ticker);
+			    
+			    datasource.createStock(stock);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// TODO Auto-generated method stub
+	    datasource.open();
+	    Debugger.info("dl price data", "db closed");
 		return null;
 	}
 
