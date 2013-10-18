@@ -60,9 +60,9 @@ public class DownloadPriceDataTask extends AsyncTask<String, Integer, String>{
 		//
 		
 
-		Debugger.info("DownloadData: url= ", sb.toString());
+		Debugger.info("DownloadPriceData: url= ", sb.toString());
 		
-		Debugger.info("DownloadData: Date", "Month: "+ String.valueOf(month) + " Day: "+String.valueOf(day)+ " Year: "+String.valueOf(year));
+		//Debugger.info("DownloadData: Date", "Month: "+ String.valueOf(month) + " Day: "+String.valueOf(day)+ " Year: "+String.valueOf(year));
 		//http://ichart.finance.yahoo.com/table.csv?s=GOOG&d=9&e=28&f=2013r&g=d&a=8&b=10&c=2013&ignore=.csv
 		
 		return sb.toString();
@@ -116,7 +116,7 @@ public class DownloadPriceDataTask extends AsyncTask<String, Integer, String>{
 		
 		CSVReader csvreader = new CSVReader(reader);
 		
-		Debugger.info("bg", "Got here");
+		//Debugger.info("bg", "Got here");
 		
 	    String [] nextLine;
 	    PriceDataSource datasource  = MainActivity.pdatasource;
@@ -127,7 +127,7 @@ public class DownloadPriceDataTask extends AsyncTask<String, Integer, String>{
 	    	
 			while ((nextLine = csvreader.readNext()) != null) {
 			    // nextLine[] is an array of values from the line
-			    System.out.println(nextLine.length);
+			    //System.out.println(nextLine.length);
 			    Stock stock = new Stock();
 			    stock.setDate(nextLine[0]);
 			    stock.setOpen(nextLine[1]);
@@ -136,6 +136,7 @@ public class DownloadPriceDataTask extends AsyncTask<String, Integer, String>{
 			    stock.setClose(nextLine[4]);
 			    stock.setVolume(nextLine[5]);
 			    stock.setAdjclose(nextLine[6]);
+			    stock.setTicker(ticker);
 			    
 			    datasource.createStock(stock);
 			}

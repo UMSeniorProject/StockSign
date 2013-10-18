@@ -50,7 +50,7 @@ public final class PriceDataContract {
      	private static final String COMMA_SEP = ",";
      	public static final String DATABASE_CREATE = "CREATE TABLE " + PriceData.TABLE_NAME_PRICEDATA 
      			+ " ("  
-     			+ PriceData.COLUMN_NAME_DATE + TEXT_TYPE + "NOT NULL PRIMARY KEY, "
+     			+ PriceData.COLUMN_NAME_DATE + TEXT_TYPE + " NOT NULL, "
      			+ PriceData.COLUMN_NAME_TICKER + TEXT_TYPE+ COMMA_SEP
      			+ PriceData.COLUMN_NAME_COMPANY + TEXT_TYPE + COMMA_SEP 
      			+ PriceData.COLUMN_NAME_SECTOR + TEXT_TYPE + COMMA_SEP 

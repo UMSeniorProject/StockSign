@@ -86,7 +86,7 @@ public class MainActivity extends FragmentActivity implements
 		
 		rdatasource = new RatioDataSource(this);
 		pdatasource = new PriceDataSource(this);
-		//new DownloadRatioDataTask().execute();
+		new DownloadRatioDataTask().execute();
 		new DownloadPriceDataTask().execute("GOOG");
 		
 		// Set up the action bar.
