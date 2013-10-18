@@ -15,9 +15,8 @@ import com.seniorproject.stocksign.database.CSVReader;
 import com.seniorproject.stocksign.database.DataEntry;
 import com.seniorproject.stocksign.database.DownloadPriceDataTask;
 import com.seniorproject.stocksign.database.DownloadRatioDataTask;
-import com.seniorproject.stocksign.database.PriceDataSource;
 import com.seniorproject.stocksign.database.Stock;
-import com.seniorproject.stocksign.database.RatioDataSource;
+import com.seniorproject.stocksign.database.StockDataSource;
 
 import com.seniorproject.stocksign.debugging.Debugger;
 import com.seniorproject.stocksign.fragment.HomeSectionFragment;
@@ -53,8 +52,7 @@ import android.widget.Toast;
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 	
-	public static RatioDataSource rdatasource;
-	public static PriceDataSource pdatasource;
+	public static StockDataSource datasource;
 
 
 	/**
@@ -84,10 +82,8 @@ public class MainActivity extends FragmentActivity implements
 		
 
 		
-		rdatasource = new RatioDataSource(this);
-		pdatasource = new PriceDataSource(this);
+		datasource = new StockDataSource(this);
 		new DownloadRatioDataTask().execute();
-		new DownloadPriceDataTask().execute("GOOG");
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();

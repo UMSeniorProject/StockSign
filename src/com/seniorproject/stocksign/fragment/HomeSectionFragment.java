@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.database.Stock;
-import com.seniorproject.stocksign.database.RatioDataSource;
+import com.seniorproject.stocksign.database.StockDataSource;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,7 +26,7 @@ import android.widget.TextView;
  */
 public class HomeSectionFragment extends Fragment {
 	
-	private RatioDataSource datasource;
+	private StockDataSource datasource;
 	/**Should not be instantiated, empty constructor */
 	public HomeSectionFragment() {
 	}

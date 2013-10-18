@@ -5,8 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.seniorproject.stocksign.database.PriceDataContract.PriceData;
-import com.seniorproject.stocksign.database.RatioDataContract.RatioData;
+import com.seniorproject.stocksign.database.StockDataContract.StockData;
 
 /**
  * This class is responsible for creating the database. 
@@ -32,8 +31,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		database.execSQL(RatioData.DATABASE_CREATE);
-		database.execSQL(PriceData.DATABASE_CREATE);
+		database.execSQL(StockData.DATABASE_CREATE);
 	}
 
 	
@@ -42,7 +40,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		Log.w(MySQLiteHelper.class.getName(),
 				"Upgrading database from version " + oldVersion + " to "
 						+ newVersion + ", which will destroy all old data");
-		db.execSQL(RatioData.SQL_DELETE_ENTRIES + RatioData.TABLE_NAME_RATIODATA);
+		db.execSQL(StockData.SQL_DELETE_ENTRIES + StockData.TABLE_NAME_STOCKS);
 		onCreate(db);
 	}
 	
