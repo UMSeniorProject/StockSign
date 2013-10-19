@@ -19,7 +19,9 @@ import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.database.StockDataSource;
 
 import com.seniorproject.stocksign.debugging.Debugger;
+import com.seniorproject.stocksign.fragment.DownloadImageTask;
 import com.seniorproject.stocksign.fragment.HomeSectionFragment;
+import com.seniorproject.stocksign.fragment.MarketSectionFragment;
 
 
 import android.app.ActionBar;
@@ -39,6 +41,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,10 +83,10 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-
 		
-		datasource = new StockDataSource(this);
-		new DownloadRatioDataTask().execute();
+		
+		//datasource = new StockDataSource(this);
+		//new DownloadRatioDataTask().execute();
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -203,7 +206,11 @@ public class MainActivity extends FragmentActivity implements
 				break;
 				
 			case 1:
-				fragment = new DummySectionFragment();
+				fragment = new MarketSectionFragment();
+				break;
+				
+			case 2:
+				fragment = new HomeSectionFragment();
 				break;
 				
 			default:
@@ -226,7 +233,7 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public int getCount() {
 			// Show 3 total pages.
-			return 3;
+			return 5;
 		}
 
 		@Override
@@ -236,9 +243,14 @@ public class MainActivity extends FragmentActivity implements
 			case 0:
 				return getString(R.string.title_home).toUpperCase(l);
 			case 1:
-				return getString(R.string.title_section2).toUpperCase(l);
+				return getString(R.string.title_markets).toUpperCase(l);
 			case 2:
 				return getString(R.string.title_section3).toUpperCase(l);
+			case 3:
+				return getString(R.string.title_section3).toUpperCase(l);
+			case 4:
+				return getString(R.string.title_section3).toUpperCase(l);
+				
 			}
 			return null;
 		}

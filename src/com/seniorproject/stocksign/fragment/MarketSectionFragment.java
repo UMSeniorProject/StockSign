@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +29,11 @@ import android.widget.TextView;
  * @since 1.0
  *
  */
-public class HomeSectionFragment extends Fragment {
+public class MarketSectionFragment extends Fragment {
 	
 
 	/**Should not be instantiated, empty constructor */
-	public HomeSectionFragment() {
+	public MarketSectionFragment() {
 	}
 
 	/**
@@ -43,14 +44,19 @@ public class HomeSectionFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
-		View rootView = inflater.inflate(R.layout.fragment_home,
+		View rootView = inflater.inflate(R.layout.fragment_market,
 				container, false);
-		
-		TextView homeTextView = (TextView) rootView.findViewById(R.id.section_label);
 
-		homeTextView.setText("HELLO WORLD!");
+		TextView marketTextView = (TextView) rootView.findViewById(R.id.section_label);
+		marketTextView.setText("Market Summary");
 		
-
+		new DownloadImageTask((ImageView) rootView.findViewById(R.id.MarketChart))
+        .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
+		
+		
+		
+		
+		
 
 
 		return rootView;
@@ -58,5 +64,3 @@ public class HomeSectionFragment extends Fragment {
 	
 
 }
-
-
