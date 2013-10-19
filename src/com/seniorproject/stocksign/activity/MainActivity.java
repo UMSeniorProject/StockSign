@@ -20,6 +20,7 @@ import com.seniorproject.stocksign.database.StockDataSource;
 
 import com.seniorproject.stocksign.debugging.Debugger;
 import com.seniorproject.stocksign.fragment.DownloadImageTask;
+import com.seniorproject.stocksign.fragment.DownloadMarketDataTask;
 import com.seniorproject.stocksign.fragment.HomeSectionFragment;
 import com.seniorproject.stocksign.fragment.MarketSectionFragment;
 

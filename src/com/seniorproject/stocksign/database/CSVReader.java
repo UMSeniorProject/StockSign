@@ -64,7 +64,7 @@ public class CSVReader {
    /**
     * The default line to start reading.
     */
-   public static final int DEFAULT_SKIP_LINES = 1;
+   public static final int DEFAULT_SKIP_LINES = 0;
 
    /**
     * Constructs CSVReader using a comma for the separator.
