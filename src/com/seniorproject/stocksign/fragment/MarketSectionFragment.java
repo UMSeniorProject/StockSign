@@ -15,8 +15,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -24,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Fragment to be displayed on the Home section of the Main Activity
@@ -40,6 +44,7 @@ public class MarketSectionFragment extends Fragment {
 	}
 	  static String change;
 	  static String close;
+	private static ImageView graph;
 
 
 
@@ -51,18 +56,20 @@ public class MarketSectionFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
-		
-		
 		View rootView = inflater.inflate(R.layout.fragment_market,
 				container, false);
 
+		//Graph
 		TextView marketTextView = (TextView) rootView.findViewById(R.id.section_label);
 		marketTextView.setText("Market Summary");
-		
-		new DownloadImageTask((ImageView) rootView.findViewById(R.id.MarketChart))
+		 graph = (ImageView) rootView.findViewById(R.id.MarketChart);
+		new DownloadImageTask(graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
 		
+		registerForContextMenu(graph); 
 		
+		
+		//Table info
 		TextView dowTextView = (TextView) rootView.findViewById(R.id.dow_name);
 		dowTextView.setText("Dow");
 		
@@ -71,10 +78,7 @@ public class MarketSectionFragment extends Fragment {
 		
 		TextView nasdaqTextView = (TextView) rootView.findViewById(R.id.nasdaq_name);
 		nasdaqTextView.setText("Nasdaq");
-		
-		
-		
-		
+
 		
 		new DownloadMarketDataTask().execute("DJI");
 		String dowchange = change;
@@ -109,17 +113,59 @@ public class MarketSectionFragment extends Fragment {
 		return rootView;
 	}
 	
-	public static void getMarketData(){
-		
-		
-		
-		
-	}
-	
-	public void displayMarketData(){
-		
-		
-	}
-	
-
+    @Override  
+    public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {  
+    super.onCreateContextMenu(menu, v, menuInfo);  
+        menu.setHeaderTitle("Choose Chart Period");  
+        menu.add(0, v.getId(), 0, "1 day");  
+        menu.add(0, v.getId(), 0, "5 day");  
+        menu.add(0, v.getId(), 0, "1 month");  
+        menu.add(0, v.getId(), 0, "6 month"); 
+        menu.add(0, v.getId(), 0, "1 year");  
+        menu.add(0, v.getId(), 0, "5 year");
+        menu.add(0, v.getId(), 0, "Max to date");  
+        
+    }
+    
+    @Override  
+    public boolean onContextItemSelected(MenuItem item) {  
+        if(item.getTitle()=="1 day"){oneday(item.getItemId());}  
+        else if(item.getTitle()=="5 day"){fiveday(item.getItemId());} 
+        else if(item.getTitle()=="1 month"){onemonth(item.getItemId());}
+        else if(item.getTitle()=="6 month"){sixmonth(item.getItemId());}
+        else if(item.getTitle()=="1 year"){oneyear(item.getItemId());}
+        else if(item.getTitle()=="5 year"){fiveyear(item.getItemId());}
+        else if(item.getTitle()=="Max to date"){max(item.getItemId());}
+        else {return false;}  
+    return true;  
+    }  
+      
+    public void oneday(int id){  
+        new DownloadImageTask(graph)
+        .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
+    }  
+    public void fiveday(int id){   
+    	new DownloadImageTask(MarketSectionFragment.graph)
+        .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=5d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
+    }  
+    public void onemonth(int id){  
+    	new DownloadImageTask(MarketSectionFragment.graph)
+        .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1m&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
+    }  
+    public void sixmonth(int id){  
+    	new DownloadImageTask(MarketSectionFragment.graph)
+        .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=6m&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
+    }  
+    public void oneyear(int id){  
+    	new DownloadImageTask(MarketSectionFragment.graph)
+        .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1y&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
+    }  
+    public void fiveyear(int id){  
+    	new DownloadImageTask(MarketSectionFragment.graph)
+        .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=5y&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
+    } 
+    public void max(int id){  
+    	new DownloadImageTask(MarketSectionFragment.graph)
+        .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=my&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
+    } 
 }
