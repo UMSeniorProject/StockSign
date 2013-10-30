@@ -4,9 +4,13 @@
     <string name="app_name">Stock Sign</string>
     <string name="action_settings">Settings</string>
     <string name="title_home">Home</string>
-    <string name="title_section2">Section 2</string>
+    <string name="title_markets">Markets</string>
     <string name="title_section3">Section 3</string>
     <string name="action_refresh">Refresh</string>
     <string name="hello">HelloWorld</string>
-
+    <string name="search_hint">Search Stocks</string>
+	<string name="search_label">Searcher</string>
+	<string name="search_button">Search</string>
+	<string name="search_title">stockSearch</string>
+	<string name="search_global_description">Search for Stocks</string>
 </resources>

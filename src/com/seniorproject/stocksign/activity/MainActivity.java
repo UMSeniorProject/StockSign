@@ -1,6 +1,7 @@
 package com.seniorproject.stocksign.activity;
 
 import java.io.IOException;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -12,6 +13,7 @@ import com.seniorproject.stocksign.R.layout;
 import com.seniorproject.stocksign.R.menu;
 import com.seniorproject.stocksign.R.string;
 import com.seniorproject.stocksign.database.CSVReader;
+import com.seniorproject.stocksign.database.ConnectToKinveyTask;
 import com.seniorproject.stocksign.database.DataEntry;
 import com.seniorproject.stocksign.database.DownloadPriceDataTask;
 import com.seniorproject.stocksign.database.DownloadRatioDataTask;
@@ -19,28 +21,48 @@ import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.database.StockDataSource;
 
 import com.seniorproject.stocksign.debugging.Debugger;
+import com.seniorproject.stocksign.fragment.DownloadImageTask;
+import com.seniorproject.stocksign.fragment.DownloadMarketDataTask;
 import com.seniorproject.stocksign.fragment.HomeSectionFragment;
+import com.seniorproject.stocksign.fragment.MarketSectionFragment;
+
+import com.seniorproject.stocksign.searching.SearchStockActivity;
+import com.seniorproject.stocksign.fragment.MarketSectionFragment;
+
 
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.kinvey.android.AsyncAppData;
+import com.kinvey.android.Client;
+import com.kinvey.android.callback.KinveyListCallback;
+import com.kinvey.android.callback.KinveyPingCallback;
+import com.kinvey.java.Query;
 
 /**
  * First Activity to be displayed when application is run.
@@ -53,7 +75,6 @@ public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 	
 	public static StockDataSource datasource;
-
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -71,19 +92,24 @@ public class MainActivity extends FragmentActivity implements
 	ViewPager mViewPager;
 	
 	//public static StockDataSource datasource;
-	
-
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+
+
+		datasource = new StockDataSource(this);
+
+		
 		
 
 		
-		datasource = new StockDataSource(this);
-		new DownloadRatioDataTask().execute();
+		
+		
+
+		//new DownloadRatioDataTask().execute();
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -121,16 +147,43 @@ public class MainActivity extends FragmentActivity implements
 		}
 	}
 
+	public void performSearch() {
+		Intent doSearch = new Intent(MainActivity.this,SearchStockActivity.class);
+		startActivity(doSearch);
+		
+		/*
+		You can perform textual searches on fields using Regular Expressions. 
+		This can be done with Query.regex. For example, to filter a table view
+		by event name using a search bar:
+			EditText searchBar = (EditText) findViewById(R.id.search_bar);
+			Query query = new Query();
+			query.regEx("name","searchText");
+			AsyncAppData<EventEntity> searchedEvents = mKinveyClient.appData("events", EventEntity.class);
+			searchedEvents.get(query, new KinveyListCallback<EventEntity>() {
+  			@Override
+  			public void onSuccess(EventEntity[] event) { ... }
+			});
+		 */
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		MenuItem searchItem = menu.findItem(R.id.action_search);
+		SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+		// Configure the search info and add any event listeners
+
+	    // Get the SearchView and set the searchable configuration
+	    //SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+	    //SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+	    // Assumes current activity is the searchable activity
+	    //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+	    //searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+	    //searchView.setSubmitButtonEnabled(true);
 		return true;
 	}
 	
-
-
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	  
@@ -146,10 +199,15 @@ public class MainActivity extends FragmentActivity implements
 	        case R.id.action_refresh:
 	        	Toast.makeText(context, refreshtoast, duration).show();;
 	            return true;
+	        case R.id.action_search:
+	        	performSearch();
+	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+	
+	
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
@@ -203,7 +261,11 @@ public class MainActivity extends FragmentActivity implements
 				break;
 				
 			case 1:
-				fragment = new DummySectionFragment();
+				fragment = new MarketSectionFragment();
+				break;
+				
+			case 2:
+				fragment = new HomeSectionFragment();
 				break;
 				
 			default:
@@ -226,7 +288,7 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public int getCount() {
 			// Show 3 total pages.
-			return 3;
+			return 5;
 		}
 
 		@Override
@@ -236,9 +298,14 @@ public class MainActivity extends FragmentActivity implements
 			case 0:
 				return getString(R.string.title_home).toUpperCase(l);
 			case 1:
-				return getString(R.string.title_section2).toUpperCase(l);
+				return getString(R.string.title_markets).toUpperCase(l);
 			case 2:
 				return getString(R.string.title_section3).toUpperCase(l);
+			case 3:
+				return getString(R.string.title_section3).toUpperCase(l);
+			case 4:
+				return getString(R.string.title_section3).toUpperCase(l);
+				
 			}
 			return null;
 		}

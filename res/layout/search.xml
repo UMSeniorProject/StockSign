@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="100" >
+
+    <EditText
+        android:id="@+id/etSearchTerm"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_hint" />
+
+    <AutoCompleteTextView
+        android:id="@+id/tvAutocomplete"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:text="THIS REGION WILL BE AUTO-COMPLETE" />
+
+    <Button
+        android:id="@+id/bSearchAction"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="@string/search_button" />
+
+    <LinearLayout
+        android:id="@+id/llStockdata"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="88"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tvStockname"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+        </TextView>
+
+        <TableLayout
+            android:id="@+id/tlStockratios"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            
+        </TableLayout>
+    </LinearLayout>
+
+</LinearLayout>

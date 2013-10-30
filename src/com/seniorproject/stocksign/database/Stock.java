@@ -1,5 +1,9 @@
 package com.seniorproject.stocksign.database;
 
+import com.google.api.client.json.GenericJson;
+import com.google.api.client.util.Key;
+import com.kinvey.java.model.KinveyMetaData;
+
 /**
  * Stock model that contains the data to be 
  * saved in the database and show in the user interface.
@@ -8,66 +12,136 @@ package com.seniorproject.stocksign.database;
  * @since 1.0
  *
  */
-public class Stock {
+public class Stock extends GenericJson{
 	
-	private int _id;
+	private int stockSize = 47;	//this is yet to be exactly determined
+	
+	@Key("_id")
+	private String _id;
+	@Key("Ticker")
 	private String ticker;
+	@Key("Company")
 	private String company;
+	@Key("Sector")
 	private String sector;
+	@Key("Industry")
 	private String industry;
+	@Key("Country")
 	private String country;
+	@Key("P/E")
 	private String pe;
+	@Key("Forward P/E")
 	private String forward_pe;
+	@Key("PEG")
 	private String peg;
+	@Key("P/S")
 	private String ps;
+	@Key("P/B")
 	private String pb;
+	@Key("P/Cash")
 	private String pc;
+	@Key("P/Free Cash Flow")
 	private String priceFreeCashFlow;
+	@Key("Dividend Yield")
+	private String dividendYield;
+	@Key("Payout Ratio")
+	private String payoutRatio;
+	@Key("EPS growth this year")
 	private String epsgThisYear;
+	@Key("EPS growth next year")
+	private String epsgNextYear;
+	@Key("EPS growth past 5 years")
 	private String epsgPast5Years;
+	@Key("EPS growth next 5 years")
 	private String epsgNext5Years;
+	@Key("Sales growth past 5 years")
 	private String salesgPast5Years;
+	@Key("Sales growth next 5 years")
+	private String salesgNext5years;
+	@Key("EPS growth quarter over quarter")
+	private String epsg_qoq;
+	@Key("Sales growth quarter over quarter")
+	private String salesg_qoq;
+	@Key("Insider Ownership")
+	private String insiderOwnership;
+	@Key("Insider Transactions")
+	private String insiderTransactions;
+	@Key("Institutional Ownership")
+	private String institutionalOwnership;
+	@Key("Institutional Transactions")
+	private String institutionalTransactions;
+	@Key("Float Short")
+	private String floatShort;
+	@Key("Short Ratio")
+	private String shortRatio;
+	@Key("Return on Assets")
+	private String returnOnAssets;
+	@Key("Return on Equity")
+	private String returnOnEquity;
+	@Key("Return on Investment")
+	private String returnOnInvestment;
+	@Key("Current Ratio")
+	private String currentRatio;
+	@Key("Quick Ratio")
+	private String quickRatio;
+	@Key("LT Debt/Equity")
+	private String ltDebtEquity;
+	@Key("Gross Margin")
+	private String grossMargin;
+	@Key("Profit Margin")
+	private String netProfitMargin;
+	@Key("Operating Margin")
+	private String operatingMargin;
+	@Key("Relative Strength Index")
+	private String rsi;	
+
+	 @Key("Date") private String date;
+	 @Key("Open") private String open;
+	 @Key("High") private String high;
+	 @Key("Low") private String low;
+	 @Key("Close") private String close;
+	 @Key("Volume") private String volume;
+	 @Key("Adj Close") private String adjclose;
+	 
+	 @Key("_kmd")
+	 private KinveyMetaData meta; // Kinvey metadata, OPTIONAL
+	 @Key("_acl")
+	 private KinveyMetaData.AccessControlList acl; // Kinvey access control,
+													// OPTIONAL
+	public Stock() {
+	} // GenericJson classes must have a public empty constructor
+
 	private String epsg;
 	private String salesg;
-	private String dividendYield;
-	private String returnOnAssets;
-	private String returnOnEquity;
-	private String returnOnInvestment;
-	private String currentRatio;
-	private String quickRatio;
-	private String ltDebtEquity;
+
 	private String debtEquity;
-	private String grossMargin;
-	private String operatingMargin;
-	private String netProfitMargin;
-	private String payoutRatio;
-	private String insiderOwnership;
-	private String institutionalTransactions;
-	private String floatShort;
-	private String shortRatio;
-	private String rsi;
+
+	/**
+	 * @return the stockSize
+	 */
+	public int getSize() {
+		return stockSize;
+	}
 	
-	private String date;
-	private String open;
-	private String high;
-	private String low;
-	private String close;
-	private String volume;
-	private String adjclose;
-	
+	/**
+	 * @param size the stockSize to set
+	 */
+	public void setSize(int size) {
+		this.stockSize = size;
+	}
 	
 	
 	/**
 	 * @return the _id
 	 */
-	public int getId() {
+	public String getId() {
 		return _id;
 	}
 	
 	/**
 	 * @param _id the _id to set
 	 */
-	public void setId(int _id) {
+	public void setId(String _id) {
 		this._id = _id;
 	}
 

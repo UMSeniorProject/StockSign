@@ -119,6 +119,26 @@ public class StockDataSource {
 	 * 			The stock to be added into the db
 	 * 
 	 */
+	/*public void createStock(Stock stock){
+		ContentValues values = new ContentValues();
+		
+		values = loadValues(values, stock);
+		
+		long insertId = database.insert(StockData.TABLE_NAME_STOCKS, null,
+				values);
+		//If insert fails it returns a -1
+		if(insertId==-1)
+		{
+			Debugger.error("CreateStock", "DATABASE INSERT FAILED: " + stock.getTicker());
+		}
+		//else
+			//Debugger.info("CreateStock", stock.getTicker() + " has been added to database");
+		
+		
+	}*/
+	
+	
+	//load stock values to kinvey
 	public void createStock(Stock stock){
 		ContentValues values = new ContentValues();
 		
@@ -192,7 +212,7 @@ public class StockDataSource {
 	 * @param stock The stock to be deleted
 	 */
 	public void deleteStock(Stock stock) {
-		int id = stock.getId();
+		String id = stock.getId();
 	    Debugger.info("DeleteStock", "Stock deleted with "+StockData.COLUMN_NAME_TICKER+": " + stock.getTicker());
 	    database.delete(StockData.TABLE_NAME_STOCKS,StockData._ID + " = " + id , null);
 	    
@@ -231,7 +251,7 @@ public class StockDataSource {
 	 */
 	private Stock cursorToStock(Cursor cursor) {
 		Stock stock = new Stock();
-		stock.setId(cursor.getInt(0));
+		stock.setId(cursor.getString(0));
 		stock.setTicker(cursor.getString(1));
 		return stock;
 	}

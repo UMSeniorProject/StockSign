@@ -98,7 +98,7 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 			    
 				Stock stock = new Stock();
 				//System.out.println(nextLine.length);
-				stock.setId(Integer.valueOf(nextLine[0]));
+				stock.setId(nextLine[0]);
 				stock.setTicker(nextLine[1]);
 				stock.setCompany(nextLine[2]);
 				stock.setSector(nextLine[3]);
