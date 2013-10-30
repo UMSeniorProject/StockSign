@@ -26,8 +26,10 @@ import com.seniorproject.stocksign.fragment.DownloadMarketDataTask;
 import com.seniorproject.stocksign.fragment.HomeSectionFragment;
 import com.seniorproject.stocksign.fragment.MarketSectionFragment;
 
+
 import com.seniorproject.stocksign.searching.SearchStockActivity;
-import com.seniorproject.stocksign.fragment.MarketSectionFragment;
+
+
 
 
 
@@ -104,11 +106,8 @@ public class MainActivity extends FragmentActivity implements
 
 		
 		
-
 		
 		
-		
-
 		//new DownloadRatioDataTask().execute();
 		
 		// Set up the action bar.
