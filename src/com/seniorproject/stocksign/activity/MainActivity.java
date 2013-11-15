@@ -21,10 +21,11 @@ import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.database.StockDataSource;
 
 import com.seniorproject.stocksign.debugging.Debugger;
-import com.seniorproject.stocksign.fragment.DownloadImageTask;
+/*import com.seniorproject.stocksign.fragment.DownloadImageTask;
 import com.seniorproject.stocksign.fragment.DownloadMarketDataTask;
 import com.seniorproject.stocksign.fragment.HomeSectionFragment;
-import com.seniorproject.stocksign.fragment.MarketSectionFragment;
+import com.seniorproject.stocksign.fragment.MarketSectionFragment;*/
+import com.seniorproject.stocksign.fragment.*;
 
 
 import com.seniorproject.stocksign.searching.SearchStockActivity;
@@ -104,8 +105,6 @@ public class MainActivity extends FragmentActivity implements
 
 		datasource = new StockDataSource(this);
 
-		
-		
 		
 		
 		//new DownloadRatioDataTask().execute();
@@ -264,8 +263,15 @@ public class MainActivity extends FragmentActivity implements
 				break;
 				
 			case 2:
-				fragment = new HomeSectionFragment();
+				fragment = new RatiosSectionFragment();
 				break;
+			case 3:
+				fragment = new GradesSectionFragment();
+				break;
+			case 4:
+				fragment = new NewsSectionFragment();
+				break;
+				
 				
 			default:
 				fragment = new DummySectionFragment();
@@ -286,7 +292,7 @@ public class MainActivity extends FragmentActivity implements
 
 		@Override
 		public int getCount() {
-			// Show 3 total pages.
+			// Show 5 total pages.
 			return 5;
 		}
 
@@ -299,11 +305,12 @@ public class MainActivity extends FragmentActivity implements
 			case 1:
 				return getString(R.string.title_markets).toUpperCase(l);
 			case 2:
-				return getString(R.string.title_section3).toUpperCase(l);
+				return getString(R.string.title_ratios).toUpperCase(l);
 			case 3:
-				return getString(R.string.title_section3).toUpperCase(l);
+				return getString(R.string.title_grades).toUpperCase(l);
 			case 4:
-				return getString(R.string.title_section3).toUpperCase(l);
+				return getString(R.string.title_news).toUpperCase(l);
+			
 				
 			}
 			return null;
