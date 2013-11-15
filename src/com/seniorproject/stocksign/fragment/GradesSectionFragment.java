@@ -29,7 +29,7 @@ public class GradesSectionFragment extends Fragment {
 		
 		TextView homeTextView = (TextView) rootView.findViewById(R.id.section_label);
 
-		homeTextView.setText("HELLO WORLD!");
+		homeTextView.setText("Section to list stock grades");
 		
 
 
