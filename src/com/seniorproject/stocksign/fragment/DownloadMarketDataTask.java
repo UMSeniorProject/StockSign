@@ -16,11 +16,14 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.activity.MainActivity;
 import com.seniorproject.stocksign.database.CSVReader;
 import com.seniorproject.stocksign.debugging.Debugger;
 
 
+import android.app.Activity;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -29,10 +32,17 @@ import android.widget.TextView;
  */
 public class DownloadMarketDataTask extends AsyncTask<String, Integer, String[]> {
 
-	
-	/* DownloadMarketDataTask(){
-		 
-	 }*/
+	static String close = "Unavailiabe" ;
+	static String change = close;
+	static String ticker;
+	static Activity callingActivity;
+	static View rootView;
+	static int position;
+	 DownloadMarketDataTask(Activity current_callingActivity, View rview, int pos){
+		 callingActivity = current_callingActivity;
+		 rootView = rview;
+		 position = pos;
+	 }
 
 	
 
@@ -40,7 +50,7 @@ public class DownloadMarketDataTask extends AsyncTask<String, Integer, String[]>
 	@Override
 	protected String[] doInBackground(String... params) {
 		// TODO Auto-generated method stub
-		String ticker = params[0];
+		 ticker = params[0];
 
 		
 		String url = createURL(ticker);
@@ -79,7 +89,8 @@ public class DownloadMarketDataTask extends AsyncTask<String, Integer, String[]>
 
 			nextLine = csvreader.readNext();
 			    // nextLine[] is an array of values from the line
-			    System.out.println(nextLine[0] + " " + nextLine[1]);
+			Debugger.info("Result of "+ticker+" download", nextLine[0] + " " + nextLine[1]);
+			   
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -91,10 +102,55 @@ public class DownloadMarketDataTask extends AsyncTask<String, Integer, String[]>
 	
 	  protected void onPostExecute(String[] result) {
 	      
-	    //System.out.println(result[0]);
+	    //System.out.println("lookatthis"+result[0]);
 	      
-		MarketSectionFragment.change = result[0];
-		MarketSectionFragment.close = result[1];
+		 change = result[0];
+		 close = result[1];
+		 if(ticker == "IXIC"){
+	        	TextView nasChangeView = (TextView) rootView.findViewById(R.id.nasdaq_change);
+	        	System.out.println(close+" case 1");
+	        	nasChangeView.setText(close);
+	        
+	        	TextView nasCloseView = (TextView) rootView.findViewById(R.id.nasdaq_close);
+	        	nasCloseView.setText(change);
+		 }
+		 else if (ticker == "GSPC"){
+	        	TextView spChangeView = (TextView) rootView.findViewById(R.id.sp_change);
+	        	System.out.println(close+" case 2");
+	        	spChangeView.setText(close);
+	        
+	        	TextView spCloseView = (TextView) rootView.findViewById(R.id.sp_close);
+	        	spCloseView.setText(change);
+		 }
+		 else{}
+	       
+		 /*switch(position){
+	        
+	        case 2 :
+	        	
+	        	
+	        	TextView nasChangeView = (TextView) rootView.findViewById(R.id.nasdaq_change);
+	        	System.out.println(close+" case 1");
+	        	nasChangeView.setText(close);
+	        
+	        	TextView nasCloseView = (TextView) rootView.findViewById(R.id.nasdaq_close);
+	        	nasCloseView.setText(change);
+	        	break;
+	        
+	        case 1:
+
+	        	TextView spChangeView = (TextView) rootView.findViewById(R.id.sp_change);
+	        	System.out.println(close+" case 2");
+	        	spChangeView.setText(close);
+	        
+	        	TextView spCloseView = (TextView) rootView.findViewById(R.id.sp_close);
+	        	spCloseView.setText(change);
+	        	break;
+	    	
+	    	default:
+	    		
+	    	break;
+	        }*/
 	  
 	  }
 
@@ -103,7 +159,7 @@ public class DownloadMarketDataTask extends AsyncTask<String, Integer, String[]>
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("http://finance.yahoo.com/d/quotes.csv?");
-		sb.append("s=" + ticker);
+		sb.append("s=%5E" + ticker);
 		sb.append("&f=cp");
 		
 		//http://finance.yahoo.com/d/quotes.csv?s=DJI&f=cp
@@ -112,6 +168,7 @@ public class DownloadMarketDataTask extends AsyncTask<String, Integer, String[]>
 		return sb.toString();
 	
 	}
+
 
 
 

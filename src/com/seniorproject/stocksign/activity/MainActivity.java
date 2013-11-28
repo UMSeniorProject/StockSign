@@ -78,6 +78,8 @@ public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 	
 	public static StockDataSource datasource;
+	
+	
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -101,8 +103,18 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-
-
+		//dji no longer availiable
+		//new DownloadMarketDataTask().execute("^DJI");
+		//Debugger.info("change after dji", change);
+		
+		//new DownloadMarketDataTask().execute("^GSPC");
+		//change = spchange;
+		//close = spclose;
+		
+		//new DownloadMarketDataTask().execute("^IXIC");
+		//change = naschange;
+		//close = nasclose;
+		
 		datasource = new StockDataSource(this);
 
 		

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.zip.Inflater;
 
 import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.activity.MainActivity;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.database.StockDataSource;
 import com.seniorproject.stocksign.debugging.Debugger;
@@ -37,82 +38,92 @@ import android.widget.Toast;
  *
  */
 public class MarketSectionFragment extends Fragment {
-	
+        
 
-	/**Should not be instantiated, empty constructor */
-	public MarketSectionFragment() {
-	}
-	  static String change;
-	  static String close;
-	private static ImageView graph;
+        /**Should not be instantiated, empty constructor */
+        public MarketSectionFragment() {
+        }
+         
+      	//public static String dowchange, dowclose, spchange, spclose, nasclose, naschange;
+    	//static String change = "Unavailiable";
+    	//static String close = change;
+    	
+        private static ImageView graph;
 
 
 
-	/**
-	 * Called when fragment is starting, where most inistialization should go
-	 * @param 
-	 * @return rootView The view to be displayed
-	 * */
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		
-		View rootView = inflater.inflate(R.layout.fragment_market,
-				container, false);
+        /**
+         * Called when fragment is starting, where most inistialization should go
+         * @param 
+         * @return rootView The view to be displayed
+         * */
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                        Bundle savedInstanceState) {
+                
+                View rootView = inflater.inflate(R.layout.fragment_market,
+                                container, false);
 
-		//Graph
-		TextView marketTextView = (TextView) rootView.findViewById(R.id.section_label);
-		marketTextView.setText("Market Summary");
-		 graph = (ImageView) rootView.findViewById(R.id.MarketChart);
-		new DownloadImageTask(graph)
+                //Graph
+                TextView marketTextView = (TextView) rootView.findViewById(R.id.section_label);
+                marketTextView.setText("Market Summary");
+                 graph = (ImageView) rootView.findViewById(R.id.MarketChart);
+                new DownloadImageTask(graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
-		
-		registerForContextMenu(graph); 
-		
-		
-		//Table info
-		TextView dowTextView = (TextView) rootView.findViewById(R.id.dow_name);
-		dowTextView.setText("Dow");
-		
-		TextView spTextView = (TextView) rootView.findViewById(R.id.sp_name);
-		spTextView.setText("S&P 500");
-		
-		TextView nasdaqTextView = (TextView) rootView.findViewById(R.id.nasdaq_name);
-		nasdaqTextView.setText("Nasdaq");
+                
+                registerForContextMenu(graph); 
+                
+                
+                //Table info
+                TextView dowTextView = (TextView) rootView.findViewById(R.id.dow_name);
+                dowTextView.setText("Dow");
+                
+                TextView spTextView = (TextView) rootView.findViewById(R.id.sp_name);
+                spTextView.setText("S&P 500");
+                
+                TextView nasdaqTextView = (TextView) rootView.findViewById(R.id.nasdaq_name);
+                nasdaqTextView.setText("Nasdaq");
 
-		
-		new DownloadMarketDataTask().execute("DJI");
-		String dowchange = change;
-		String dowclose = close;
-		TextView dowChangeView = (TextView) rootView.findViewById(R.id.dow_change);
-		System.out.println(dowclose+" here");
-		dowChangeView.setText(dowclose);
-		
-		TextView dowCloseView = (TextView) rootView.findViewById(R.id.dow_close);
-		dowCloseView.setText(dowchange);
-		
+                
+                
+                new DownloadMarketDataTask(this.getActivity(), rootView, 1).execute("IXIC");
+                new DownloadMarketDataTask(this.getActivity(), rootView, 2).execute("GSPC");
+              /* // new DownloadMarketDataTask().execute("DJI");
+                dowchange = change;
+                dowclose = close;
+                TextView dowChangeView = (TextView) rootView.findViewById(R.id.dow_change);
+                System.out.println(dowclose+" here");
+                dowChangeView.setText(dowclose);
+                
+                TextView dowCloseView = (TextView) rootView.findViewById(R.id.dow_close);
+                dowCloseView.setText(dowchange);
+                
 
-				
-		new DownloadMarketDataTask().execute("IXIC");
-		TextView nasChangeView = (TextView) rootView.findViewById(R.id.nasdaq_change);
-		System.out.println(close+" here");
-		nasChangeView.setText(close);
-		
-		TextView nasCloseView = (TextView) rootView.findViewById(R.id.nasdaq_close);
-		nasCloseView.setText(change);
-		
-		
-		
-		new DownloadMarketDataTask().execute("INX");
-		TextView spChangeView = (TextView) rootView.findViewById(R.id.sp_change);
-		System.out.println(close+" here");
-		spChangeView.setText(close);
-		
-		TextView spCloseView = (TextView) rootView.findViewById(R.id.sp_close);
-		spCloseView.setText(change);
-		
-		return rootView;
-	}
-	
+                                
+                new DownloadMarketDataTask(this.getActivity()).execute("IXIC");
+                 naschange = change;
+                 nasclose = close;
+                TextView nasChangeView = (TextView) rootView.findViewById(R.id.nasdaq_change);
+                System.out.println(nasclose+" here");
+                nasChangeView.setText(nasclose);
+                
+                TextView nasCloseView = (TextView) rootView.findViewById(R.id.nasdaq_close);
+                nasCloseView.setText(naschange);
+                
+                
+                
+                new DownloadMarketDataTask(this.getActivity()).execute("GSPC");
+                 spchange = change;
+                 spclose = close;
+                TextView spChangeView = (TextView) rootView.findViewById(R.id.sp_change);
+                System.out.println(spclose+" here");
+                spChangeView.setText(spclose);
+                
+                TextView spCloseView = (TextView) rootView.findViewById(R.id.sp_close);
+                spCloseView.setText(spchange);*/
+                
+                return rootView;
+        }
+        
     @Override  
     public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {  
     super.onCreateContextMenu(menu, v, menuInfo);  
@@ -145,27 +156,27 @@ public class MarketSectionFragment extends Fragment {
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
     }  
     public void fiveday(int id){   
-    	new DownloadImageTask(MarketSectionFragment.graph)
+            new DownloadImageTask(MarketSectionFragment.graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=5d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
     }  
     public void onemonth(int id){  
-    	new DownloadImageTask(MarketSectionFragment.graph)
+            new DownloadImageTask(MarketSectionFragment.graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1m&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
     }  
     public void sixmonth(int id){  
-    	new DownloadImageTask(MarketSectionFragment.graph)
+            new DownloadImageTask(MarketSectionFragment.graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=6m&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
     }  
     public void oneyear(int id){  
-    	new DownloadImageTask(MarketSectionFragment.graph)
+            new DownloadImageTask(MarketSectionFragment.graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1y&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
     }  
     public void fiveyear(int id){  
-    	new DownloadImageTask(MarketSectionFragment.graph)
+            new DownloadImageTask(MarketSectionFragment.graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=5y&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
     } 
     public void max(int id){  
-    	new DownloadImageTask(MarketSectionFragment.graph)
+            new DownloadImageTask(MarketSectionFragment.graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=my&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
     } 
 }
