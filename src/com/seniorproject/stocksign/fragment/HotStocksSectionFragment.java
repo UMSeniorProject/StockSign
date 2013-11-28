@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.seniorproject.stocksign.fragment;
 
 import android.os.Bundle;
@@ -9,11 +12,15 @@ import android.widget.TextView;
 
 import com.seniorproject.stocksign.R;
 
-public class GradesSectionFragment extends Fragment {
+/**
+ * @author Sean
+ *
+ */
+public class HotStocksSectionFragment extends Fragment {
 	
 
 	/**Should not be instantiated, empty constructor */
-	public GradesSectionFragment() {
+	public HotStocksSectionFragment() {
 	}
 
 	/**
@@ -24,12 +31,12 @@ public class GradesSectionFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
-		View rootView = inflater.inflate(R.layout.fragment_grades,
+		View rootView = inflater.inflate(R.layout.fragment_ratios,
 				container, false);
 		
 		TextView homeTextView = (TextView) rootView.findViewById(R.id.section_label);
 
-		homeTextView.setText("Section to list stock grades");
+		homeTextView.setText("Section to list ratios.");
 		
 
 

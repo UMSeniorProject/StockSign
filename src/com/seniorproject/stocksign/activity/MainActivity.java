@@ -275,12 +275,9 @@ public class MainActivity extends FragmentActivity implements
 				break;
 				
 			case 2:
-				fragment = new RatiosSectionFragment();
+				fragment = new HotStocksSectionFragment();
 				break;
 			case 3:
-				fragment = new GradesSectionFragment();
-				break;
-			case 4:
 				fragment = new NewsSectionFragment();
 				break;
 				
@@ -305,7 +302,7 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public int getCount() {
 			// Show 5 total pages.
-			return 5;
+			return 4;
 		}
 
 		@Override
@@ -317,10 +314,8 @@ public class MainActivity extends FragmentActivity implements
 			case 1:
 				return getString(R.string.title_markets).toUpperCase(l);
 			case 2:
-				return getString(R.string.title_ratios).toUpperCase(l);
+				return getString(R.string.title_hotstocks).toUpperCase(l);
 			case 3:
-				return getString(R.string.title_grades).toUpperCase(l);
-			case 4:
 				return getString(R.string.title_news).toUpperCase(l);
 			
 				

@@ -37,11 +37,10 @@ public class DownloadMarketDataTask extends AsyncTask<String, Integer, String[]>
 	static String ticker;
 	static Activity callingActivity;
 	static View rootView;
-	static int position;
-	 DownloadMarketDataTask(Activity current_callingActivity, View rview, int pos){
+	
+	 DownloadMarketDataTask(Activity current_callingActivity, View rview){
 		 callingActivity = current_callingActivity;
 		 rootView = rview;
-		 position = pos;
 	 }
 
 	
@@ -108,7 +107,7 @@ public class DownloadMarketDataTask extends AsyncTask<String, Integer, String[]>
 		 close = result[1];
 		 if(ticker == "IXIC"){
 	        	TextView nasChangeView = (TextView) rootView.findViewById(R.id.nasdaq_change);
-	        	System.out.println(close+" case 1");
+	        	System.out.println(close+" case IXIC");
 	        	nasChangeView.setText(close);
 	        
 	        	TextView nasCloseView = (TextView) rootView.findViewById(R.id.nasdaq_close);
@@ -116,41 +115,22 @@ public class DownloadMarketDataTask extends AsyncTask<String, Integer, String[]>
 		 }
 		 else if (ticker == "GSPC"){
 	        	TextView spChangeView = (TextView) rootView.findViewById(R.id.sp_change);
-	        	System.out.println(close+" case 2");
+	        	System.out.println(close+" case GSPC");
 	        	spChangeView.setText(close);
 	        
 	        	TextView spCloseView = (TextView) rootView.findViewById(R.id.sp_close);
 	        	spCloseView.setText(change);
 		 }
-		 else{}
-	       
-		 /*switch(position){
-	        
-	        case 2 :
-	        	
-	        	
-	        	TextView nasChangeView = (TextView) rootView.findViewById(R.id.nasdaq_change);
-	        	System.out.println(close+" case 1");
-	        	nasChangeView.setText(close);
-	        
-	        	TextView nasCloseView = (TextView) rootView.findViewById(R.id.nasdaq_close);
-	        	nasCloseView.setText(change);
-	        	break;
-	        
-	        case 1:
-
-	        	TextView spChangeView = (TextView) rootView.findViewById(R.id.sp_change);
-	        	System.out.println(close+" case 2");
+		 else if(ticker == "DJI"){
+	        	TextView spChangeView = (TextView) rootView.findViewById(R.id.dow_change);
+	        	System.out.println(close+" case DJI");
 	        	spChangeView.setText(close);
 	        
-	        	TextView spCloseView = (TextView) rootView.findViewById(R.id.sp_close);
+	        	TextView spCloseView = (TextView) rootView.findViewById(R.id.dow_close);
 	        	spCloseView.setText(change);
-	        	break;
-	    	
-	    	default:
-	    		
-	    	break;
-	        }*/
+		 }
+		 else{}
+
 	  
 	  }
 
