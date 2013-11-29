@@ -9,14 +9,24 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.seniorproject.stocksign.debugging.Debugger;
+
+import android.app.Activity;
 import android.os.AsyncTask;
+import android.view.View;
 
 public class DownloadNewsTask extends AsyncTask<String, Integer, String> {
-
+	
+	static Activity callingActivity;
+	 DownloadNewsTask(Activity current_callingActivity){
+		 callingActivity = current_callingActivity;
+		
+	 }
 	protected void getURL(){
 		
 		try {
-		    URL url = new URL("http://feeds.pcworld.com/pcworld/latestnews");
+		    URL url = new URL("http://feeds.marketwatch.com/marketwatch/topstories");
+		    //http://feeds.marketwatch.com/marketwatch/topstories
 		 
 		    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		    factory.setNamespaceAware(false);
@@ -44,11 +54,16 @@ public class DownloadNewsTask extends AsyncTask<String, Integer, String> {
 		            if (xpp.getName().equalsIgnoreCase("item")) {
 		                insideItem = true;
 		            } else if (xpp.getName().equalsIgnoreCase("title")) {
-		                if (insideItem)
+		                if (insideItem){
 		                    NewsSectionFragment.headlines.add(xpp.nextText()); //extract the headline
+		                	//Debugger.info("bg headlines ", NewsSectionFragment.headlines.toString());
+		                }
 		            } else if (xpp.getName().equalsIgnoreCase("link")) {
-		                if (insideItem)
+		                if (insideItem){
 		                	NewsSectionFragment.links.add(xpp.nextText()); //extract the link of article
+		                	//Debugger.info("bg link ", NewsSectionFragment.links.toString());
+
+		                }
 		            }
 		        }else if(eventType==XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")){
 		            insideItem=false;
@@ -68,6 +83,8 @@ public class DownloadNewsTask extends AsyncTask<String, Integer, String> {
 	
 	public InputStream getInputStream(URL url) {
 		   try {
+			   Debugger.info("getInputStream url ", url.toString());
+			   Debugger.info("Get inputstream ", url.openConnection().getInputStream().toString());
 		       return url.openConnection().getInputStream();
 		   } catch (IOException e) {
 		       return null;

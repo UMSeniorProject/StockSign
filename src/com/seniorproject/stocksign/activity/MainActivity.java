@@ -103,17 +103,7 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		//dji no longer availiable
-		//new DownloadMarketDataTask().execute("^DJI");
-		//Debugger.info("change after dji", change);
-		
-		//new DownloadMarketDataTask().execute("^GSPC");
-		//change = spchange;
-		//close = spclose;
-		
-		//new DownloadMarketDataTask().execute("^IXIC");
-		//change = naschange;
-		//close = nasclose;
+
 		
 		datasource = new StockDataSource(this);
 
@@ -175,6 +165,11 @@ public class MainActivity extends FragmentActivity implements
 			});
 		 */
 	}
+	public void showAboutUs(){
+		Intent show = new Intent(MainActivity.this,AboutUs.class);
+		//Intent show = new Intent("com.seniorproject.stocksign.activity.AboutUs");
+		startActivity(show);
+	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -211,6 +206,9 @@ public class MainActivity extends FragmentActivity implements
 	            return true;
 	        case R.id.action_search:
 	        	performSearch();
+	        	return true;
+	        case R.id.action_aboutus:
+	        	 showAboutUs();
 	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);

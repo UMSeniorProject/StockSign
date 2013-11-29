@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.activity.MainActivity;
+import com.seniorproject.stocksign.debugging.Debugger;
 
 /**
  * @author Sean
@@ -36,8 +37,8 @@ import com.seniorproject.stocksign.activity.MainActivity;
  */
 public class NewsSectionFragment extends ListFragment  {
 	
-	   static List headlines;
-	   static List links;
+	   static List<String> headlines;
+	   static List<String> links;
 	   
 	   private Context context;
 
@@ -65,14 +66,15 @@ public class NewsSectionFragment extends ListFragment  {
 		//homeTextView.setText("Section to display news");
 		
 		// Initializing instance variables
-		headlines = new ArrayList();
-		links = new ArrayList();
-		new DownloadNewsTask().execute();
+		headlines = new ArrayList<String>();
+		links = new ArrayList<String>();
+		new DownloadNewsTask(this.getActivity()).execute();
 		 
-		
+    	//Debugger.info("frag headlines ", headlines.toString());
+
 		context = getActivity();
 		// Binding data
-		ArrayAdapter adapter = new ArrayAdapter(context,android.R.layout.simple_list_item_1, headlines);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, headlines);
 		
 		setListAdapter(adapter);
 
