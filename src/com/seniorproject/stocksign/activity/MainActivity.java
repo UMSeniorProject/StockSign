@@ -39,7 +39,9 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -108,8 +110,13 @@ public class MainActivity extends FragmentActivity implements
 		datasource = new StockDataSource(this);
 
 		
-		
-		//new DownloadRatioDataTask().execute();
+		SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		boolean offlinem = getPrefs.getBoolean("modeswitch", false);
+		if(offlinem){
+			Debugger.info("Offline Mode ", "DOWNLOADING DATA");
+			new DownloadRatioDataTask().execute();
+			//new DownloadPriceDataTask().execute("GOOG");
+		}
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -215,6 +222,9 @@ public class MainActivity extends FragmentActivity implements
 	        	return true;
 	        case R.id.action_aboutus:
 	        	 showAboutUs();
+	        	return true;
+	        case R.id.action_exit:
+	        	 finish();
 	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);

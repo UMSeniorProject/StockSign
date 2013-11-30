@@ -21,7 +21,10 @@
           <!-- ifRoom|collapseActionView -->
 	<item android:id="@+id/action_aboutus" 
 		  android:orderInCategory="300" 
-		  android:title="@string/action_aboutus">
+		  android:title="@string/action_aboutus"/>
+	<item android:id="@+id/action_exit" 
+		  android:orderInCategory="400" 
+		  android:title="Exit">
 	    
 	</item>
 </menu>
