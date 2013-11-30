@@ -5,12 +5,7 @@
   <PreferenceCategory
      android:title="Options">
 
-     <CheckBoxPreference
-       android:key="checkbox"
-       android:title="Offline Mode"
-       android:summary="Store stock data on your device."
-       android:defaultValue="false"
-     />
+
      <SwitchPreference android:switchTextOn="On" android:switchTextOff="Off" android:summaryOn="Turn off to store data remotely." android:summaryOff="Turn on to store data on device" android:key="modeswitch" android:title="Offline Mode" android:defaultValue="false"/>
   </PreferenceCategory>
     
