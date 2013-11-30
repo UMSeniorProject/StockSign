@@ -47,5 +47,10 @@
       android:data="http://android-elements.blogspot.com/" />
 
   </Preference> -->
+  <PreferenceCategory android:title="Data">
+      <Preference android:title="Delete Stock Data" android:summary="Delete stock data stored on device. " android:key="deletedata" android:order="200"/>
+      <Preference android:summary="Update stock data stored on device." android:title="Update Stock Data" android:key="updatedata" android:order="100"/>
+      <CheckBoxPreference android:summaryOn="Data will be automatically updated." android:title="Auto Update" android:key="autoupdate" android:summaryOff="Select to automatically update stock data." android:order="300"/>
+  </PreferenceCategory>
    
 </PreferenceScreen>
