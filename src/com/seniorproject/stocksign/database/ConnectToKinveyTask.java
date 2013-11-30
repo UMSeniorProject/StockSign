@@ -171,7 +171,7 @@ public class ConnectToKinveyTask{
 			});
 	}
 
-	//connec
+	//connect
 	public void kinveyDataFetcher(String searchString, String searchCategory ) {
 		Query fetchQuery = mKinveyClient.query();
 		if(searchCategory.contentEquals("all")) {
