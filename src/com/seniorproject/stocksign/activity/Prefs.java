@@ -4,21 +4,13 @@ import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.database.DownloadRatioDataTask;
 import com.seniorproject.stocksign.debugging.Debugger;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.CheckBox;
-import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.Toast;
 
 public class Prefs extends PreferenceActivity {

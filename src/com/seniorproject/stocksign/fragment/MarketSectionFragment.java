@@ -11,6 +11,7 @@ import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.database.StockDataSource;
 import com.seniorproject.stocksign.debugging.Debugger;
 
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -60,6 +63,15 @@ public class MarketSectionFragment extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                         Bundle savedInstanceState) {
                 
+        	//if landscape mode make full screen
+//        	if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) 
+//        	{
+//        	    Debugger.info("Orientation ", "LANDSCAPE");
+//        	    getActivity().requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        	    getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        	} else {
+//        		Debugger.info("Orientation ", "PORTRAIT");        
+//        	}
                 View rootView = inflater.inflate(R.layout.fragment_market,
                                 container, false);
 
