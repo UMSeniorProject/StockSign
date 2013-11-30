@@ -110,13 +110,13 @@ public class MainActivity extends FragmentActivity implements
 		datasource = new StockDataSource(this);
 
 		
-		SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		/*SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		boolean offlinem = getPrefs.getBoolean("modeswitch", false);
 		if(offlinem){
 			Debugger.info("Offline Mode ", "DOWNLOADING DATA");
 			new DownloadRatioDataTask().execute();
 			//new DownloadPriceDataTask().execute("GOOG");
-		}
+		}*/
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
