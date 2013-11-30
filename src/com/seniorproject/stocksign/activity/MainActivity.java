@@ -171,6 +171,12 @@ public class MainActivity extends FragmentActivity implements
 		startActivity(show);
 	}
 	
+	public void showSettings(){
+		Intent show = new Intent(MainActivity.this,Prefs.class);
+		//Intent show = new Intent("com.seniorproject.stocksign.activity.AboutUs");
+		startActivity(show);
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -199,10 +205,10 @@ public class MainActivity extends FragmentActivity implements
 		
 	    switch (item.getItemId()) {
 	        case R.id.action_settings:
-	            //open settings activity
+	            showSettings();
 	            return true;
 	        case R.id.action_refresh:
-	        	Toast.makeText(context, refreshtoast, duration).show();;
+	        	Toast.makeText(context, refreshtoast, duration).show();
 	            return true;
 	        case R.id.action_search:
 	        	performSearch();
