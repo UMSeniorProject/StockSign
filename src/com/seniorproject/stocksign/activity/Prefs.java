@@ -2,6 +2,7 @@ package com.seniorproject.stocksign.activity;
 
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.database.DownloadRatioDataTask;
+import com.seniorproject.stocksign.database.StockDataSource;
 import com.seniorproject.stocksign.debugging.Debugger;
 
 import android.content.SharedPreferences;
@@ -57,8 +58,8 @@ public class Prefs extends PreferenceActivity {
 				{
 					Toast.makeText(getActivity(),  "Downloading data..." , Toast.LENGTH_SHORT).show();
 					Debugger.info("Offline Mode ", "DOWNLOADING DATA");
-					//new DownloadRatioDataTask().execute();
-					Toast.makeText(getActivity(),  "Done" , Toast.LENGTH_SHORT).show();
+					new DownloadRatioDataTask().execute();
+					//Toast.makeText(getActivity(),  "Done" , Toast.LENGTH_SHORT).show();
 				}
 				else if(offlinem == false)
 				{
@@ -71,14 +72,23 @@ public class Prefs extends PreferenceActivity {
 				Toast.makeText(getActivity(),  "Deleting data..." , Toast.LENGTH_SHORT).show();
 				Debugger.info("Offline Mode ", "DELETING DATA");
 				//droptables
-				Toast.makeText(getActivity(),  "Done" , Toast.LENGTH_SHORT).show();
+				StockDataSource.open();
+				StockDataSource.deleteAllStocks();
+				StockDataSource.close();
+				//Toast.makeText(getActivity(),  "Done" , Toast.LENGTH_SHORT).show();
 			}
 			else if (key.compareToIgnoreCase("updatedata") == 0){
 				Toast.makeText(getActivity(),  "Updating data..." , Toast.LENGTH_SHORT).show();
 				Debugger.info("Offline Mode ", "UPDATING DATA");
 				//droptable
 				//download data
-				Toast.makeText(getActivity(),  "Done" , Toast.LENGTH_SHORT).show();
+				StockDataSource.open();
+				StockDataSource.deleteAllStocks();
+				Toast.makeText(getActivity(),  "Updating data..." , Toast.LENGTH_SHORT).show();
+				Debugger.info("Offline Mode ", "DOWNLOADING DATA");
+				new DownloadRatioDataTask().execute();
+				StockDataSource.close();
+				//Toast.makeText(getActivity(),  "Done" , Toast.LENGTH_SHORT).show();
 			}
 			else if (key.compareToIgnoreCase("autoupdate") == 0){
 				//set to auto update

@@ -130,5 +130,11 @@ public final class StockDataContract {
 
          
      }
+     
+     public static void DropTables(){
+    	 
+    	 
+    	 
+     }
 
 }

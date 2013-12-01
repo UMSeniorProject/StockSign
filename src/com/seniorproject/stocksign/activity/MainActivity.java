@@ -135,7 +135,7 @@ public class MainActivity extends FragmentActivity implements
 		
 		datasource = new StockDataSource(this);
 		connectToKinvey();
-=======
+
 
 		
 		/*SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
