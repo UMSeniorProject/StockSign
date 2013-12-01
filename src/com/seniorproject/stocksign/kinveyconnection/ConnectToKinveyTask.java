@@ -1,4 +1,6 @@
-package com.seniorproject.stocksign.database;
+package com.seniorproject.stocksign.kinveyconnection;
+
+import java.io.Serializable;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,6 +8,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,21 +29,41 @@ import com.kinvey.android.callback.KinveyUserCallback;
 import com.kinvey.java.Query;
 import com.kinvey.java.User;
 import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.activity.ActivityConstants;
+import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.display.DisplayStockRatioData;
 import com.seniorproject.stocksign.searching.SearchStockActivity;
 
-public class ConnectToKinveyTask{
-	
+public class ConnectToKinveyTask implements ActivityConstants{
+		
 	Stock[] stocks;
 	Client mKinveyClient;
 	Activity callingActivity;
 	boolean conn_success;
+	String StockDataTableName = "StockRatioDataTable";
 	
-	  public ConnectToKinveyTask(Client new_mKinveyClient, Activity current_callingActivity) {
+	public ConnectToKinveyTask() {
 		// TODO Auto-generated constructor stub
-		  mKinveyClient = new_mKinveyClient;
-		  callingActivity = current_callingActivity;
+		  mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
+	}	  
+	
+	public void setCallingActivity(Activity currentCallingActivity) {		
+		  callingActivity =  currentCallingActivity;
 	}
+
+	
+	/*public void determineCallingActivity(int activityID) {
+		int callingActivity = getIntent().getIntExtra("calling-activity", 0);
+
+        switch (callingActivity) {
+        case ActivityConstants.ACTIVITY_1:
+            // Activity2 is started from Activity1
+            break;
+        case ActivityConstants.ACTIVITY_3:
+            // Activity2 is started from Activity3
+            break;
+        }
+	}*/
 
 	public boolean testKinveyService() {
 		 // call `myClient.user().logout().execute() first -or- check `myClient.user().isUserLoggedIn()` before attempting to login again
@@ -47,6 +71,7 @@ public class ConnectToKinveyTask{
 		  boolean login = mKinveyClient.user().isUserLoggedIn();
 			
 		  	if(login) {
+		  		//ping (test) the connection to Kinvey
 				mKinveyClient.ping(new KinveyPingCallback() {
 				    public void onFailure(Throwable t) {
 				        Log.e("KinveyPing", "Kinvey Ping Failed", t);
@@ -59,6 +84,7 @@ public class ConnectToKinveyTask{
 				});
 		  	}
 		  	else {	    
+		  		//login the explicit user
 		  		mKinveyClient.user().login(new KinveyUserCallback() {
 		    	    @Override
 		    	    public void onFailure(Throwable error) {
@@ -130,7 +156,7 @@ public class ConnectToKinveyTask{
 	
 	//method to fetch specific Query from Kinvey
 	private void kinveyFetchQuery(Query fetchQuery) {
-		AsyncAppData<Stock> myData = mKinveyClient.appData("StockRatioDataTable", Stock.class);
+		AsyncAppData<Stock> myData = mKinveyClient.appData(StockDataTableName, Stock.class);
 			myData.get(fetchQuery, new KinveyListCallback<Stock>() {
 				@Override
 				public void onSuccess(Stock[] arg0) {
@@ -155,7 +181,7 @@ public class ConnectToKinveyTask{
 	
 	//method to fetch from Kinvey
 	private void kinveyFetchAll() {
-		AsyncAppData<Stock> myData = mKinveyClient.appData("StockRatioDataTable", Stock.class);
+		AsyncAppData<Stock> myData = mKinveyClient.appData(StockDataTableName, Stock.class);
 			myData.get(new KinveyListCallback<Stock>() {
 				@Override
 				public void onSuccess(Stock[] arg0) {
@@ -174,13 +200,13 @@ public class ConnectToKinveyTask{
 	//connect
 	public void kinveyDataFetcher(String searchString, String searchCategory ) {
 		Query fetchQuery = mKinveyClient.query();
-		if(searchCategory.contentEquals("all")) {
-			kinveyFetchAll();
-		}
-		else {
-			fetchQuery.equals(searchCategory, searchString);
-			kinveyFetchQuery(fetchQuery);
-		}
+		fetchQuery.equals(searchCategory, searchString);
+		kinveyFetchQuery(fetchQuery);
+	}
+	
+	//connect
+	public void kinveyAllDataFetcher() {
+		kinveyFetchAll();
 	}
 	
 	public Stock[] getStockData() {

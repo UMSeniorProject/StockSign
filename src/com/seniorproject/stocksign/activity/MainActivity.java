@@ -1,6 +1,7 @@
 package com.seniorproject.stocksign.activity;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import java.util.List;
 import java.util.Locale;
@@ -13,7 +14,6 @@ import com.seniorproject.stocksign.R.layout;
 import com.seniorproject.stocksign.R.menu;
 import com.seniorproject.stocksign.R.string;
 import com.seniorproject.stocksign.database.CSVReader;
-import com.seniorproject.stocksign.database.ConnectToKinveyTask;
 import com.seniorproject.stocksign.database.DataEntry;
 import com.seniorproject.stocksign.database.DownloadPriceDataTask;
 import com.seniorproject.stocksign.database.DownloadRatioDataTask;
@@ -26,6 +26,8 @@ import com.seniorproject.stocksign.fragment.DownloadMarketDataTask;
 import com.seniorproject.stocksign.fragment.HomeSectionFragment;
 import com.seniorproject.stocksign.fragment.MarketSectionFragment;*/
 import com.seniorproject.stocksign.fragment.*;
+import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
+import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
 
 
 import com.seniorproject.stocksign.searching.SearchStockActivity;
@@ -75,11 +77,13 @@ import com.kinvey.java.Query;
  *
  */
 public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener {
-	
+		ActionBar.TabListener{
+
 	public static StockDataSource datasource;
 	
-	
+	//Kinvey connection task and client
+	ConnectToKinveyTask conn_kinvey = null;
+	Client mKinveyClient = null;
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -96,18 +100,23 @@ public class MainActivity extends FragmentActivity implements
 	 */
 	ViewPager mViewPager;
 	
-	//public static StockDataSource datasource;
-
+	protected void connectToKinvey() {
+		//Connect to kinvey
+		if(KinveyConnectionSingleton.setInstance(this, ActivityConstants.MainActivity)) {
+			conn_kinvey = new ConnectToKinveyTask();
+			conn_kinvey.setCallingActivity(this);
+			//login and fire off the ping call to ensure we can communicate with Kinvey
+			conn_kinvey.testKinveyService();
+		}
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-
 		
 		datasource = new StockDataSource(this);
-
-		
+		connectToKinvey();
 		
 		//new DownloadRatioDataTask().execute();
 		
@@ -148,7 +157,7 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	public void performSearch() {
-		Intent doSearch = new Intent(MainActivity.this,SearchStockActivity.class);
+		Intent doSearch = new Intent(this,SearchStockActivity.class);
 		startActivity(doSearch);
 		
 		/*

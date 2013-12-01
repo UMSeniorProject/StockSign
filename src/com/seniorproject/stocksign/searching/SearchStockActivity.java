@@ -1,10 +1,12 @@
 package com.seniorproject.stocksign.searching;
 
+
 import com.kinvey.android.Client;
 import com.kinvey.java.Query;
 import com.seniorproject.stocksign.R;
-import com.seniorproject.stocksign.database.ConnectToKinveyTask;
 import com.seniorproject.stocksign.database.Stock;
+import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
+import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,16 +26,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SearchStockActivity extends Activity implements OnClickListener{
-
-	Client mKinveyClient;
+	
+	ConnectToKinveyTask conn_kinvey = null;;
+	Client mKinveyClient = null;
+	
 	EditText searchId;
 	EditText searchTerm;
 	Button searchAction;
 	
 	Stock[] stocks = null;
-	
-	boolean conn_kinvey_success;
-	ConnectToKinveyTask conn_kinvey;
 	
 	String searchData;
 	String searchResult;
@@ -55,22 +56,20 @@ public class SearchStockActivity extends Activity implements OnClickListener{
 	
 	private void initializeListeners() {
 		// TODO Auto-generated method stub
-		//initialize the Kinvey database API
-		mKinveyClient  = new Client.Builder(this.getApplicationContext()).build();
 		searchTerm = (EditText) findViewById(R.id.etSearchTerm);
 		searchAction = (Button) findViewById(R.id.bSearchAction);
-		searchAction.setOnClickListener(this);	
+		searchAction.setOnClickListener(this);		
 	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
+		conn_kinvey = new ConnectToKinveyTask();
+		conn_kinvey.setCallingActivity(this);
 		setContentView(R.layout.search);
 		initializeListeners();
-		conn_kinvey = new ConnectToKinveyTask(mKinveyClient,SearchStockActivity.this);
-		//login and fire off the ping call to ensure we can communicate with Kinvey
-		conn_kinvey_success = conn_kinvey.testKinveyService();
 	
 		//Bundle gotData = getIntent().getExtras();	
 		//searchData = gotData.getStringArray("search-action");
@@ -84,7 +83,6 @@ public class SearchStockActivity extends Activity implements OnClickListener{
 		//Bundle searchResultBundle = new Bundle();
 		
 		searchData = searchTerm.getText().toString().toUpperCase();
-		
 		conn_kinvey.kinveyDataFetcher(searchData,"Ticker");		
 		
 		//searchResultBundle.putStringArray("search-result", searchResult);
