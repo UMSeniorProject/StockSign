@@ -5,51 +5,15 @@
   <PreferenceCategory
      android:title="Options">
 
-     <CheckBoxPreference
-       android:key="checkbox"
-       android:title="Offline Mode"
-       android:summary="Store stock data on your device."
-       android:defaultValue="false"
-     />
+
+     <SwitchPreference android:switchTextOn="On" android:switchTextOff="Off" android:summaryOn="Turn off to store data remotely." android:summaryOff="Turn on to store data on device" android:key="modeswitch" android:title="Offline Mode" android:defaultValue="false"/>
   </PreferenceCategory>
     
-  <!--  <CheckBoxPreference
-       android:key="pref_opt2"
-       android:title="Option 2"
-       android:summary="Tick to set this option"
-       android:defaultValue="true"
-       />
+
+  <PreferenceCategory android:title="Data">
+      <Preference android:title="Delete Stock Data" android:summary="Delete stock data stored on device. " android:key="deletedata" android:order="200"/>
+      <Preference android:summary="Update stock data stored on device." android:title="Update Stock Data" android:key="updatedata" android:order="100"/>
+      <CheckBoxPreference android:summaryOn="Data will be automatically updated." android:title="Auto Update" android:key="autoupdate" android:summaryOff="Select to automatically update data." android:order="300"/>
   </PreferenceCategory>
-
-  <PreferenceCategory
-     android:title="Selection">
-      
-    <ListPreference
-        android:key="pref_type"
-        android:title="Type"
-        android:summary="Select item from array"
-        android:entries="@array/types"
-        android:entryValues="@array/types_values"
-        android:defaultValue="1"
-        />
-
-    <EditTextPreference
-        android:key="pref_text"
-        android:title="Input text"
-        android:summary="Tap to enter some text"
-        android:dialogTitle="Enter text"
-    />
-     
-  </PreferenceCategory>
-
-  <Preference
-    android:title="Intent"
-    android:summary="Open a webpage">
-
-    <intent
-      android:action="android.intent.action.VIEW"
-      android:data="http://android-elements.blogspot.com/" />
-
-  </Preference> -->
    
 </PreferenceScreen>

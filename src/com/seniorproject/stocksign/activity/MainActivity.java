@@ -41,7 +41,10 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -58,6 +61,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -113,15 +118,35 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// Set up the action bar.
+		final ActionBar actionBar = getActionBar();
+		
+		//make fullscreen on landscape
+    	if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) 
+    	{
+    	    Debugger.info("Orientation ", "LANDSCAPE");
+    	   // getActionBar().hide();
+    	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    	} else {
+    		Debugger.info("Orientation ", "PORTRAIT");        
+    	}
+		
 		setContentView(R.layout.activity_main);
 		
 		datasource = new StockDataSource(this);
 		connectToKinvey();
+=======
+
 		
-		//new DownloadRatioDataTask().execute();
+		/*SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		boolean offlinem = getPrefs.getBoolean("modeswitch", false);
+		if(offlinem){
+			Debugger.info("Offline Mode ", "DOWNLOADING DATA");
+			new DownloadRatioDataTask().execute();
+			//new DownloadPriceDataTask().execute("GOOG");
+		}*/
 		
-		// Set up the action bar.
-		final ActionBar actionBar = getActionBar();
+
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		// Create the adapter that will return a fragment for each of the three
@@ -224,6 +249,9 @@ public class MainActivity extends FragmentActivity implements
 	        	return true;
 	        case R.id.action_aboutus:
 	        	 showAboutUs();
+	        	return true;
+	        case R.id.action_exit:
+	        	 finish();
 	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);

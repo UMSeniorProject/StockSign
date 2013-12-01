@@ -6,11 +6,15 @@ import java.util.List;
 import java.util.zip.Inflater;
 
 import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.activity.FullScreenImage;
 import com.seniorproject.stocksign.activity.MainActivity;
+import com.seniorproject.stocksign.activity.Prefs;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.database.StockDataSource;
 import com.seniorproject.stocksign.debugging.Debugger;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,7 +26,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -39,7 +46,7 @@ import android.widget.Toast;
  */
 public class MarketSectionFragment extends Fragment {
         
-		static TextView periodTextView;
+		private static TextView periodTextView;
         /**Should not be instantiated, empty constructor */
         public MarketSectionFragment() {
         }
@@ -60,21 +67,46 @@ public class MarketSectionFragment extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                         Bundle savedInstanceState) {
                 
+        	//if landscape mode make full screen
+//        	if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) 
+//        	{
+//        	    Debugger.info("Orientation ", "LANDSCAPE");
+//        	    getActivity().requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        	    getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        	} else {
+//        		Debugger.info("Orientation ", "PORTRAIT");        
+//        	}
                 View rootView = inflater.inflate(R.layout.fragment_market,
                                 container, false);
 
-                //Graph
+                //Graph image
                 TextView marketTextView = (TextView) rootView.findViewById(R.id.section_label);
                 marketTextView.setText("Market Summary");
                  graph = (ImageView) rootView.findViewById(R.id.MarketChart);
-                new DownloadImageTask(graph)
-        .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
+                 System.out.println(R.id.MarketChart+"<--LOOK marketchart");
+                new DownloadImageTask(graph).execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
                 
                 registerForContextMenu(graph); 
+                //make graph full screen on click
+                graph.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						long imageId = graph.getId();//R.id.MarketChart;
+						System.out.println(imageId+"<--LOOK imageId onclick");
+                        Intent fullScreenIntent = new Intent(v.getContext(),FullScreenImage.class);
+                        fullScreenIntent.putExtra(MarketSectionFragment.class.getName(),imageId); 
+                        
+                      startActivity(fullScreenIntent); 
+						
+						
+					}
+                });
+
                 
-                periodTextView = (TextView) rootView.findViewById(R.id.timeperiod_label);
-                periodTextView.setText("1 Day");
-                
+                setPeriodTextView((TextView) rootView.findViewById(R.id.timeperiod_label));
+                getPeriodTextView().setText("1 Day");
+                System.out.println(getPeriodTextView().getText()+" periodtextview");
                 
                 
                 //Table info
@@ -159,36 +191,50 @@ public class MarketSectionFragment extends Fragment {
     public void oneday(int id){  
         new DownloadImageTask(graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
-        periodTextView.setText("1 Day");
+        getPeriodTextView().setText("1 Day");
     }  
     public void fiveday(int id){   
             new DownloadImageTask(MarketSectionFragment.graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=5d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
-            periodTextView.setText("5 Day");
+            getPeriodTextView().setText("5 Day");
     }  
     public void onemonth(int id){  
             new DownloadImageTask(MarketSectionFragment.graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1m&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
-            periodTextView.setText("1 Month");
+            getPeriodTextView().setText("1 Month");
     }  
     public void sixmonth(int id){  
             new DownloadImageTask(MarketSectionFragment.graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=6m&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
-            periodTextView.setText("6 Month");
+            getPeriodTextView().setText("6 Month");
     }  
     public void oneyear(int id){  
             new DownloadImageTask(MarketSectionFragment.graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1y&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
-            periodTextView.setText("1 Year");
+            getPeriodTextView().setText("1 Year");
     }  
     public void fiveyear(int id){  
             new DownloadImageTask(MarketSectionFragment.graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=5y&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
-            periodTextView.setText("5 Year");
+            getPeriodTextView().setText("5 Year");
     } 
     public void max(int id){  
             new DownloadImageTask(MarketSectionFragment.graph)
         .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=my&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
-            periodTextView.setText("Max to Date");
-    } 
+            getPeriodTextView().setText("Max to Date");
+    }
+
+	/**
+	 * @return the periodTextView
+	 */
+	public static TextView getPeriodTextView() {
+		return periodTextView;
+	}
+
+	/**
+	 * @param periodTextView the periodTextView to set
+	 */
+	public static void setPeriodTextView(TextView periodTextView) {
+		MarketSectionFragment.periodTextView = periodTextView;
+	} 
 }
