@@ -5,21 +5,23 @@
     android:orientation="vertical"
     android:weightSum="100" >
 
-    <EditText
+    <!--  <EditText
         android:id="@+id/etSearchTerm"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/search_hint" />
+        android:hint="@string/search_hint" />-->
 
     <AutoCompleteTextView
         android:id="@+id/tvAutocomplete"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="10"
-        android:text="THIS REGION WILL BE AUTO-COMPLETE" />
+        android:hint="@string/search_hint">
+        <requestFocus />
+        </AutoCompleteTextView>
 
     <Button
-        android:id="@+id/bSearchAction"
+        android:id="@+id/bDisplayAction"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"

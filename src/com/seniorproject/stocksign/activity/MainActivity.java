@@ -183,20 +183,6 @@ public class MainActivity extends FragmentActivity implements
 	public void performSearch() {
 		Intent doSearch = new Intent(this,SearchStockActivity.class);
 		startActivity(doSearch);
-		
-		/*
-		You can perform textual searches on fields using Regular Expressions. 
-		This can be done with Query.regex. For example, to filter a table view
-		by event name using a search bar:
-			EditText searchBar = (EditText) findViewById(R.id.search_bar);
-			Query query = new Query();
-			query.regEx("name","searchText");
-			AsyncAppData<EventEntity> searchedEvents = mKinveyClient.appData("events", EventEntity.class);
-			searchedEvents.get(query, new KinveyListCallback<EventEntity>() {
-  			@Override
-  			public void onSuccess(EventEntity[] event) { ... }
-			});
-		 */
 	}
 	public void showAboutUs(){
 		Intent show = new Intent(MainActivity.this,AboutUs.class);

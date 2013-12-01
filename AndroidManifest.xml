@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme" >
         <!-- enable the search dialog to send searches to SearchableActivity -->
         <meta-data android:name="android.app.default_searchable"
-                   android:value=".SearchableActivity" />        
+                   android:value="com.seniorproject.stocksign..SearchableActivity" />        
         <receiver
             android:name="com.seniorproject.stocksign.database.DownloadPriceDataTask"
             android:exported="true" >
@@ -84,24 +84,19 @@
                 <action android:name="android.intent.action.DEFAULT" />
 			</intent-filter>
         </activity>
-        <activity android:name=".SearchableActivity" >
+        <activity 
+            android:name="com.seniorproject.stocksign.search.SearchableActivity" 
+            android:launchMode="singleTop">          
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-    <!-- this activity enables the search dialog to initiate searches
-         in the SearchableActivity -->
-    <activity android:name=".DisplaySearchableActivity">
-
-    </activity>
-    <activity 
-        android:name=".ActionActivity">
-<!-- THIS DOESN'T WORK android:theme="@style/Theme.AppCompat.Light" -->  
-    </activity>
     </application>
 
 </manifest>

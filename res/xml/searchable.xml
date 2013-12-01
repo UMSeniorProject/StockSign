@@ -2,4 +2,6 @@
     android:hint="@string/search_hint"
     android:includeInGlobalSearch="false"
     android:label="@string/search_label"
-    android:searchSettingsDescription="@string/search_global_description" />
+    android:searchSettingsDescription="@string/search_global_description"
+    android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
+    android:voiceLanguageModel="web_search" />
