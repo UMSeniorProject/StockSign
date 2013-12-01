@@ -6,8 +6,7 @@
      >
      
     <TextView
-        android:text="
-        This the about us text that should tell you some crap about this app. Well, this app doesn't do anything useful, for the most part. It is just me following some tutorials online and messing around with android. If you are reading this, and you are not me, then you we see how insanely amazing this application is. \n\nP.S.\n		I like bacon."
+        android:text="\tThis application was designed by three Computer Engineering students at the University of Miami in order to simplify the stock market for common people. Stock Sign was created in order to blah blah blah blah blah...\n\n\n"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView1"

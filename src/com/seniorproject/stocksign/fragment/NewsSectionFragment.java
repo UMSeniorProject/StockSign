@@ -37,10 +37,11 @@ import com.seniorproject.stocksign.debugging.Debugger;
  */
 public class NewsSectionFragment extends ListFragment  {
 	
-	   static List<String> headlines;
-	   static List<String> links;
-	   
-	   private Context context;
+	
+
+	static ArrayList headlines,h;
+	static ArrayList links,l;
+	static XmlPullParser xpp;
 
 	/**Should not be instantiated, empty constructor */
 	public NewsSectionFragment() {
@@ -59,36 +60,42 @@ public class NewsSectionFragment extends ListFragment  {
 		
 		View rootView = inflater.inflate(R.layout.fragment_news,
 				container, false);
-		//setContentView(R.layout.fragment_news);
-		
-		
-		//TextView homeTextView = (TextView) rootView.findViewById(R.id.section_label);
-		//homeTextView.setText("Section to display news");
-		
-		// Initializing instance variables
-		headlines = new ArrayList<String>();
-		links = new ArrayList<String>();
-		new DownloadNewsTask(this.getActivity()).execute();
-		 
-    	//Debugger.info("frag headlines ", headlines.toString());
 
-		context = getActivity();
-		// Binding data
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, headlines);
 		
-		setListAdapter(adapter);
 
+	    // Initializing instance variables
+	    // Initializing instance variables
+	    headlines = new ArrayList();
+	    links = new ArrayList();
+
+	    h = new ArrayList();
+	    l = new ArrayList();
+	    
+	    // Binding data
+	    ArrayAdapter adapter = new ArrayAdapter(this.getActivity(),
+	            android.R.layout.simple_list_item_1, h);
+
+	    setListAdapter(adapter);
 
 
 		return rootView;
 	}
 	
 
-	
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-	   Uri uri = Uri.parse((String) links.get(position));
-	   Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-	   startActivity(intent);
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
+		
+		   Uri uri = Uri.parse((String) links.get(position));
+		   Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		   startActivity(intent);
 	}
+
+
+	
+
+	
+
 }
