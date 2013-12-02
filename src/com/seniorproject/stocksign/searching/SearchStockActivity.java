@@ -1,13 +1,18 @@
 package com.seniorproject.stocksign.searching;
 
 
+import java.io.IOException;
+
 import com.kinvey.android.AsyncAppData;
 import com.kinvey.android.Client;
 import com.kinvey.android.callback.KinveyListCallback;
 import com.kinvey.java.Query;
 import com.kinvey.java.query.AbstractQuery.SortOrder;
 import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.activity.ActivityConstants;
 import com.seniorproject.stocksign.database.Stock;
+import com.seniorproject.stocksign.display.CommonStockClass;
+import com.seniorproject.stocksign.display.DisplayStockRatioData;
 import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
 import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
 
@@ -18,6 +23,7 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.LayoutParams;
 import android.text.Editable;
@@ -27,11 +33,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -49,15 +58,15 @@ by event name using a search bar:
 	});
  */
 
-public class SearchStockActivity extends Activity implements OnClickListener{
+public class SearchStockActivity extends Activity{
 
 	Client mKinveyClient = null;
 	String StockDataTableName = "StockRatioDataTable";
 	ArrayAdapter<String> adapter;
 	
-	//EditText searchTerm;
+	ProgressBar loadingCircle;
+	
 	AutoCompleteTextView searchTerm;
-	Button displayAction;
 	TextWatcher watcher;
 	int maxNamesDisplayed = 8;
 	String[] companyNames;
@@ -66,15 +75,34 @@ public class SearchStockActivity extends Activity implements OnClickListener{
 	
 	String searchData;	
 	
+	/*
+	private class ProgressTask extends AsyncTask <void,void,Void>{
+	    @Override
+	    protected void onPreExecute(){
+	        loadingCircle.setVisibility(View.VISIBLE);
+	    }
+
+	    @Override
+	    protected void doInBackground(Void... arg0) {   
+	           //my stuff is here
+	    }
+
+	    @Override
+	    protected void onPostExecute(Void result) {
+	          loadingCircle.setVisibility(View.GONE);
+	    }
+	}*/
+	
 	private void initializeListeners() {
 		// TODO Auto-generated method stub
+		loadingCircle = (ProgressBar) findViewById(R.id.progress);
 		searchTerm = (AutoCompleteTextView) findViewById(R.id.tvAutocomplete);
-		displayAction = (Button) findViewById(R.id.bDisplayAction);
-		displayAction.setOnClickListener(this);
+		searchTerm.setThreshold(1);	
 		searchTerm.addTextChangedListener(new TextWatcher() {
 				  @Override
 		            public void onTextChanged(CharSequence s, int start, int before, int count) {
 					  	if(s.length()!=0) {
+					  		//One issues is that autocomplete has to be case-sensitive
 					  		searchData = s.toString();//.toUpperCase();//searchTerm.getText().toString().toUpperCase();
 					  		String check = searchData;
 					  		kinveyDataFetcher(searchData);
@@ -94,6 +122,28 @@ public class SearchStockActivity extends Activity implements OnClickListener{
 		            }
 
 			});
+			searchTerm.setOnItemClickListener(new OnItemClickListener() {
+				
+				/*
+				parent		The AdapterView where the click happened.
+				view		The view within the AdapterView that was clicked (this will be a view provided by the adapter)
+				position	The position of the view in the adapter.
+				id			The row id of the item that was clicked. 
+				 */
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					Stock clickedStock = stocks[position];	
+					String check = clickedStock.values().toString();
+					CommonStockClass.setInstance(clickedStock);
+					Intent i = new Intent(SearchStockActivity.this, DisplayStockRatioData.class);
+					i.putExtra("CommonStock", 1);	//put 1 so the called Activity will now CommonStock is instantiated
+					i.putExtra("activityID", ActivityConstants.SearchStockActivity);
+					startActivity(i);
+				}
+				
+			});
 	}		
 	
 	@Override
@@ -103,14 +153,7 @@ public class SearchStockActivity extends Activity implements OnClickListener{
 		mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
 		setContentView(R.layout.search);
 		initializeListeners();
-		searchTerm.setThreshold(1);			
-	}	
-	
-	@Override
-	public void onClick(View arg0) {
-		// TODO Auto-generated method stub		
-		//SOME ACTION TO DISPLAY THE DATA
-	}		
+	}			
 	
 	private void displayAutoComplete() {
 		int listLength = maxNamesDisplayed;
@@ -164,15 +207,15 @@ public class SearchStockActivity extends Activity implements OnClickListener{
 		fetchCompany.setLimit(maxNamesDisplayed);
 		fetchTicker.setLimit(maxNamesDisplayed);
 		
-		//fetchCompany.addSort("Company", SortOrder.ASC);
-		//fetchTicker.addSort("Ticker", SortOrder.ASC);
+		fetchCompany.addSort("Company", SortOrder.ASC);
+		fetchTicker.addSort("Ticker", SortOrder.ASC);
 		
 		/*fetchQuery.startsWith(searchCategory, searchString);
 		fetchQuery.setLimit(maxNamesDisplayed);
 		fetchQuery.addSort(searchCategory, SortOrder.ASC);
 		kinveyFetchQuery(fetchQuery);*/
-		//kinveyFetchQuery(fetchCompany.or(fetchTicker));
-		kinveyFetchQuery(fetchCompany);
+		kinveyFetchQuery(fetchCompany.or(fetchTicker));
+		//kinveyFetchQuery(fetchCompany);
 	}
 
 	public void displayStockData() {	

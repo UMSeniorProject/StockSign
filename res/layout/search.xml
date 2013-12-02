@@ -19,13 +19,21 @@
         android:hint="@string/search_hint">
         <requestFocus />
         </AutoCompleteTextView>
+        
+    <ProgressBar
+    	android:id="@+id/progress"
+    	style="@style/GenericProgressIndicator"
+    	android:layout_width="wrap_content"
+    	android:layout_height="fill_parent"
+    	android:layout_gravity="center_vertical|center_horizontal"
+    	android:visibility="gone" />
 
-    <Button
+    <!--<Button
         android:id="@+id/bDisplayAction"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:text="@string/search_button" />
+        android:text="@string/search_button" />  -->
 
     <LinearLayout
         android:id="@+id/llStockdata"

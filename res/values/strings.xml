@@ -16,6 +16,7 @@
 	<string name="title_news">News</string>
 	<string name="title_grades">Grades</string>
 	<string name="action_aboutus">About Us</string>
+	<string name="button_showdata">Show Data</string>
 	
 	<string-array name="types">
      <item>Type 1</item>
