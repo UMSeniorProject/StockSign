@@ -43,7 +43,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 /*
 You can perform textual searches on fields using Regular Expressions. 
 This can be done with Query.regex. For example, to filter a table view
@@ -104,7 +103,6 @@ public class SearchStockActivity extends Activity{
 					  	if(s.length()!=0) {
 					  		//One issues is that autocomplete has to be case-sensitive
 					  		searchData = s.toString();//.toUpperCase();//searchTerm.getText().toString().toUpperCase();
-					  		String check = searchData;
 					  		kinveyDataFetcher(searchData);
 					  	}
 		            }
@@ -135,11 +133,15 @@ public class SearchStockActivity extends Activity{
 						int position, long id) {
 					// TODO Auto-generated method stub
 					Stock clickedStock = stocks[position];	
-					String check = clickedStock.values().toString();
-					CommonStockClass.setInstance(clickedStock);
+					String[] values  = clickedStock.values().toString().split(",");
+					String[] keySet = clickedStock.keySet().toString().split(",");
+					
 					Intent i = new Intent(SearchStockActivity.this, DisplayStockRatioData.class);
-					i.putExtra("CommonStock", 1);	//put 1 so the called Activity will now CommonStock is instantiated
-					i.putExtra("activityID", ActivityConstants.SearchStockActivity);
+					Bundle b = new Bundle();
+					b.putStringArray("values", values);
+					b.putStringArray("keySet", keySet);
+					i.putExtra("ratioData", b);
+					i.putExtra("activityID", ActivityConstants.SearchStockActivity); //send the activity id					
 					startActivity(i);
 				}
 				

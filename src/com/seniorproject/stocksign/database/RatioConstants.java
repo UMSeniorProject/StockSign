@@ -2,6 +2,8 @@ package com.seniorproject.stocksign.database;
 
 public interface RatioConstants {
 
+	public final int totalRatios = 40;
+	
 	public static final int  ticker = 0;//Ticker
 
 	public static final int  company = 1; //Company name

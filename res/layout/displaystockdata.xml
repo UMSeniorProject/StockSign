@@ -7,22 +7,31 @@
         <TextView
             android:id="@+id/tvStockname"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="25sp" >
         </TextView>
         
         <TextView
             android:id="@+id/tvStockticker"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textAllCaps="true" >
         </TextView>
 
-        <TableLayout
-            android:id="@+id/tlStockratios"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:stretchColumns="0,1" >
-            
-        </TableLayout>
-
+        <ScrollView
+            android:layout_height="fill_parent"
+        	android:layout_width="fill_parent">
+	        <TableLayout
+	            android:id="@+id/tlStockratios"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical"
+	            android:stretchColumns="0,1" >            
+	        </TableLayout>
+		</ScrollView>
 </LinearLayout>
