@@ -23,8 +23,8 @@ import android.database.sqlite.SQLiteDatabase;
 public class StockDataSource {
 
 	// Database fields
-	private SQLiteDatabase database;
-	private MySQLiteHelper dbHelper;
+	private static SQLiteDatabase database;
+	private static MySQLiteHelper dbHelper;
 	private String[] allColumns = { StockData._ID,
 			StockData.COLUMN_NAME_TICKER, 
 			StockData.COLUMN_NAME_SECTOR,
@@ -71,14 +71,14 @@ public class StockDataSource {
 	 * Gets a writable database
 	 * @throws SQLException
 	 */
-	public void open() throws SQLException {
+	public static void open() throws SQLException {
 		database = dbHelper.getWritableDatabase();
 	}
 
 	/**
 	 * Closes database connection
 	 */
-	public void close() {
+	public static void close() {
 		dbHelper.close();
 	}
 	/**
@@ -220,9 +220,9 @@ public class StockDataSource {
 	/**
 	 * Deletes all rows of the Stock table
 	 */
-	public void deleteAllStocks(){
+	public static void deleteAllStocks(){
 		database.delete(StockData.TABLE_NAME_STOCKS,null , null);
-		Debugger.info("DeleteAllStocks","All rows have been deleted");
+		Debugger.info("DeleteAllStocks ","All rows have been deleted");
 	}
 	/**
 	 * Creates a list of stocks in database
