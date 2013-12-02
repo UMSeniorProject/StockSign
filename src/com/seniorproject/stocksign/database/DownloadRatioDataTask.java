@@ -13,8 +13,10 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import com.seniorproject.stocksign.activity.MainActivity;
+import com.seniorproject.stocksign.activity.Prefs;
 import com.seniorproject.stocksign.debugging.Debugger;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -26,7 +28,12 @@ import android.os.AsyncTask;
 
 public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 	
+	private Context currContext;
+	ProgressDialog pd;
 	
+	public DownloadRatioDataTask(Context context){
+		currContext = context;
+	}
 /**
  * Creates the finviz url to download the ratio data.
  * 
@@ -45,6 +52,30 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 		"31,32,33,34,35,36,37,39,40,41,59";
 	}
 	
+	
+	
+	@Override
+protected void onProgressUpdate(Integer... progress) {
+	// TODO Auto-generated method stub
+	super.onProgressUpdate(progress);
+	
+	pd.incrementProgressBy(progress[0]);
+}
+
+
+
+	@Override
+	protected void onPreExecute() {
+		// TODO Auto-generated method stub
+		super.onPreExecute();
+		
+		pd = new ProgressDialog(currContext);
+		pd.setMessage("Downloading stock data...");
+		pd.setProgressNumberFormat(null);
+		pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		pd.setMax(6668);
+		pd.show();
+	}
 	protected String doInBackground(String... params){
 		
 		
@@ -89,9 +120,9 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 	    StockDataSource datasource  = MainActivity.datasource;
 	    
 	    Debugger.info("dl ratio data", "open db");
-	    datasource.open();
+	    StockDataSource.open();
 	    
-	    
+
 	    
 		try {
 			while ((nextLine = csvreader.readNext()) != null) {
@@ -146,7 +177,7 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 				
 				
 				datasource.createStock(stock);
-				
+				publishProgress(1);
 				//Debugger.info("database", "entered");
 				// nextLine[] is an array of values from the line
 			    //System.out.println(nextLine[0] + nextLine[1] + "etc...");
@@ -161,6 +192,7 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 
 	    datasource.close();
 	    Debugger.info("dl ratio data", "db closed");
+	    pd.dismiss();
 		return null;
 	}
 	

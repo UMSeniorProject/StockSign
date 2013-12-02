@@ -58,7 +58,8 @@ public class Prefs extends PreferenceActivity {
 				{
 					Toast.makeText(getActivity(),  "Downloading data..." , Toast.LENGTH_SHORT).show();
 					Debugger.info("Offline Mode ", "DOWNLOADING DATA");
-					new DownloadRatioDataTask().execute();
+					DownloadRatioDataTask dl = new DownloadRatioDataTask(getActivity());
+					dl.execute();
 					//Toast.makeText(getActivity(),  "Done" , Toast.LENGTH_SHORT).show();
 				}
 				else if(offlinem == false)
@@ -77,6 +78,7 @@ public class Prefs extends PreferenceActivity {
 				StockDataSource.close();
 				//Toast.makeText(getActivity(),  "Done" , Toast.LENGTH_SHORT).show();
 			}
+			
 			else if (key.compareToIgnoreCase("updatedata") == 0){
 				Toast.makeText(getActivity(),  "Updating data..." , Toast.LENGTH_SHORT).show();
 				Debugger.info("Offline Mode ", "UPDATING DATA");
@@ -86,7 +88,8 @@ public class Prefs extends PreferenceActivity {
 				StockDataSource.deleteAllStocks();
 				Toast.makeText(getActivity(),  "Updating data..." , Toast.LENGTH_SHORT).show();
 				Debugger.info("Offline Mode ", "DOWNLOADING DATA");
-				new DownloadRatioDataTask().execute();
+				DownloadRatioDataTask dl = new DownloadRatioDataTask(getActivity());
+				dl.execute();
 				StockDataSource.close();
 				//Toast.makeText(getActivity(),  "Done" , Toast.LENGTH_SHORT).show();
 			}
