@@ -1,0 +1,79 @@
+String t //Ticker
+
+String n, //Company
+
+String s,//Sector
+
+String i, //Industry
+
+String c, //"Country
+
+double PE //P/E
+
+double FPE//Forward P/E
+
+double PEG, //PEG
+
+double PS, //P/S
+
+double PB, //P/B
+
+double PC //P/Cash
+
+double PFCF //P/Free Cash Flow
+
+double d //Dividend Yield
+
+double PO //Payout Ratio
+
+double EPSTHISYR //EPS growth this year
+
+double EPSNEXTYEAR //EPS growth next year
+
+double EPS5//EPS growth past 5 years
+
+double eg //"EPS growth next 5 years
+
+double SALES5 //Sales growth past 5 years
+
+double FLOAT //Shares Float
+
+double INSIOWN //Insider Ownership
+
+double INSITRANS //Insider Transactions
+
+double INSTOWN //Institutional Ownership
+
+double INSTTRANS //Institutional Transactions 
+
+double SHORT //Float Short
+
+double ROA //Return on Assets
+
+double ROE//Return on Equity
+
+double CR //Current Ratio
+
+double QR //Quick Ratio
+
+double LTDE//LT Debt/Equity
+
+double PM//Profit Margin
+
+double BETA
+
+double WVOL//Volatility (Week)
+
+ double MVOL //Volatility (Month) 
+
+double RSI//Relative Strength Index
+
+double AVGVOL//Average Volume
+
+double RVOL//Relative Volume
+
+ double dan //total score
+
+ double DIVSCORE //dividend score
+
+ double growth //growth score

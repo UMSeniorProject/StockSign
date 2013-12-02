@@ -19,43 +19,45 @@ public class Stock extends GenericJson{
 	@Key("_id")
 	private String _id;
 	@Key("Ticker")
-	private String ticker;
+	private String t;
 	@Key("Company")
-	private String company;
+	private String n;
 	@Key("Sector")
-	private String sector;
+	private String s;
 	@Key("Industry")
-	private String industry;
+	private String i;
 	@Key("Country")
-	private String country;
+	private String c;
 	@Key("P/E")
-	private String pe;
+	private String PE;
 	@Key("Forward P/E")
-	private String forward_pe;
+	private String FPE;
 	@Key("PEG")
-	private String peg;
+	private String PEG;
 	@Key("P/S")
-	private String ps;
+	private String PS;
 	@Key("P/B")
-	private String pb;
+	private String PB;
 	@Key("P/Cash")
-	private String pc;
+	private String PC;
 	@Key("P/Free Cash Flow")
-	private String priceFreeCashFlow;
+	private String PFCF;
 	@Key("Dividend Yield")
-	private String dividendYield;
+	private String d;
 	@Key("Payout Ratio")
-	private String payoutRatio;
+	private String PO;
 	@Key("EPS growth this year")
-	private String epsgThisYear;
+	private String EPSTHISYR;
 	@Key("EPS growth next year")
-	private String epsgNextYear;
+	private String EPSNEXTYEAR;
 	@Key("EPS growth past 5 years")
-	private String epsgPast5Years;
+	private String EPS5;
 	@Key("EPS growth next 5 years")
-	private String epsgNext5Years;
+	private String eg;
 	@Key("Sales growth past 5 years")
-	private String salesgPast5Years;
+	private String SALES5;
+	@Key("Shares Float")
+	private String FLOAT;
 	@Key("Sales growth next 5 years")
 	private String salesgNext5years;
 	@Key("EPS growth quarter over quarter")
@@ -63,37 +65,55 @@ public class Stock extends GenericJson{
 	@Key("Sales growth quarter over quarter")
 	private String salesg_qoq;
 	@Key("Insider Ownership")
-	private String insiderOwnership;
+	private String INSIOWN;
 	@Key("Insider Transactions")
-	private String insiderTransactions;
+	private String INSITRANS;
 	@Key("Institutional Ownership")
-	private String institutionalOwnership;
+	private String INSTOWN;
 	@Key("Institutional Transactions")
-	private String institutionalTransactions;
+	private String INSTTRANS;
 	@Key("Float Short")
-	private String floatShort;
+	private String SHORT;
 	@Key("Short Ratio")
 	private String shortRatio;
 	@Key("Return on Assets")
-	private String returnOnAssets;
+	private String ROA;
 	@Key("Return on Equity")
-	private String returnOnEquity;
+	private String ROE;
 	@Key("Return on Investment")
 	private String returnOnInvestment;
 	@Key("Current Ratio")
-	private String currentRatio;
+	private String CR;
 	@Key("Quick Ratio")
-	private String quickRatio;
+	private String QR;
 	@Key("LT Debt/Equity")
-	private String ltDebtEquity;
+	private String LTDE;
 	@Key("Gross Margin")
 	private String grossMargin;
 	@Key("Profit Margin")
-	private String netProfitMargin;
+	private String PM;
 	@Key("Operating Margin")
 	private String operatingMargin;
+	@Key("BETA")
+	private String BETA;
+	@Key("Volatility (Week)")
+	private String WVOL;
+	@Key("Volatility (Month)")
+	private String MVOL;
 	@Key("Relative Strength Index")
-	private String rsi;	
+	private String RSI;
+	@Key("Average Volume")
+	private String AVGVOL;
+	@Key("Relative Volume")
+	private String RVOL;
+	@Key("Total Score")
+	private String dan;
+	@Key("Dividend Score")
+	private String DIVSCORE;
+	@Key("Growth Score")
+	private String growth;
+	
+	
 
 	 @Key("Date") private String date;
 	 @Key("Open") private String open;
@@ -151,224 +171,224 @@ public class Stock extends GenericJson{
 	 * @return the ticker
 	 */
 	public String getTicker() {
-		return ticker;
+		return t;
 	}
 
 	/**
 	 * @param ticker the ticker to set
 	 */
 	public void setTicker(String ticker) {
-		this.ticker = ticker;
+		this.t = ticker;
 	}
 
 	/**
 	 * @return the company
 	 */
 	public String getCompany() {
-		return company;
+		return n;
 	}
 
 	/**
 	 * @param company the company to set
 	 */
 	public void setCompany(String company) {
-		this.company = company;
+		this.n = company;
 	}
 
 	/**
 	 * @return the sector
 	 */
 	public String getSector() {
-		return sector;
+		return s;
 	}
 
 	/**
 	 * @param sector the sector to set
 	 */
 	public void setSector(String sector) {
-		this.sector = sector;
+		this.s = sector;
 	}
 
 	/**
 	 * @return the industry
 	 */
 	public String getIndustry() {
-		return industry;
+		return i;
 	}
 
 	/**
 	 * @param industry the industry to set
 	 */
 	public void setIndustry(String industry) {
-		this.industry = industry;
+		this.i = industry;
 	}
 
 	/**
 	 * @return the country
 	 */
 	public String getCountry() {
-		return country;
+		return c;
 	}
 
 	/**
 	 * @param country the country to set
 	 */
 	public void setCountry(String country) {
-		this.country = country;
+		this.c = country;
 	}
 
 	/**
 	 * @return the pe
 	 */
 	public String getPe() {
-		return pe;
+		return PE;
 	}
 
 	/**
 	 * @param pe the pe to set
 	 */
 	public void setPe(String pe) {
-		this.pe = pe;
+		this.PE = pe;
 	}
 
 	/**
 	 * @return the forward_pe
 	 */
 	public String getForward_pe() {
-		return forward_pe;
+		return FPE;
 	}
 
 	/**
 	 * @param forward_pe the forward_pe to set
 	 */
 	public void setForward_pe(String forward_pe) {
-		this.forward_pe = forward_pe;
+		this.FPE = forward_pe;
 	}
 
 	/**
 	 * @return the peg
 	 */
 	public String getPeg() {
-		return peg;
+		return PEG;
 	}
 
 	/**
 	 * @param peg the peg to set
 	 */
 	public void setPeg(String peg) {
-		this.peg = peg;
+		this.PEG = peg;
 	}
 
 	/**
 	 * @return the ps
 	 */
 	public String getPs() {
-		return ps;
+		return PS;
 	}
 
 	/**
 	 * @param ps the ps to set
 	 */
 	public void setPs(String ps) {
-		this.ps = ps;
+		this.PS = ps;
 	}
 
 	/**
 	 * @return the pb
 	 */
 	public String getPb() {
-		return pb;
+		return PB;
 	}
 
 	/**
 	 * @param pb the pb to set
 	 */
 	public void setPb(String pb) {
-		this.pb = pb;
+		this.PB = pb;
 	}
 
 	/**
 	 * @return the pc
 	 */
 	public String getPc() {
-		return pc;
+		return PC;
 	}
 
 	/**
 	 * @param pc the pc to set
 	 */
 	public void setPc(String pc) {
-		this.pc = pc;
+		this.PC = pc;
 	}
 
 	/**
 	 * @return the priceFreeCashFlow
 	 */
 	public String getPriceFreeCashFlow() {
-		return priceFreeCashFlow;
+		return PFCF;
 	}
 
 	/**
 	 * @param priceFreeCashFlow the priceFreeCashFlow to set
 	 */
 	public void setPriceFreeCashFlow(String priceFreeCashFlow) {
-		this.priceFreeCashFlow = priceFreeCashFlow;
+		this.PFCF = priceFreeCashFlow;
 	}
 
 	/**
 	 * @return the epsgThisYear
 	 */
 	public String getEpsgThisYear() {
-		return epsgThisYear;
+		return EPSTHISYR;
 	}
 
 	/**
 	 * @param epsgThisYear the epsgThisYear to set
 	 */
 	public void setEpsgThisYear(String epsgThisYear) {
-		this.epsgThisYear = epsgThisYear;
+		this.EPSTHISYR = epsgThisYear;
 	}
 
 	/**
 	 * @return the epsgPast5Years
 	 */
 	public String getEpsgPast5Years() {
-		return epsgPast5Years;
+		return EPS5;
 	}
 
 	/**
 	 * @param epsgPast5Years the epsgPast5Years to set
 	 */
 	public void setEpsgPast5Years(String epsgPast5Years) {
-		this.epsgPast5Years = epsgPast5Years;
+		this.EPS5 = epsgPast5Years;
 	}
 
 	/**
 	 * @return the epsgNext5Years
 	 */
 	public String getEpsgNext5Years() {
-		return epsgNext5Years;
+		return eg;
 	}
 
 	/**
 	 * @param epsgNext5Years the epsgNext5Years to set
 	 */
 	public void setEpsgNext5Years(String epsgNext5Years) {
-		this.epsgNext5Years = epsgNext5Years;
+		this.eg = epsgNext5Years;
 	}
 
 	/**
 	 * @return the salesgPast5Years
 	 */
 	public String getSalesgPast5Years() {
-		return salesgPast5Years;
+		return SALES5;
 	}
 
 	/**
 	 * @param salesgPast5Years the salesgPast5Years to set
 	 */
 	public void setSalesgPast5Years(String salesgPast5Years) {
-		this.salesgPast5Years = salesgPast5Years;
+		this.SALES5 = salesgPast5Years;
 	}
 
 	/**
@@ -403,42 +423,42 @@ public class Stock extends GenericJson{
 	 * @return the dividendYield
 	 */
 	public String getDividendYield() {
-		return dividendYield;
+		return d;
 	}
 
 	/**
 	 * @param dividendYield the dividendYield to set
 	 */
 	public void setDividendYield(String dividendYield) {
-		this.dividendYield = dividendYield;
+		this.d = dividendYield;
 	}
 
 	/**
 	 * @return the returnOnAssets
 	 */
 	public String getReturnOnAssets() {
-		return returnOnAssets;
+		return ROA;
 	}
 
 	/**
 	 * @param returnOnAssets the returnOnAssets to set
 	 */
 	public void setReturnOnAssets(String returnOnAssets) {
-		this.returnOnAssets = returnOnAssets;
+		this.ROA = returnOnAssets;
 	}
 
 	/**
 	 * @return the returnOnEquity
 	 */
 	public String getReturnOnEquity() {
-		return returnOnEquity;
+		return ROE;
 	}
 
 	/**
 	 * @param returnOnEquity the returnOnEquity to set
 	 */
 	public void setReturnOnEquity(String returnOnEquity) {
-		this.returnOnEquity = returnOnEquity;
+		this.ROE = returnOnEquity;
 	}
 
 	/**
@@ -459,42 +479,42 @@ public class Stock extends GenericJson{
 	 * @return the currentRatio
 	 */
 	public String getCurrentRatio() {
-		return currentRatio;
+		return CR;
 	}
 
 	/**
 	 * @param currentRatio the currentRatio to set
 	 */
 	public void setCurrentRatio(String currentRatio) {
-		this.currentRatio = currentRatio;
+		this.CR = currentRatio;
 	}
 
 	/**
 	 * @return the quickRatio
 	 */
 	public String getQuickRatio() {
-		return quickRatio;
+		return QR;
 	}
 
 	/**
 	 * @param quickRatio the quickRatio to set
 	 */
 	public void setQuickRatio(String quickRatio) {
-		this.quickRatio = quickRatio;
+		this.QR = quickRatio;
 	}
 
 	/**
 	 * @return the ltDebtEquity
 	 */
 	public String getLtDebtEquity() {
-		return ltDebtEquity;
+		return LTDE;
 	}
 
 	/**
 	 * @param ltDebtEquity the ltDebtEquity to set
 	 */
 	public void setLtDebtEquity(String ltDebtEquity) {
-		this.ltDebtEquity = ltDebtEquity;
+		this.LTDE = ltDebtEquity;
 	}
 
 	/**
@@ -543,70 +563,70 @@ public class Stock extends GenericJson{
 	 * @return the netProfitMargin
 	 */
 	public String getNetProfitMargin() {
-		return netProfitMargin;
+		return PM;
 	}
 
 	/**
 	 * @param netProfitMargin the netProfitMargin to set
 	 */
 	public void setNetProfitMargin(String netProfitMargin) {
-		this.netProfitMargin = netProfitMargin;
+		this.PM = netProfitMargin;
 	}
 
 	/**
 	 * @return the payoutRatio
 	 */
 	public String getPayoutRatio() {
-		return payoutRatio;
+		return PO;
 	}
 
 	/**
 	 * @param payoutRatio the payoutRatio to set
 	 */
 	public void setPayoutRatio(String payoutRatio) {
-		this.payoutRatio = payoutRatio;
+		this.PO = payoutRatio;
 	}
 
 	/**
 	 * @return the insiderOwnership
 	 */
 	public String getInsiderOwnership() {
-		return insiderOwnership;
+		return INSIOWN;
 	}
 
 	/**
 	 * @param insiderOwnership the insiderOwnership to set
 	 */
 	public void setInsiderOwnership(String insiderOwnership) {
-		this.insiderOwnership = insiderOwnership;
+		this.INSIOWN = insiderOwnership;
 	}
 
 	/**
 	 * @return the institutionalTransactions
 	 */
 	public String getInstitutionalTransactions() {
-		return institutionalTransactions;
+		return INSITRANS;
 	}
 
 	/**
 	 * @param institutionalTransactions the institutionalTransactions to set
 	 */
 	public void setInstitutionalTransactions(String institutionalTransactions) {
-		this.institutionalTransactions = institutionalTransactions;
+		this.INSITRANS = institutionalTransactions;
 	}
 
 	/**
 	 * @return the floatShort
 	 */
 	public String getFloatShort() {
-		return floatShort;
+		return SHORT;
 	}
 
 	/**
 	 * @param floaStringt the floatShort to set
 	 */
 	public void setFloatShort(String floatShort) {
-		this.floatShort = floatShort;
+		this.SHORT = floatShort;
 	}
 
 	/**
@@ -627,14 +647,14 @@ public class Stock extends GenericJson{
 	 * @return the rsi
 	 */
 	public String getRsi() {
-		return rsi;
+		return RSI;
 	}
 
 	/**
 	 * @param rsi the rsi to set
 	 */
 	public void setRsi(String rsi) {
-		this.rsi = rsi;
+		this.RSI = rsi;
 	}
 
 	/**
