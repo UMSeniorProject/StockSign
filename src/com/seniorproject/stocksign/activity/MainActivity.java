@@ -293,7 +293,7 @@ public class MainActivity extends FragmentActivity implements
 			Fragment fragment;
 			switch (position){
 			case 0:
-				fragment = new HomeSectionFragment();
+				fragment = new HotStocksSectionFragment();
 				break;
 				
 			case 1:
@@ -301,11 +301,9 @@ public class MainActivity extends FragmentActivity implements
 				break;
 				
 			case 2:
-				fragment = new HotStocksSectionFragment();
-				break;
-			case 3:
 				fragment = new NewsSectionFragment();
 				break;
+
 				
 				
 			default:
@@ -327,8 +325,8 @@ public class MainActivity extends FragmentActivity implements
 
 		@Override
 		public int getCount() {
-			// Show 5 total pages.
-			return 4;
+			// Show 4 total pages.
+			return 3;
 		}
 
 		@Override
@@ -336,13 +334,12 @@ public class MainActivity extends FragmentActivity implements
 			Locale l = Locale.getDefault();
 			switch (position) {
 			case 0:
-				return getString(R.string.title_home).toUpperCase(l);
+				return getString(R.string.title_hotstocks).toUpperCase(l);
 			case 1:
 				return getString(R.string.title_markets).toUpperCase(l);
 			case 2:
-				return getString(R.string.title_hotstocks).toUpperCase(l);
-			case 3:
 				return getString(R.string.title_news).toUpperCase(l);
+
 			
 				
 			}

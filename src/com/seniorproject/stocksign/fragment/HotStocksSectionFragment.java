@@ -36,7 +36,7 @@ public class HotStocksSectionFragment extends Fragment {
 		
 		TextView homeTextView = (TextView) rootView.findViewById(R.id.section_label);
 
-		homeTextView.setText("Section to list ratios.");
+		homeTextView.setText("Section to list hot stocks.");
 		
 
 
