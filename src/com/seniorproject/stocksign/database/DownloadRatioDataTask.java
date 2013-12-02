@@ -55,12 +55,12 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 	
 	
 	@Override
-protected void onProgressUpdate(Integer... progress) {
-	// TODO Auto-generated method stub
-	super.onProgressUpdate(progress);
+	protected void onProgressUpdate(Integer... progress) {
+		// TODO Auto-generated method stub
+		super.onProgressUpdate(progress);
 	
-	pd.incrementProgressBy(progress[0]);
-}
+		pd.incrementProgressBy(progress[0]);
+	}
 
 
 
@@ -73,6 +73,7 @@ protected void onProgressUpdate(Integer... progress) {
 		pd.setMessage("Downloading stock data...");
 		pd.setProgressNumberFormat(null);
 		pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		pd.setCancelable(false);
 		pd.setMax(6668);
 		pd.show();
 	}
@@ -190,7 +191,7 @@ protected void onProgressUpdate(Integer... progress) {
 			e.printStackTrace();
 		}
 
-	    datasource.close();
+	    StockDataSource.close();
 	    Debugger.info("dl ratio data", "db closed");
 	    pd.dismiss();
 		return null;

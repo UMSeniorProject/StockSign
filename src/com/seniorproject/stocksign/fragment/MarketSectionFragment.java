@@ -84,7 +84,8 @@ public class MarketSectionFragment extends Fragment {
                 marketTextView.setText("Market Summary");
                  graph = (ImageView) rootView.findViewById(R.id.MarketChart);
                  System.out.println(R.id.MarketChart+"<--LOOK marketchart");
-                new DownloadImageTask(graph).execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
+                new DownloadImageTask(graph)
+                .execute("http://chart.finance.yahoo.com/z?s=%5eGSPC&t=1d&q=l&l=on&z=l&c=%5EIXIC,%5EDJI&a=v&p=s&lang=en-US&region=US");
                 
                 registerForContextMenu(graph); 
                 //make graph full screen on click
