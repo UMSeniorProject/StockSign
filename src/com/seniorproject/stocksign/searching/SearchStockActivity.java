@@ -65,6 +65,9 @@ public class SearchStockActivity extends Activity{
 	
 	ProgressBar loadingCircle;
 	
+	long type1time = 0, type2time = 0, currtypetime;
+	int switchtime = 1;
+	
 	AutoCompleteTextView searchTerm;
 	TextWatcher watcher;
 	int maxNamesDisplayed = 8;
@@ -92,6 +95,8 @@ public class SearchStockActivity extends Activity{
 	    }
 	}*/
 	
+
+	
 	private void initializeListeners() {
 		// TODO Auto-generated method stub
 		loadingCircle = (ProgressBar) findViewById(R.id.progress);
@@ -100,10 +105,21 @@ public class SearchStockActivity extends Activity{
 		searchTerm.addTextChangedListener(new TextWatcher() {
 				  @Override
 		            public void onTextChanged(CharSequence s, int start, int before, int count) {
-					  	if(s.length()!=0) {
+					  	if(s.length()!=0) {		  		
+					  		/*if(switchtime==1) {
+					  			type1time = System.currentTimeMillis();
+					  			switchtime=2;
+					  		}
+					  		else {
+					  			type2time = System.currentTimeMillis();
+					  			switchtime=1;
+					  		}*/
+					  		
+					  		//if(Math.abs(type1time-type2time)>100) {
 					  		//One issues is that autocomplete has to be case-sensitive
 					  		searchData = s.toString();//.toUpperCase();//searchTerm.getText().toString().toUpperCase();
 					  		kinveyDataFetcher(searchData);
+					  		//}
 					  	}
 		            }
 	
@@ -218,44 +234,5 @@ public class SearchStockActivity extends Activity{
 		kinveyFetchQuery(fetchQuery);*/
 		kinveyFetchQuery(fetchCompany.or(fetchTicker));
 		//kinveyFetchQuery(fetchCompany);
-	}
-
-	public void displayStockData() {	
-	    // Display the view
-		/*LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    View v = inflater.inflate(R.layout.search, null);
-		setContentView(v);
-		// Create a LinearLayout element
-	    LinearLayout ll = (LinearLayout) findViewById(R.id.llstockdata) ;
-	    // Add text
-	    TextView tv = new TextView(this);
-	    tv.setText(company_name);
-	    ll.addView(tv);*/
-		//TextView stockName = (TextView) this.findViewById(R.id.tvStockname);
-		//stockName.setTextSize(20);
-		//stockName.setTypeface(Typeface.DEFAULT_BOLD);
-
-		if(stocks!=null) {
-			
-			//String company_name = stocks[0].getCompany();
-			//String stock = stocks.toString();
-			//stockName.setTextColor(Color.BLACK);
-			//stockName.setText(company_name);
-			/*String[] stockData = stock.split(",");
-			TableLayout tl = (TableLayout) callingActivity.findViewById(R.id.tlStockratios);
-			for(int i=0;i<stockData.length;i++) {
-				TextView tw = new TextView(callingActivity);
-				stockName.setTextColor(Color.BLACK);
-				stockName.setText(stockData);
-			}*/
-		}
-		else {
-			//stockName.setText("Doesn't Exist");
-			//stockName.setTextColor(Color.RED);
-		};
-
-		//stockData.setBackgroundColor(Color.LTGRAY);
-		//linearLayout.setBackgroundColor(Color.LTGRAY);
-		//linearLayout.addView(txt1);
 	}
 }
