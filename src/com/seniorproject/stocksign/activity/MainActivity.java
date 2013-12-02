@@ -339,7 +339,7 @@ public class MainActivity extends FragmentActivity implements
 				return getString(R.string.title_markets).toUpperCase(l);
 			case 2:
 				return getString(R.string.title_news).toUpperCase(l);
-
+				
 			
 				
 			}

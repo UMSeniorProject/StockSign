@@ -19,6 +19,6 @@
         android:textColor="#FFFFFF"
         android:gravity="center_horizontal"
         android:layout_alignParentBottom="true"
-        android:text="Stock Sign" />
+        android:id="@+id/splashname" />
  
 </RelativeLayout>

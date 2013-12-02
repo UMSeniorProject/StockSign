@@ -11,8 +11,10 @@ import com.seniorproject.stocksign.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.TextView;
  
 public class SplashScreen extends Activity {
  
@@ -24,6 +26,11 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
  
+        TextView tv = (TextView) findViewById(R.id.splashname);
+        Typeface face = Typeface.createFromAsset(getAssets(), "fonts/HWYGOTH.TTF");
+        //samples: http://www.dafont.com/highway-gothic.font
+        tv.setTypeface(face);
+        tv.setText("STOCK SIGN");
         new Handler().postDelayed(new Runnable() {
  
             /*
