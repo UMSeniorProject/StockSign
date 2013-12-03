@@ -42,6 +42,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /*
 You can perform textual searches on fields using Regular Expressions. 
@@ -65,7 +66,7 @@ public class SearchStockActivity extends Activity{
 	
 	ProgressBar loadingCircle;
 	
-	long type1time = 0, type2time = 0, currtypetime;
+	long type_start_time = 0, type_click_time = 0, type_elapsed_time;
 	int switchtime = 1;
 	
 	AutoCompleteTextView searchTerm;
@@ -105,17 +106,11 @@ public class SearchStockActivity extends Activity{
 		searchTerm.addTextChangedListener(new TextWatcher() {
 				  @Override
 		            public void onTextChanged(CharSequence s, int start, int before, int count) {
-					  	if(s.length()!=0) {		  		
-					  		/*if(switchtime==1) {
-					  			type1time = System.currentTimeMillis();
-					  			switchtime=2;
-					  		}
-					  		else {
-					  			type2time = System.currentTimeMillis();
-					  			switchtime=1;
-					  		}*/
-					  		
-					  		//if(Math.abs(type1time-type2time)>100) {
+					  	if(s.toString().length()!=0) {		
+						  	//start timer to 300ms each time this is called
+					  		type_click_time = System.nanoTime();
+					  		//type_elapsed_time = (type_end_time-type_start_time)/1000000;
+					  		//if(Math.abs(type_elapsed_time)>200) {
 					  		//One issues is that autocomplete has to be case-sensitive
 					  		searchData = s.toString();//.toUpperCase();//searchTerm.getText().toString().toUpperCase();
 					  		kinveyDataFetcher(searchData);
@@ -125,14 +120,12 @@ public class SearchStockActivity extends Activity{
 	
 		            @Override
 		            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-	
-		                // TODO Auto-generated method stub
+
 		            }
 	
 		            @Override
 		            public void afterTextChanged(Editable s) {
-		            		int checkWhenThisIsHappening;
-		            		checkWhenThisIsHappening = 1;
+
 		            }
 
 			});
@@ -144,11 +137,16 @@ public class SearchStockActivity extends Activity{
 				position	The position of the view in the adapter.
 				id			The row id of the item that was clicked. 
 				 */
+				
+				//OnClickListener for the AutoSuggested Dropdown list
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
-					Stock clickedStock = stocks[position];	
+					
+					//
+					Stock clickedStock = stocks[position];
+					searchTerm.setText(clickedStock.getCompany());
 					String[] values  = clickedStock.values().toString().split(",");
 					String[] keySet = clickedStock.keySet().toString().split(",");
 					
@@ -170,6 +168,7 @@ public class SearchStockActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
 		setContentView(R.layout.search);
+	  	type_start_time = System.nanoTime();
 		initializeListeners();
 	}			
 	
