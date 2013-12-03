@@ -129,6 +129,7 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 			while ((nextLine = csvreader.readNext()) != null) {
 			    
 				Stock stock = new Stock();
+				
 				//System.out.println(nextLine.length);
 				stock.setId(nextLine[0]);
 				stock.setTicker(nextLine[1]);

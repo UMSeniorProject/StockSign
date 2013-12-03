@@ -40,6 +40,7 @@ public class StockDataSource {
 			StockData.COLUMN_NAME_epsgPast5Years,
 			StockData.COLUMN_NAME_epsgNext5Years,
 			StockData.COLUMN_NAME_salesgPast5Years,
+			StockData.COLUMN_NAME_sharesFloat,
 			StockData.COLUMN_NAME_epsg,
 			StockData.COLUMN_NAME_dividendYield,
 			StockData.COLUMN_NAME_returnOnAssets,
@@ -57,7 +58,15 @@ public class StockDataSource {
 			StockData.COLUMN_NAME_institutionalTransactions,
 			StockData.COLUMN_NAME_floatShort,
 			StockData.COLUMN_NAME_shortRatio,
-			StockData.COLUMN_NAME_rsi};
+			StockData.COLUMN_NAME_rsi,
+			StockData.COLUMN_NAME_beta,
+			StockData.COLUMN_NAME_volatilityWeek,
+			StockData.COLUMN_NAME_volatilityMonth,
+			StockData.COLUMN_NAME_averageVolume,
+			StockData.COLUMN_NAME_relativeVolume,
+			StockData.COLUMN_NAME_totalScore,
+			StockData.COLUMN_NAME_dividendScore,
+			StockData.COLUMN_NAME_growthScore};
 
 	
 	/**

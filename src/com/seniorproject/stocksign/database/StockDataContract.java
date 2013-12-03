@@ -27,6 +27,8 @@ public final class StockDataContract {
          public static final String COLUMN_NAME_SECTOR = "sector";
          public static final String COLUMN_NAME_INDUSTRY = "industry";
          public static final String COLUMN_NAME_COUNTRY = "country";
+         
+         //back when we had the price data in the database
         /* public static final String COLUMN_NAME_DATE = "date";
          public static final String COLUMN_NAME_OPEN = "open";
          public static final String COLUMN_NAME_HIGH = "high";
@@ -45,7 +47,9 @@ public final class StockDataContract {
          public static final String COLUMN_NAME_epsgThisYear = "epsgThisYear";
          public static final String COLUMN_NAME_epsgPast5Years = "epsgPast5Years";
          public static final String COLUMN_NAME_epsgNext5Years = "epsgNext5Years";
+         public static final String COLUMN_NAME_epsgNextYear = "epsgNextYear";
          public static final String COLUMN_NAME_salesgPast5Years = "salesgPast5Years";
+         public static final String COLUMN_NAME_sharesFloat = "sharesfloat";//
          public static final String COLUMN_NAME_epsg = "epsg";
          public static final String COLUMN_NAME_salesg = "salesg";
          public static final String COLUMN_NAME_dividendYield = "dividendYield";
@@ -65,6 +69,15 @@ public final class StockDataContract {
          public static final String COLUMN_NAME_floatShort = "floatShort";
          public static final String COLUMN_NAME_shortRatio = "shortRatio";
          public static final String COLUMN_NAME_rsi = "rsi";
+         public static final String COLUMN_NAME_beta = "beta";
+         public static final String COLUMN_NAME_volatilityWeek = "volatilityWeek";//
+         public static final String COLUMN_NAME_volatilityMonth = "volatilityMonth";//
+         public static final String COLUMN_NAME_averageVolume = "averageVolume";//
+         public static final String COLUMN_NAME_relativeVolume = "relativeVolume";//
+         public static final String COLUMN_NAME_totalScore = "totalScore";//
+         public static final String COLUMN_NAME_dividendScore = "dividendScore";//
+         public static final String COLUMN_NAME_growthScore = "growthScore";//
+         
          
          
          
@@ -100,6 +113,7 @@ public final class StockDataContract {
      			+ StockData.COLUMN_NAME_epsgPast5Years + TEXT_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_epsgNext5Years + TEXT_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_salesgPast5Years + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_sharesFloat + TEXT_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_epsg + TEXT_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_dividendYield + TEXT_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_returnOnAssets + TEXT_TYPE + COMMA_SEP
@@ -117,7 +131,15 @@ public final class StockDataContract {
      			+ StockData.COLUMN_NAME_institutionalTransactions + TEXT_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_floatShort + TEXT_TYPE + COMMA_SEP
      			+ StockData.COLUMN_NAME_shortRatio + TEXT_TYPE + COMMA_SEP
-     			+ StockData.COLUMN_NAME_rsi + TEXT_TYPE 
+     			+ StockData.COLUMN_NAME_rsi + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_beta + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_volatilityWeek + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_volatilityMonth + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_averageVolume + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_relativeVolume + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_totalScore + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_dividendScore + TEXT_TYPE + COMMA_SEP
+     			+ StockData.COLUMN_NAME_growthScore + TEXT_TYPE 
      			
      			
      			
