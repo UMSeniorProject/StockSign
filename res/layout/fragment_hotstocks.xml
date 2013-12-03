@@ -9,40 +9,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity$MarketSectionFragment" >
+    tools:context=".MainActivity$RatiosSectionFragment" >
 
     <TextView
         android:id="@+id/section_label"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center" 
-        android:background="#C0C0C0"
-         ></TextView>
-    <TextView
-        android:id="@+id/timeperiod_label"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center" 
-        android:background="#C0C0C0"
-         ></TextView>
-        <ScrollView    
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical" >
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="25sp"
+ 	/>
+    
+	
 
-                                <ImageView
-                                        android:id="@+id/MarketChart"
-                                        android:layout_width="fill_parent"
-                                        android:layout_height="wrap_content"
-                                />
-
-
-</LinearLayout>
-        </ScrollView>
 
 <RelativeLayout
     android:layout_width="wrap_content"
@@ -52,8 +31,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/table_imagegap"
-            android:stretchColumns="0,1,2" >
+            android:stretchColumns="0,1" >
             
+            <TableRow
+                android:id="@+id/tableRow0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/table_margin"
+                android:gravity="right" >
+                                   
+                <TextView
+                   
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:text="Company"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                     />
+
+                <TextView
+                    android:text="Grade"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_column="1"
+                    android:textSize="18sp"
+                     />
+
+                      
+            </TableRow>
             <View
         android:layout_height="2dip"
         android:background="#C0C0C0" ></View>
@@ -62,25 +67,24 @@
                 android:id="@+id/tableRow1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/table_margin"
+                android:layout_marginBottom="@dimen/table_margin"
                 android:gravity="right" >
                                    
                 <TextView
-                    android:id="@+id/dow_name"
+                    android:id="@+id/stock1"
                     android:layout_column="0"
                     android:layout_gravity="center"
+                    android:textSize="18sp"
                      />
 
                 <TextView
-                    android:id="@+id/dow_change"
+                    android:id="@+id/stock1_grade"
                     android:layout_gravity="center"
                     android:layout_column="1"
+                    android:textSize="18sp"
                      />
 
-                      <TextView
-                          android:id="@+id/dow_close"
-                          android:layout_gravity="center"
-                          android:layout_column="2"
-                         />
                       
             </TableRow>
             
@@ -91,20 +95,21 @@
                    <TableRow
             android:id="@+id/tableRow2"
         android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/table_margin"
+        android:layout_marginBottom="@dimen/table_margin"
         android:layout_height="wrap_content" >
                                    
                 <TextView 
-            android:id="@+id/sp_name"     
+            android:id="@+id/stock2"     
             android:layout_gravity="center"
-            android:layout_column="0"/>
+            android:layout_column="0"
+            android:textSize="18sp"/>
                 <TextView 
-            android:id="@+id/sp_change"
+            android:id="@+id/stock2_grade"
             android:layout_gravity="center"
-            android:layout_column="1"/>
-                      <TextView 
-            android:id="@+id/sp_close"
-            android:layout_gravity="center"
-            android:layout_column="2"/>
+            android:layout_column="1"
+            android:textSize="18sp"/>
+
                       
             </TableRow>
             
@@ -115,21 +120,21 @@
             <TableRow
             android:id="@+id/tableRow3"
         android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/table_margin"
+        android:layout_marginBottom="@dimen/table_margin"
         android:layout_height="wrap_content" >
                                    
                 <TextView 
                 android:layout_column="0"
-            android:id="@+id/nasdaq_name"     
-            android:layout_gravity="center"/>
+            android:id="@+id/stock3"     
+            android:layout_gravity="center"
+            android:textSize="18sp"/>
                 <TextView 
                 android:layout_column="1"
-            android:id="@+id/nasdaq_change"
+            android:id="@+id/stock3_grade"
             android:layout_gravity="center"
-            />
-                      <TextView 
-                      android:layout_column="2"
-            android:id="@+id/nasdaq_close"
-            android:layout_gravity="center"/>
+            android:textSize="18sp"/>
+                     
                       
             </TableRow>
             
@@ -138,5 +143,5 @@
         android:background="#C0C0C0" />
             
         </TableLayout>
-</RelativeLayout>
+</RelativeLayout>        
 </LinearLayout>
