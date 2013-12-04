@@ -21,13 +21,134 @@
  	/>
     
 	
+<ScrollView     android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
 
-
-<RelativeLayout
+<LinearLayout
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:orientation="vertical"  >
 
+   <!-- Total Score -->
         <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/table_imagegap"
+            android:stretchColumns="0,1" >
+            
+            <TableRow
+                android:id="@+id/totaltableRow0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/table_margin"
+                android:gravity="right" >
+                                   
+                <TextView
+                   
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:text="Company"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                     />
+
+                <TextView
+                    android:text="Total Score"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_column="1"
+                    android:textSize="18sp"
+                     />
+
+                      
+            </TableRow>
+            <View
+        android:layout_height="2dip"
+        android:background="#C0C0C0" ></View>
+            
+            <TableRow
+                android:id="@+id/totaltableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/table_margin"
+                android:layout_marginBottom="@dimen/table_margin"
+                android:gravity="right" >
+                                   
+                <TextView
+                    android:id="@+id/totalstock1"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:textSize="18sp"
+                     />
+
+                <TextView
+                    android:id="@+id/stock1_total"
+                    android:layout_gravity="center"
+                    android:layout_column="1"
+                    android:textSize="18sp"
+                     />
+
+                      
+            </TableRow>
+            
+             <View
+                 android:layout_height="2dip"
+                 android:background="#C0C0C0" />
+             
+                   <TableRow
+            android:id="@+id/totaltableRow2"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/table_margin"
+        android:layout_marginBottom="@dimen/table_margin"
+        android:layout_height="wrap_content" >
+                                   
+                <TextView 
+            android:id="@+id/totalstock2"     
+            android:layout_gravity="center"
+            android:layout_column="0"
+            android:textSize="18sp"/>
+                <TextView 
+            android:id="@+id/stock2_total"
+            android:layout_gravity="center"
+            android:layout_column="1"
+            android:textSize="18sp"/>
+
+                      
+            </TableRow>
+            
+             <View
+        android:layout_height="2dip"
+        android:background="#C0C0C0" />
+             
+            <TableRow
+            android:id="@+id/totaltableRow3"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/table_margin"
+        android:layout_marginBottom="@dimen/table_margin"
+        android:layout_height="wrap_content" >
+                                   
+                <TextView 
+                android:layout_column="0"
+            android:id="@+id/totalstock3"     
+            android:layout_gravity="center"
+            android:textSize="18sp"/>
+                <TextView 
+                android:layout_column="1"
+            android:id="@+id/stock3_total"
+            android:layout_gravity="center"
+            android:textSize="18sp"/>
+                     
+                      
+            </TableRow>
+            
+             <View
+        android:layout_height="2dip"
+        android:background="#C0C0C0" />
+            
+        </TableLayout>
+        <!-- Dividend Score -->
+         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/table_imagegap"
@@ -50,7 +171,7 @@
                      />
 
                 <TextView
-                    android:text="Grade"
+                    android:text="Dividend Score"
                     android:textStyle="bold"
                     android:layout_gravity="center"
                     android:layout_column="1"
@@ -64,7 +185,7 @@
         android:background="#C0C0C0" ></View>
             
             <TableRow
-                android:id="@+id/tableRow1"
+                android:id="@+id/divtableRow1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/table_margin"
@@ -72,14 +193,14 @@
                 android:gravity="right" >
                                    
                 <TextView
-                    android:id="@+id/stock1"
+                    android:id="@+id/divstock1"
                     android:layout_column="0"
                     android:layout_gravity="center"
                     android:textSize="18sp"
                      />
 
                 <TextView
-                    android:id="@+id/stock1_grade"
+                    android:id="@+id/stock1_div"
                     android:layout_gravity="center"
                     android:layout_column="1"
                     android:textSize="18sp"
@@ -93,19 +214,19 @@
                  android:background="#C0C0C0" />
              
                    <TableRow
-            android:id="@+id/tableRow2"
+            android:id="@+id/divtableRow2"
         android:layout_width="wrap_content"
         android:layout_marginTop="@dimen/table_margin"
         android:layout_marginBottom="@dimen/table_margin"
         android:layout_height="wrap_content" >
                                    
                 <TextView 
-            android:id="@+id/stock2"     
+            android:id="@+id/divstock2"     
             android:layout_gravity="center"
             android:layout_column="0"
             android:textSize="18sp"/>
                 <TextView 
-            android:id="@+id/stock2_grade"
+            android:id="@+id/stock2_div"
             android:layout_gravity="center"
             android:layout_column="1"
             android:textSize="18sp"/>
@@ -118,7 +239,7 @@
         android:background="#C0C0C0" />
              
             <TableRow
-            android:id="@+id/tableRow3"
+            android:id="@+id/divtableRow3"
         android:layout_width="wrap_content"
         android:layout_marginTop="@dimen/table_margin"
         android:layout_marginBottom="@dimen/table_margin"
@@ -126,12 +247,12 @@
                                    
                 <TextView 
                 android:layout_column="0"
-            android:id="@+id/stock3"     
+            android:id="@+id/divstock3"     
             android:layout_gravity="center"
             android:textSize="18sp"/>
                 <TextView 
                 android:layout_column="1"
-            android:id="@+id/stock3_grade"
+            android:id="@+id/stock3_div"
             android:layout_gravity="center"
             android:textSize="18sp"/>
                      
@@ -143,5 +264,123 @@
         android:background="#C0C0C0" />
             
         </TableLayout>
-</RelativeLayout>        
+        <!-- Growth Score -->
+          <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/table_imagegap"
+            android:stretchColumns="0,1" >
+            
+            <TableRow
+                android:id="@+id/growthtableRow0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/table_margin"
+                android:gravity="right" >
+                                   
+                <TextView
+                   
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:text="Company"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                     />
+
+                <TextView
+                    android:text="Growth Score"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_column="1"
+                    android:textSize="18sp"
+                     />
+
+                      
+            </TableRow>
+            <View
+        android:layout_height="2dip"
+        android:background="#C0C0C0" ></View>
+            
+            <TableRow
+                android:id="@+id/growthtableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/table_margin"
+                android:layout_marginBottom="@dimen/table_margin"
+                android:gravity="right" >
+                                   
+                <TextView
+                    android:id="@+id/growthstock1"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:textSize="18sp"
+                     />
+
+                <TextView
+                    android:id="@+id/stock1_growth"
+                    android:layout_gravity="center"
+                    android:layout_column="1"
+                    android:textSize="18sp"
+                     />
+
+                      
+            </TableRow>
+            
+             <View
+                 android:layout_height="2dip"
+                 android:background="#C0C0C0" />
+             
+                   <TableRow
+            android:id="@+id/growthtableRow2"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/table_margin"
+        android:layout_marginBottom="@dimen/table_margin"
+        android:layout_height="wrap_content" >
+                                   
+                <TextView 
+            android:id="@+id/growthstock2"     
+            android:layout_gravity="center"
+            android:layout_column="0"
+            android:textSize="18sp"/>
+                <TextView 
+            android:id="@+id/stock2_growth"
+            android:layout_gravity="center"
+            android:layout_column="1"
+            android:textSize="18sp"/>
+
+                      
+            </TableRow>
+            
+             <View
+        android:layout_height="2dip"
+        android:background="#C0C0C0" />
+             
+            <TableRow
+            android:id="@+id/growthtableRow3"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/table_margin"
+        android:layout_marginBottom="@dimen/table_margin"
+        android:layout_height="wrap_content" >
+                                   
+                <TextView 
+                android:layout_column="0"
+            android:id="@+id/growthstock3"     
+            android:layout_gravity="center"
+            android:textSize="18sp"/>
+                <TextView 
+                android:layout_column="1"
+            android:id="@+id/stock3_growth"
+            android:layout_gravity="center"
+            android:textSize="18sp"/>
+                     
+                      
+            </TableRow>
+            
+             <View
+        android:layout_height="2dip"
+        android:background="#C0C0C0" />
+            
+        </TableLayout>
+</LinearLayout>  
+</ScrollView>      
 </LinearLayout>

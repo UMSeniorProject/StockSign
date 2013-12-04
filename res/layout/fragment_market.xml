@@ -62,7 +62,7 @@
                 android:gravity="right" >
                                    
                 <TextView
-                    android:text="@string/title_company"
+                    android:text="@string/title_market"
                     android:layout_column="0"
                     android:layout_gravity="center"
                     android:textStyle="bold"

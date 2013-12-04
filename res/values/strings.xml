@@ -15,7 +15,7 @@
 	<string name="search_global_description">Search for Stocks</string>
 	<string name="title_news">News</string>
 	<string name="title_dummy">Dummy</string>
-	<string name="action_aboutus">About Us</string>
+	<string name="action_aboutus">About</string>
 	<string name="button_showdata">Show Data</string>
 	
 	<string-array name="types">
@@ -31,4 +31,5 @@
     <string name="title_change">Percent Change</string>
     <string name="title_price">Price</string>
     <string name="title_company">Company</string>
+    <string name="title_market">Market</string>
 </resources>

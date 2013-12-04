@@ -166,6 +166,19 @@ public class MainActivity extends FragmentActivity implements
 		startActivity(show);
 	}
 
+	public void refresh() {
+
+		Context context = getApplicationContext();
+		CharSequence refreshtoast = "Refreshing...";
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast.makeText(context, refreshtoast, duration).show();
+		finish();
+		startActivity(getIntent());
+		// to get rid of the animation restart
+		overridePendingTransition(0, 0);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -191,9 +204,6 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		Context context = getApplicationContext();
-		CharSequence refreshtoast = "Refreshing...";
-		int duration = Toast.LENGTH_SHORT;
 		// Handle item selection
 
 		switch (item.getItemId()) {
@@ -201,12 +211,7 @@ public class MainActivity extends FragmentActivity implements
 			showSettings();
 			return true;
 		case R.id.action_refresh:
-			Toast.makeText(context, refreshtoast, duration).show();
-			finish();
-			startActivity(getIntent());
-			// to get rid of the animation
-			overridePendingTransition(0, 0);
-
+			refresh();
 			return true;
 		case R.id.action_search:
 			performSearch();
