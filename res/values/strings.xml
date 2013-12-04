@@ -28,4 +28,7 @@
      <item>2</item>
      <item>3</item>
     </string-array>
+    <string name="title_change">Percent Change</string>
+    <string name="title_price">Price</string>
+    <string name="title_company">Company</string>
 </resources>
