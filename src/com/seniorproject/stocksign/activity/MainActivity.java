@@ -1,92 +1,58 @@
 package com.seniorproject.stocksign.activity;
 
-import java.io.IOException;
-import java.io.Serializable;
-
-import java.util.List;
 import java.util.Locale;
-
-import org.apache.http.client.ClientProtocolException;
-
-import com.seniorproject.stocksign.R;
-import com.seniorproject.stocksign.R.id;
-import com.seniorproject.stocksign.R.layout;
-import com.seniorproject.stocksign.R.menu;
-import com.seniorproject.stocksign.R.string;
-import com.seniorproject.stocksign.database.CSVReader;
-import com.seniorproject.stocksign.database.DataEntry;
-import com.seniorproject.stocksign.database.DownloadPriceDataTask;
-import com.seniorproject.stocksign.database.DownloadRatioDataTask;
-import com.seniorproject.stocksign.database.Stock;
-import com.seniorproject.stocksign.database.StockDataSource;
-
-import com.seniorproject.stocksign.debugging.Debugger;
-/*import com.seniorproject.stocksign.fragment.DownloadImageTask;
-import com.seniorproject.stocksign.fragment.DownloadMarketDataTask;
-import com.seniorproject.stocksign.fragment.HomeSectionFragment;
-import com.seniorproject.stocksign.fragment.MarketSectionFragment;*/
-import com.seniorproject.stocksign.fragment.*;
-import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
-import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
-
-
-import com.seniorproject.stocksign.searching.SearchStockActivity;
-
-
-
-
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kinvey.android.AsyncAppData;
 import com.kinvey.android.Client;
-import com.kinvey.android.callback.KinveyListCallback;
-import com.kinvey.android.callback.KinveyPingCallback;
-import com.kinvey.java.Query;
+import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.database.StockDataSource;
+import com.seniorproject.stocksign.debugging.Debugger;
+import com.seniorproject.stocksign.fragment.HotStocksSectionFragment;
+import com.seniorproject.stocksign.fragment.MarketSectionFragment;
+import com.seniorproject.stocksign.fragment.NewsSectionFragment;
+import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
+import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
+import com.seniorproject.stocksign.searching.SearchStockActivity;
+
+/*import com.seniorproject.stocksign.fragment.DownloadImageTask;
+ import com.seniorproject.stocksign.fragment.DownloadMarketDataTask;
+ import com.seniorproject.stocksign.fragment.HomeSectionFragment;
+ import com.seniorproject.stocksign.fragment.MarketSectionFragment;*/
 
 /**
  * First Activity to be displayed when application is run.
  * 
  * @author Sean Wilkinson
  * @since 1.0
- *
+ * 
  */
 public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener{
+		ActionBar.TabListener {
 
 	public static StockDataSource datasource;
-	
-	//Kinvey connection task and client
+
+	// Kinvey connection task and client
 	ConnectToKinveyTask conn_kinvey = null;
 	Client mKinveyClient = null;
 
@@ -104,47 +70,48 @@ public class MainActivity extends FragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	
+
 	protected void connectToKinvey() {
-		//Connect to kinvey
-		if(KinveyConnectionSingleton.setInstance(this, ActivityConstants.MainActivity)) {
+		// Connect to kinvey
+		if (KinveyConnectionSingleton.setInstance(this,
+				ActivityConstants.MainActivity)) {
 			conn_kinvey = new ConnectToKinveyTask();
 			conn_kinvey.setCallingActivity(this);
-			//login and fire off the ping call to ensure we can communicate with Kinvey
+			// login and fire off the ping call to ensure we can communicate
+			// with Kinvey
 			conn_kinvey.testKinveyService();
 		}
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
-		
-		//make fullscreen on landscape
-    	if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) 
-    	{
-    	    Debugger.info("Orientation ", "LANDSCAPE");
-    	   // getActionBar().hide();
-    	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    	} else {
-    		Debugger.info("Orientation ", "PORTRAIT");        
-    	}
-		
+
+		// make fullscreen on landscape
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			Debugger.info("Orientation ", "LANDSCAPE");
+			// getActionBar().hide();
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		} else {
+			Debugger.info("Orientation ", "PORTRAIT");
+		}
+
 		setContentView(R.layout.activity_main);
-		
+
 		datasource = new StockDataSource(this);
 		connectToKinvey();
 
-		
-		/*SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		boolean offlinem = getPrefs.getBoolean("modeswitch", false);
-		if(offlinem){
-			Debugger.info("Offline Mode ", "DOWNLOADING DATA");
-			new DownloadRatioDataTask().execute();
-			//new DownloadPriceDataTask().execute("GOOG");
-		}*/
-		
+		/*
+		 * SharedPreferences getPrefs =
+		 * PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		 * boolean offlinem = getPrefs.getBoolean("modeswitch", false);
+		 * if(offlinem){ Debugger.info("Offline Mode ", "DOWNLOADING DATA"); new
+		 * DownloadRatioDataTask().execute(); //new
+		 * DownloadPriceDataTask().execute("GOOG"); }
+		 */
 
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -181,69 +148,79 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	public void performSearch() {
-		Intent doSearch = new Intent(this,SearchStockActivity.class);
+		Intent doSearch = new Intent(this, SearchStockActivity.class);
 		startActivity(doSearch);
 	}
-	public void showAboutUs(){
-		Intent show = new Intent(MainActivity.this,AboutUs.class);
-		//Intent show = new Intent("com.seniorproject.stocksign.activity.AboutUs");
+
+	public void showAboutUs() {
+		Intent show = new Intent(MainActivity.this, AboutUs.class);
+		// Intent show = new
+		// Intent("com.seniorproject.stocksign.activity.AboutUs");
 		startActivity(show);
 	}
-	
-	public void showSettings(){
-		Intent show = new Intent(MainActivity.this,Prefs.class);
-		//Intent show = new Intent("com.seniorproject.stocksign.activity.AboutUs");
+
+	public void showSettings() {
+		Intent show = new Intent(MainActivity.this, Prefs.class);
+		// Intent show = new
+		// Intent("com.seniorproject.stocksign.activity.AboutUs");
 		startActivity(show);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		MenuItem searchItem = menu.findItem(R.id.action_search);
-		SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+		SearchView searchView = (SearchView) MenuItemCompat
+				.getActionView(searchItem);
 		// Configure the search info and add any event listeners
 
-	    // Get the SearchView and set the searchable configuration
-	    //SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-	    //SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-	    // Assumes current activity is the searchable activity
-	    //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-	    //searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-	    //searchView.setSubmitButtonEnabled(true);
+		// Get the SearchView and set the searchable configuration
+		// SearchManager searchManager = (SearchManager)
+		// getSystemService(Context.SEARCH_SERVICE);
+		// SearchView searchView = (SearchView)
+		// menu.findItem(R.id.action_search).getActionView();
+		// Assumes current activity is the searchable activity
+		// searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		// searchView.setIconifiedByDefault(false); // Do not iconify the
+		// widget; expand it by default
+		// searchView.setSubmitButtonEnabled(true);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	  
-	  	Context context = getApplicationContext();
+
+		Context context = getApplicationContext();
 		CharSequence refreshtoast = "Refreshing...";
 		int duration = Toast.LENGTH_SHORT;
-	    // Handle item selection
-		
-	    switch (item.getItemId()) {
-	        case R.id.action_settings:
-	            showSettings();
-	            return true;
-	        case R.id.action_refresh:
-	        	Toast.makeText(context, refreshtoast, duration).show();
-	            return true;
-	        case R.id.action_search:
-	        	performSearch();
-	        	return true;
-	        case R.id.action_aboutus:
-	        	 showAboutUs();
-	        	return true;
-	        case R.id.action_exit:
-	        	 finish();
-	        	return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+		// Handle item selection
+
+		switch (item.getItemId()) {
+		case R.id.action_settings:
+			showSettings();
+			return true;
+		case R.id.action_refresh:
+			Toast.makeText(context, refreshtoast, duration).show();
+			finish();
+			startActivity(getIntent());
+			// to get rid of the animation
+			overridePendingTransition(0, 0);
+
+			return true;
+		case R.id.action_search:
+			performSearch();
+			return true;
+		case R.id.action_aboutus:
+			showAboutUs();
+			return true;
+		case R.id.action_exit:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
-	
-	
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
@@ -263,18 +240,13 @@ public class MainActivity extends FragmentActivity implements
 			FragmentTransaction fragmentTransaction) {
 	}
 
-	/*@Override
-	protected void onResume() {
-		datasource.open();
-	    super.onResume();
-	}
-	
-	@Override
-	protected void onPause() {
-		datasource.close();
-		super.onPause();
-	}
-	*/
+	/*
+	 * @Override protected void onResume() { datasource.open();
+	 * super.onResume(); }
+	 * 
+	 * @Override protected void onPause() { datasource.close(); super.onPause();
+	 * }
+	 */
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
@@ -291,30 +263,28 @@ public class MainActivity extends FragmentActivity implements
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
 			Fragment fragment;
-			switch (position){
+			switch (position) {
 			case 0:
 				fragment = new HotStocksSectionFragment();
 				break;
-				
+
 			case 1:
 				fragment = new MarketSectionFragment();
 				break;
-				
+
 			case 2:
 				fragment = new NewsSectionFragment();
 				break;
 
-				
-				
 			default:
 				fragment = new DummySectionFragment();
 				break;
 			}
-			
-			/*if(position == 0)
-				fragment = new DummySectionFragment();
-			else
-				fragment = new HomeSectionFragment();*/
+
+			/*
+			 * if(position == 0) fragment = new DummySectionFragment(); else
+			 * fragment = new HomeSectionFragment();
+			 */
 			Debugger.info("Position = ", Integer.toString(position));
 
 			Bundle args = new Bundle();
@@ -339,9 +309,7 @@ public class MainActivity extends FragmentActivity implements
 				return getString(R.string.title_markets).toUpperCase(l);
 			case 2:
 				return getString(R.string.title_news).toUpperCase(l);
-				
-			
-				
+
 			}
 			return null;
 		}
@@ -364,15 +332,15 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			
+
 			View rootView = inflater.inflate(R.layout.fragment_main_dummy,
 					container, false);
 			TextView dummyTextView = (TextView) rootView
 					.findViewById(R.id.section_label);
-			dummyTextView.setText("Test Page #" + Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
-			
-			
+			dummyTextView.setText("Test Page #"
+					+ Integer.toString(getArguments()
+							.getInt(ARG_SECTION_NUMBER)));
+
 			return rootView;
 		}
 	}
