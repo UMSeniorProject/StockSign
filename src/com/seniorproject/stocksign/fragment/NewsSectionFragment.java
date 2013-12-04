@@ -57,6 +57,10 @@ public class NewsSectionFragment extends ListFragment {
 
 		itemlist = new ArrayList<RSSItem>();
 
+		TextView hotTextView = (TextView) rootView
+				.findViewById(R.id.section_label);
+		hotTextView.setText("News");
+
 		new RetrieveRSSFeeds().execute();
 
 		return rootView;
@@ -113,8 +117,8 @@ public class NewsSectionFragment extends ListFragment {
 
 		@Override
 		protected void onPreExecute() {
-			progress = ProgressDialog.show(getActivity(), null,
-					"Loading News Feed...");
+			// progress = ProgressDialog.show(getActivity(),
+			// null,"Loading News Feed...");
 
 			super.onPreExecute();
 		}
@@ -123,7 +127,7 @@ public class NewsSectionFragment extends ListFragment {
 		protected void onPostExecute(Void result) {
 			setListAdapter(rssadaptor);
 
-			progress.dismiss();
+			// progress.dismiss();
 
 			super.onPostExecute(result);
 		}
@@ -177,7 +181,12 @@ public class NewsSectionFragment extends ListFragment {
 						.findViewById(R.id.txtDescription);
 
 				title.setText(data.title);
+
 				date.setText("on " + data.date);
+
+				String[] textplusimage = data.description.toString().split(
+						"<div");
+				data.description = textplusimage[0];
 				description.setText(data.description);
 			}
 
