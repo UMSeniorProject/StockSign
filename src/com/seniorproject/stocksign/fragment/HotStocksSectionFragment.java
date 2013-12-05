@@ -21,6 +21,9 @@ import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.activity.ActivityConstants;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.display.DisplayStockRatioData;
+import com.seniorproject.stocksign.display.DividendScore;
+import com.seniorproject.stocksign.display.GrowthScore;
+import com.seniorproject.stocksign.display.TotalScore;
 import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
 
 /**
@@ -57,6 +60,35 @@ public class HotStocksSectionFragment extends Fragment {
 		TextView hotTextView = (TextView) rootView
 				.findViewById(R.id.section_label);
 		hotTextView.setText("Top Rated Stocks");
+
+		TextView gscore = (TextView) rootView.findViewById(R.id.growthscore);
+		TextView tscore = (TextView) rootView.findViewById(R.id.totalscore);
+		TextView dscore = (TextView) rootView.findViewById(R.id.dividendscore);
+
+		gscore.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(getActivity(), GrowthScore.class);
+				startActivity(i);
+			}
+		});
+		tscore.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(getActivity(), TotalScore.class);
+				startActivity(i);
+			}
+		});
+		dscore.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(getActivity(), DividendScore.class);
+				startActivity(i);
+			}
+		});
 
 		// System.out.println("STOCKS IS: " + stocks.length);
 

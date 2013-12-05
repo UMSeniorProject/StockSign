@@ -28,6 +28,7 @@ import com.kinvey.android.Client;
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.database.StockDataSource;
 import com.seniorproject.stocksign.debugging.Debugger;
+import com.seniorproject.stocksign.display.AboutUs;
 import com.seniorproject.stocksign.fragment.HotStocksSectionFragment;
 import com.seniorproject.stocksign.fragment.MarketSectionFragment;
 import com.seniorproject.stocksign.fragment.NewsSectionFragment;

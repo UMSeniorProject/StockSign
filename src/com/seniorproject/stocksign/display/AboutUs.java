@@ -1,4 +1,4 @@
-package com.seniorproject.stocksign.activity;
+package com.seniorproject.stocksign.display;
 
 import com.seniorproject.stocksign.R;
 

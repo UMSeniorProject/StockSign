@@ -56,10 +56,12 @@
                     android:text="Company"
                     android:textStyle="bold"
                     android:textSize="18sp"
+                    
                      />
 
                 <TextView
                     android:text="Total Score"
+                    android:id="@+id/totalscore"
                     android:textStyle="bold"
                     android:layout_gravity="center"
                     android:layout_column="1"
@@ -177,6 +179,7 @@
 
                 <TextView
                     android:text="Dividend Score"
+                    android:id="@+id/dividendscore"
                     android:textStyle="bold"
                     android:layout_gravity="center"
                     android:layout_column="1"
@@ -294,6 +297,7 @@
 
                 <TextView
                     android:text="Growth Score"
+                     android:id="@+id/growthscore"
                     android:textStyle="bold"
                     android:layout_gravity="center"
                     android:layout_column="1"
