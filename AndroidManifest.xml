@@ -72,24 +72,21 @@
         </activity>
         <activity
             android:name="com.seniorproject.stocksign.display.TotalScore"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Dialog" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
 			</intent-filter>
         </activity>
         <activity
             android:name="com.seniorproject.stocksign.display.GrowthScore"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Dialog" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
 			</intent-filter>
         </activity>
         <activity
             android:name="com.seniorproject.stocksign.display.DividendScore"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Dialog" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
 			</intent-filter>
