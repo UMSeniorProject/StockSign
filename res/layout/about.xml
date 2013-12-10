@@ -6,7 +6,7 @@
      >
      
     <TextView
-        android:text="\tThis application was designed by three Computer Engineering students at the University of Miami in order to simplify the stock market for everyone. Stock Sign was created with both stock market veterans and beginners in mind blah blah blah blah blah...\n\n"
+        android:text="\tThis application was designed by three Computer Engineering students at the University of Miami in order to simplify the stock market for everyone. Stock Sign was created with both stock market veterans and beginners in mind to give easy access to valuable market information\n\n"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView1"
