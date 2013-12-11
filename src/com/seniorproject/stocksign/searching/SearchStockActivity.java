@@ -2,6 +2,7 @@ package com.seniorproject.stocksign.searching;
 
 
 import java.io.IOException;
+import java.util.Locale;
 
 import com.kinvey.android.AsyncAppData;
 import com.kinvey.android.Client;
@@ -112,7 +113,7 @@ public class SearchStockActivity extends Activity{
 					  		//type_elapsed_time = (type_end_time-type_start_time)/1000000;
 					  		//if(Math.abs(type_elapsed_time)>200) {
 					  		//One issues is that autocomplete has to be case-sensitive
-					  		searchData = s.toString();//.toUpperCase();//searchTerm.getText().toString().toUpperCase();
+					  		searchData = s.toString().toUpperCase(Locale.ENGLISH);//searchTerm.getText().toString().toUpperCase();
 					  		kinveyDataFetcher(searchData);
 					  		//}
 					  	}
@@ -231,7 +232,7 @@ public class SearchStockActivity extends Activity{
 		fetchQuery.setLimit(maxNamesDisplayed);
 		fetchQuery.addSort(searchCategory, SortOrder.ASC);
 		kinveyFetchQuery(fetchQuery);*/
-		kinveyFetchQuery(fetchCompany.or(fetchTicker));
+		kinveyFetchQuery(fetchTicker);
 		//kinveyFetchQuery(fetchCompany);
 	}
 }
