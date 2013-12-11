@@ -33,10 +33,10 @@ import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
 public class HotStocksSectionFragment extends Fragment {
 
 	Client mKinveyClient = null;
-	String StockDataTableName = "StockRatioDataTable";
+	String StockDataTableName = "StockDataTable";
 
 	static Stock[] stocks = null;
-	int maxNamesDisplayed = 9;
+	int maxNamesDisplayed = 3;
 
 	/** Should not be instantiated, empty constructor */
 	public HotStocksSectionFragment() {
@@ -96,7 +96,7 @@ public class HotStocksSectionFragment extends Fragment {
 	}
 
 	// method to fetch specific Query from Kinvey
-	private void kinveyFetchQuery(Query fetchQuery, final View rv) {
+	private void kinveyFetchTotalQuery(Query fetchQuery, final View rv) {
 		AsyncAppData<Stock> myData = mKinveyClient.appData(StockDataTableName,
 				Stock.class);
 		myData.get(fetchQuery, new KinveyListCallback<Stock>() {
@@ -129,14 +129,42 @@ public class HotStocksSectionFragment extends Fragment {
 					tstock2.setText(stocks[1].getTicker());
 					tstock3.setText(stocks[2].getTicker());
 
-					tgrade1.setText(stocks[0].getRsi());
-					tgrade2.setText(stocks[1].getRsi());
-					tgrade3.setText(stocks[2].getRsi());
+					tgrade1.setText(String.valueOf(stocks[0].getTotalScore()));
+					tgrade2.setText(String.valueOf(stocks[1].getTotalScore()));
+					tgrade3.setText(String.valueOf(stocks[2].getTotalScore()));
 
 					addClick(tstock1, stocks[0]);
 					addClick(tstock2, stocks[1]);
 					addClick(tstock3, stocks[2]);
 
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable error) {
+				Log.d("fail", "failed to fetchByFilterCriteria: "
+						+ error.getCause().getMessage());
+			}
+
+		});
+
+	}
+
+	// method to fetch specific Query from Kinvey
+	private void kinveyFetchDivQuery(Query fetchQuery, final View rv) {
+		AsyncAppData<Stock> myData = mKinveyClient.appData(StockDataTableName,
+				Stock.class);
+		myData.get(fetchQuery, new KinveyListCallback<Stock>() {
+			@Override
+			public void onSuccess(Stock[] arg0) {
+				// TODO Auto-generated method stub
+				Log.i("success", "got: " + arg0.toString());
+				if (arg0.length == 0) {
+					stocks = null;
+				} else {
+					stocks = arg0;
+					// displayAutoComplete();
+					System.out.println("STOCKS IS: " + stocks[0].getCompany());
 					// div score table
 					TextView divstock1 = (TextView) rv
 							.findViewById(R.id.divstock1);
@@ -152,45 +180,72 @@ public class HotStocksSectionFragment extends Fragment {
 					TextView divgrade3 = (TextView) rv
 							.findViewById(R.id.stock3_div);
 
-					divstock1.setText(stocks[3].getTicker());
-					divstock2.setText(stocks[4].getTicker());
-					divstock3.setText(stocks[5].getTicker());
+					divstock1.setText(stocks[0].getTicker());
+					divstock2.setText(stocks[1].getTicker());
+					divstock3.setText(stocks[2].getTicker());
 
-					divgrade1.setText(stocks[3].getRsi());
-					divgrade2.setText(stocks[4].getRsi());
-					divgrade3.setText(stocks[5].getRsi());
+					divgrade1.setText(String.valueOf(stocks[0].getDivScore()));
+					divgrade2.setText(String.valueOf(stocks[1].getDivScore()));
+					divgrade3.setText(String.valueOf(stocks[2].getDivScore()));
 
-					addClick(divstock1, stocks[3]);
-					addClick(divstock2, stocks[4]);
-					addClick(divstock3, stocks[5]);
+					addClick(divstock1, stocks[0]);
+					addClick(divstock2, stocks[1]);
+					addClick(divstock3, stocks[2]);
 
-					// growth score table
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable error) {
+				Log.d("fail", "failed to fetchByFilterCriteria: "
+						+ error.getCause().getMessage());
+			}
+
+		});
+
+	}
+
+	// method to fetch specific Query from Kinvey
+	private void kinveyFetchGrowthQuery(Query fetchQuery, final View rv) {
+		AsyncAppData<Stock> myData = mKinveyClient.appData(StockDataTableName,
+				Stock.class);
+		myData.get(fetchQuery, new KinveyListCallback<Stock>() {
+			@Override
+			public void onSuccess(Stock[] arg0) {
+				// TODO Auto-generated method stub
+				Log.i("success", "got: " + arg0.toString());
+				if (arg0.length == 0) {
+					stocks = null;
+				} else {
+					stocks = arg0;
+					// displayAutoComplete();
+					System.out.println("STOCKS IS: " + stocks[0].getCompany());
 					// div score table
-					TextView gstock1 = (TextView) rv
-							.findViewById(R.id.growthstock1);
-					TextView gstock2 = (TextView) rv
-							.findViewById(R.id.growthstock2);
-					TextView gstock3 = (TextView) rv
-							.findViewById(R.id.growthstock3);
+					TextView divstock1 = (TextView) rv
+							.findViewById(R.id.divstock1);
+					TextView divstock2 = (TextView) rv
+							.findViewById(R.id.divstock2);
+					TextView divstock3 = (TextView) rv
+							.findViewById(R.id.divstock3);
 
-					TextView ggrade1 = (TextView) rv
-							.findViewById(R.id.stock1_growth);
-					TextView ggrade2 = (TextView) rv
-							.findViewById(R.id.stock2_growth);
-					TextView ggrade3 = (TextView) rv
-							.findViewById(R.id.stock3_growth);
+					TextView divgrade1 = (TextView) rv
+							.findViewById(R.id.stock1_div);
+					TextView divgrade2 = (TextView) rv
+							.findViewById(R.id.stock2_div);
+					TextView divgrade3 = (TextView) rv
+							.findViewById(R.id.stock3_div);
 
-					gstock1.setText(stocks[6].getTicker());
-					gstock2.setText(stocks[7].getTicker());
-					gstock3.setText(stocks[8].getTicker());
+					divstock1.setText(stocks[0].getTicker());
+					divstock2.setText(stocks[1].getTicker());
+					divstock3.setText(stocks[2].getTicker());
 
-					ggrade1.setText(stocks[6].getRsi());
-					ggrade2.setText(stocks[7].getRsi());
-					ggrade3.setText(stocks[8].getRsi());
+					divgrade1.setText(String.valueOf(stocks[0].getGrowthScore()));
+					divgrade2.setText(String.valueOf(stocks[1].getGrowthScore()));
+					divgrade3.setText(String.valueOf(stocks[2].getGrowthScore()));
 
-					addClick(gstock1, stocks[6]);
-					addClick(gstock2, stocks[7]);
-					addClick(gstock3, stocks[8]);
+					addClick(divstock1, stocks[0]);
+					addClick(divstock2, stocks[1]);
+					addClick(divstock3, stocks[2]);
 
 				}
 			}
@@ -208,17 +263,24 @@ public class HotStocksSectionFragment extends Fragment {
 	// fetch data
 	private void kinveyDataFetcher(View rv) {
 		Query fetchRank = mKinveyClient.query();
-		Query fetchLastLetter = new Query(); // mKinveyClient.query();
+		Query fetchTopTotal = new Query(); // mKinveyClient.query();
+		Query fetchTopDiv = new Query();
+		Query fetchTopGrowth = new Query();
 
 		// QUERY MUST BE CHANGED
 		// fetchRank.startsWith("PE", "9");
 
-		fetchLastLetter.startsWith("Ticker", "M");
+		fetchTopTotal.startsWith("Ticker", "T");
+		fetchTopDiv.startsWith("Ticker", "D");
+		fetchTopGrowth.startsWith("Ticker", "G");
 
-		fetchRank.setLimit(maxNamesDisplayed);
-		fetchLastLetter.setLimit(maxNamesDisplayed);
+		fetchTopDiv.setLimit(maxNamesDisplayed);
+		fetchTopTotal.setLimit(maxNamesDisplayed);
+		fetchTopGrowth.setLimit(maxNamesDisplayed);
 
-		kinveyFetchQuery(fetchLastLetter, rv);
+		kinveyFetchTotalQuery(fetchTopTotal, rv);
+		kinveyFetchGrowthQuery(fetchTopGrowth, rv);
+		kinveyFetchDivQuery(fetchTopDiv, rv);
 
 	}
 

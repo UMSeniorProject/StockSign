@@ -25,7 +25,7 @@ import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
 public class DividendScore extends Activity {
 
 	Client mKinveyClient = null;
-	String StockDataTableName = "StockRatioDataTable";
+	String StockDataTableName = "StockDataTable";
 
 	static Stock[] stocks = null;
 	int maxNamesDisplayed = 50;

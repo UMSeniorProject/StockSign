@@ -5,17 +5,17 @@ import com.google.api.client.util.Key;
 import com.kinvey.java.model.KinveyMetaData;
 
 /**
- * Stock model that contains the data to be 
- * saved in the database and show in the user interface.
+ * Stock model that contains the data to be saved in the database and show in
+ * the user interface.
  * 
  * @author Sean Wilkinson
  * @since 1.0
- *
+ * 
  */
-public class Stock extends GenericJson{
-	
-	private int stockSize = 47;	//this is yet to be exactly determined
-	
+public class Stock extends GenericJson {
+
+	private int stockSize = 47; // this is yet to be exactly determined
+
 	@Key("_id")
 	private String _id;
 	@Key("Ticker")
@@ -107,27 +107,33 @@ public class Stock extends GenericJson{
 	@Key("Relative Volume")
 	private String RVOL;
 	@Key("Total Score")
-	private String dan;
+	private double dan;
 	@Key("Dividend Score")
-	private String DIVSCORE;
+	private double DIVSCORE;
 	@Key("Growth Score")
-	private String growth;
-	
-	
+	private double growth;
 
-	 @Key("Date") private String date;
-	 @Key("Open") private String open;
-	 @Key("High") private String high;
-	 @Key("Low") private String low;
-	 @Key("Close") private String close;
-	 @Key("Volume") private String volume;
-	 @Key("Adj Close") private String adjclose;
-	 
-	 @Key("_kmd")
-	 private KinveyMetaData meta; // Kinvey metadata, OPTIONAL
-	 @Key("_acl")
-	 private KinveyMetaData.AccessControlList acl; // Kinvey access control,
+	@Key("Date")
+	private String date;
+	@Key("Open")
+	private String open;
+	@Key("High")
+	private String high;
+	@Key("Low")
+	private String low;
+	@Key("Close")
+	private String close;
+	@Key("Volume")
+	private String volume;
+	@Key("Adj Close")
+	private String adjclose;
+
+	@Key("_kmd")
+	private KinveyMetaData meta; // Kinvey metadata, OPTIONAL
+	@Key("_acl")
+	private KinveyMetaData.AccessControlList acl; // Kinvey access control,
 													// OPTIONAL
+
 	public Stock() {
 	} // GenericJson classes must have a public empty constructor
 
@@ -136,36 +142,59 @@ public class Stock extends GenericJson{
 
 	private String debtEquity;
 
+	public double getTotalScore() {
+		return dan;
+	}
+
+	public void setTotalScore(double dan) {
+		this.dan = dan;
+	}
+
+	public double getDivScore() {
+		return DIVSCORE;
+	}
+
+	public void setDivScore(double dIVSCORE) {
+		DIVSCORE = dIVSCORE;
+	}
+
+	public double getGrowthScore() {
+		return growth;
+	}
+
+	public void setGrowthScore(double growth) {
+		this.growth = growth;
+	}
+
 	/**
 	 * @return the stockSize
 	 */
 	public int getSize() {
 		return stockSize;
 	}
-	
+
 	/**
-	 * @param size the stockSize to set
+	 * @param size
+	 *            the stockSize to set
 	 */
 	public void setSize(int size) {
 		this.stockSize = size;
 	}
-	
-	
+
 	/**
 	 * @return the _id
 	 */
 	public String getId() {
 		return _id;
 	}
-	
+
 	/**
-	 * @param _id the _id to set
+	 * @param _id
+	 *            the _id to set
 	 */
 	public void setId(String _id) {
 		this._id = _id;
 	}
-
-	
 
 	/**
 	 * @return the ticker
@@ -175,7 +204,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param ticker the ticker to set
+	 * @param ticker
+	 *            the ticker to set
 	 */
 	public void setTicker(String ticker) {
 		this.t = ticker;
@@ -189,7 +219,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param company the company to set
+	 * @param company
+	 *            the company to set
 	 */
 	public void setCompany(String company) {
 		this.n = company;
@@ -203,7 +234,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param sector the sector to set
+	 * @param sector
+	 *            the sector to set
 	 */
 	public void setSector(String sector) {
 		this.s = sector;
@@ -217,7 +249,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param industry the industry to set
+	 * @param industry
+	 *            the industry to set
 	 */
 	public void setIndustry(String industry) {
 		this.i = industry;
@@ -231,7 +264,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param country the country to set
+	 * @param country
+	 *            the country to set
 	 */
 	public void setCountry(String country) {
 		this.c = country;
@@ -245,7 +279,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param pe the pe to set
+	 * @param pe
+	 *            the pe to set
 	 */
 	public void setPe(String pe) {
 		this.PE = pe;
@@ -259,7 +294,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param forward_pe the forward_pe to set
+	 * @param forward_pe
+	 *            the forward_pe to set
 	 */
 	public void setForward_pe(String forward_pe) {
 		this.FPE = forward_pe;
@@ -273,7 +309,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param peg the peg to set
+	 * @param peg
+	 *            the peg to set
 	 */
 	public void setPeg(String peg) {
 		this.PEG = peg;
@@ -287,7 +324,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param ps the ps to set
+	 * @param ps
+	 *            the ps to set
 	 */
 	public void setPs(String ps) {
 		this.PS = ps;
@@ -301,7 +339,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param pb the pb to set
+	 * @param pb
+	 *            the pb to set
 	 */
 	public void setPb(String pb) {
 		this.PB = pb;
@@ -315,7 +354,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param pc the pc to set
+	 * @param pc
+	 *            the pc to set
 	 */
 	public void setPc(String pc) {
 		this.PC = pc;
@@ -329,7 +369,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param priceFreeCashFlow the priceFreeCashFlow to set
+	 * @param priceFreeCashFlow
+	 *            the priceFreeCashFlow to set
 	 */
 	public void setPriceFreeCashFlow(String priceFreeCashFlow) {
 		this.PFCF = priceFreeCashFlow;
@@ -343,7 +384,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param epsgThisYear the epsgThisYear to set
+	 * @param epsgThisYear
+	 *            the epsgThisYear to set
 	 */
 	public void setEpsgThisYear(String epsgThisYear) {
 		this.EPSTHISYR = epsgThisYear;
@@ -357,7 +399,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param epsgPast5Years the epsgPast5Years to set
+	 * @param epsgPast5Years
+	 *            the epsgPast5Years to set
 	 */
 	public void setEpsgPast5Years(String epsgPast5Years) {
 		this.EPS5 = epsgPast5Years;
@@ -371,7 +414,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param epsgNext5Years the epsgNext5Years to set
+	 * @param epsgNext5Years
+	 *            the epsgNext5Years to set
 	 */
 	public void setEpsgNext5Years(String epsgNext5Years) {
 		this.eg = epsgNext5Years;
@@ -385,7 +429,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param salesgPast5Years the salesgPast5Years to set
+	 * @param salesgPast5Years
+	 *            the salesgPast5Years to set
 	 */
 	public void setSalesgPast5Years(String salesgPast5Years) {
 		this.SALES5 = salesgPast5Years;
@@ -399,7 +444,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param epsg the epsg to set
+	 * @param epsg
+	 *            the epsg to set
 	 */
 	public void setEpsg(String epsg) {
 		this.epsg = epsg;
@@ -413,7 +459,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param salesg the salesg to set
+	 * @param salesg
+	 *            the salesg to set
 	 */
 	public void setSalesg(String salesg) {
 		this.salesg = salesg;
@@ -427,7 +474,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param dividendYield the dividendYield to set
+	 * @param dividendYield
+	 *            the dividendYield to set
 	 */
 	public void setDividendYield(String dividendYield) {
 		this.d = dividendYield;
@@ -441,7 +489,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param returnOnAssets the returnOnAssets to set
+	 * @param returnOnAssets
+	 *            the returnOnAssets to set
 	 */
 	public void setReturnOnAssets(String returnOnAssets) {
 		this.ROA = returnOnAssets;
@@ -455,7 +504,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param returnOnEquity the returnOnEquity to set
+	 * @param returnOnEquity
+	 *            the returnOnEquity to set
 	 */
 	public void setReturnOnEquity(String returnOnEquity) {
 		this.ROE = returnOnEquity;
@@ -469,7 +519,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param returnOnInvestment the returnOnInvestment to set
+	 * @param returnOnInvestment
+	 *            the returnOnInvestment to set
 	 */
 	public void setReturnOnInvestment(String returnOnInvestment) {
 		this.returnOnInvestment = returnOnInvestment;
@@ -483,7 +534,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param currentRatio the currentRatio to set
+	 * @param currentRatio
+	 *            the currentRatio to set
 	 */
 	public void setCurrentRatio(String currentRatio) {
 		this.CR = currentRatio;
@@ -497,7 +549,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param quickRatio the quickRatio to set
+	 * @param quickRatio
+	 *            the quickRatio to set
 	 */
 	public void setQuickRatio(String quickRatio) {
 		this.QR = quickRatio;
@@ -511,7 +564,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param ltDebtEquity the ltDebtEquity to set
+	 * @param ltDebtEquity
+	 *            the ltDebtEquity to set
 	 */
 	public void setLtDebtEquity(String ltDebtEquity) {
 		this.LTDE = ltDebtEquity;
@@ -525,7 +579,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param debtEquity the debtEquity to set
+	 * @param debtEquity
+	 *            the debtEquity to set
 	 */
 	public void setDebtEquity(String debtEquity) {
 		this.debtEquity = debtEquity;
@@ -539,7 +594,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param grossMargin the grossMargin to set
+	 * @param grossMargin
+	 *            the grossMargin to set
 	 */
 	public void setGrossMargin(String grossMargin) {
 		this.grossMargin = grossMargin;
@@ -553,7 +609,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param operatingMargin the operatingMargin to set
+	 * @param operatingMargin
+	 *            the operatingMargin to set
 	 */
 	public void setOperatingMargin(String operatingMargin) {
 		this.operatingMargin = operatingMargin;
@@ -567,7 +624,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param netProfitMargin the netProfitMargin to set
+	 * @param netProfitMargin
+	 *            the netProfitMargin to set
 	 */
 	public void setNetProfitMargin(String netProfitMargin) {
 		this.PM = netProfitMargin;
@@ -581,7 +639,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param payoutRatio the payoutRatio to set
+	 * @param payoutRatio
+	 *            the payoutRatio to set
 	 */
 	public void setPayoutRatio(String payoutRatio) {
 		this.PO = payoutRatio;
@@ -595,7 +654,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param insiderOwnership the insiderOwnership to set
+	 * @param insiderOwnership
+	 *            the insiderOwnership to set
 	 */
 	public void setInsiderOwnership(String insiderOwnership) {
 		this.INSIOWN = insiderOwnership;
@@ -609,7 +669,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param institutionalTransactions the institutionalTransactions to set
+	 * @param institutionalTransactions
+	 *            the institutionalTransactions to set
 	 */
 	public void setInstitutionalTransactions(String institutionalTransactions) {
 		this.INSITRANS = institutionalTransactions;
@@ -623,7 +684,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param floaStringt the floatShort to set
+	 * @param floaStringt
+	 *            the floatShort to set
 	 */
 	public void setFloatShort(String floatShort) {
 		this.SHORT = floatShort;
@@ -637,7 +699,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param shortRatio the shortRatio to set
+	 * @param shortRatio
+	 *            the shortRatio to set
 	 */
 	public void setShortRatio(String shortRatio) {
 		this.shortRatio = shortRatio;
@@ -651,7 +714,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param rsi the rsi to set
+	 * @param rsi
+	 *            the rsi to set
 	 */
 	public void setRsi(String rsi) {
 		this.RSI = rsi;
@@ -665,7 +729,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param date the date to set
+	 * @param date
+	 *            the date to set
 	 */
 	public void setDate(String date) {
 		this.date = date;
@@ -679,7 +744,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param open the open to set
+	 * @param open
+	 *            the open to set
 	 */
 	public void setOpen(String open) {
 		this.open = open;
@@ -700,14 +766,16 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param high the high to set
+	 * @param high
+	 *            the high to set
 	 */
 	public void setHigh(String high) {
 		this.high = high;
 	}
 
 	/**
-	 * @param low the low to set
+	 * @param low
+	 *            the low to set
 	 */
 	public void setLow(String low) {
 		this.low = low;
@@ -721,7 +789,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param close the close to set
+	 * @param close
+	 *            the close to set
 	 */
 	public void setClose(String close) {
 		this.close = close;
@@ -735,7 +804,8 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param volume the volume to set
+	 * @param volume
+	 *            the volume to set
 	 */
 	public void setVolume(String volume) {
 		this.volume = volume;
@@ -749,11 +819,11 @@ public class Stock extends GenericJson{
 	}
 
 	/**
-	 * @param adj the adjclose to set
+	 * @param adj
+	 *            the adjclose to set
 	 */
 	public void setAdjclose(String adjclose) {
 		this.adjclose = adjclose;
 	}
-	
 
 }
