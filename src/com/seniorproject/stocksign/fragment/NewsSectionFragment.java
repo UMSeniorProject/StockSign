@@ -57,9 +57,9 @@ public class NewsSectionFragment extends ListFragment {
 
 		itemlist = new ArrayList<RSSItem>();
 
-		TextView hotTextView = (TextView) rootView
+		TextView newsTextView = (TextView) rootView
 				.findViewById(R.id.section_label);
-		hotTextView.setText("News");
+		newsTextView.setText("News");
 
 		new RetrieveRSSFeeds().execute();
 
@@ -100,10 +100,10 @@ public class NewsSectionFragment extends ListFragment {
 
 		@Override
 		protected Void doInBackground(Void... params) {
+			// retrieveRSSFeed("http://feeds.marketwatch.com/marketwatch/topstories",itemlist);
 			retrieveRSSFeed(
-					"http://feeds.marketwatch.com/marketwatch/topstories",
+					"http://pipes.yahoo.com/pipes/pipe.run?_id=c6359b90d0d523c8a6098c811747a6a4&_render=rss",
 					itemlist);
-
 			rssadaptor = new RSSListAdaptor(getActivity(),
 					R.layout.rssitemview, itemlist);
 
@@ -184,8 +184,7 @@ public class NewsSectionFragment extends ListFragment {
 
 				date.setText("on " + data.date);
 
-				String[] textplusimage = data.description.toString().split(
-						"<div");
+				String[] textplusimage = data.description.toString().split("<");
 				data.description = textplusimage[0];
 				description.setText(data.description);
 			}

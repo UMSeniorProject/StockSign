@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+        <TextView
+         	android:text="\tDividend companies are ideal for income investors who are searching an investment that will generate cash each year. The Dividend Score combines measures such as cash reserves and percent of earnings returned to shareholders to scan for stocks that have the highest likelihood of returning future cash flow to investors.\n"
+          	android:layout_width="wrap_content"
+          	android:layout_height="wrap_content"
+         	android:id="@+id/title"
+         />
+
+</LinearLayout>

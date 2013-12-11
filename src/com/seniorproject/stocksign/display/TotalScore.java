@@ -42,6 +42,17 @@ public class TotalScore extends Activity {
 		initialize(getIntent());
 		kinveyDataFetcher();
 
+		TextView title = (TextView) findViewById(R.id.section_label);
+
+		title.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(TotalScore.this,
+						TotalScoreDescription.class);
+				startActivity(i);
+			}
+		});
 	}
 
 	private void kinveyDataFetcher() {

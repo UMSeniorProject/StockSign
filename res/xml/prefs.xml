@@ -6,7 +6,7 @@
      android:title="Options">
 
 
-     <SwitchPreference android:switchTextOn="On" android:switchTextOff="Off" android:summaryOn="Turn off to store data remotely." android:summaryOff="Turn on to store data on device" android:key="modeswitch" android:title="Offline Mode" android:defaultValue="false"/>
+     <SwitchPreference android:switchTextOn="On" android:switchTextOff="Off" android:summaryOn="Turn off to store data remotely." android:summaryOff="Turn on to store data on device." android:key="modeswitch" android:title="Offline Mode" android:defaultValue="false"/>
   </PreferenceCategory>
     
 

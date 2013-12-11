@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+         <TextView
+         	android:text="\tThe Total score combines over 30 different financial ratios and analysis tools to compare each company to every other in its industry to determine the most undervalued stocks on the market with the most intrinsic value.\n"
+          	android:layout_width="wrap_content"
+          	android:layout_height="wrap_content"
+         	android:id="@+id/title"
+         />
+
+</LinearLayout>

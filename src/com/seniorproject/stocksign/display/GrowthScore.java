@@ -42,6 +42,18 @@ public class GrowthScore extends Activity {
 		initialize(getIntent());
 		kinveyDataFetcher();
 
+		TextView title = (TextView) findViewById(R.id.section_label);
+
+		title.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(GrowthScore.this,
+						GrowthScoreDescription.class);
+				startActivity(i);
+			}
+		});
+
 	}
 
 	private void kinveyDataFetcher() {
