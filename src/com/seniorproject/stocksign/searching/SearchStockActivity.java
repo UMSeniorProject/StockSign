@@ -2,6 +2,7 @@ package com.seniorproject.stocksign.searching;
 
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Locale;
 
 import com.kinvey.android.AsyncAppData;
@@ -11,11 +12,14 @@ import com.kinvey.java.Query;
 import com.kinvey.java.query.AbstractQuery.SortOrder;
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.activity.ActivityConstants;
+import com.seniorproject.stocksign.database.PriceData;
 import com.seniorproject.stocksign.database.Stock;
+import com.seniorproject.stocksign.database.TickerTrie;
 import com.seniorproject.stocksign.display.CommonStockClass;
 import com.seniorproject.stocksign.display.DisplayStockRatioData;
 import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
 import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
+import com.seniorproject.stocksign.kinveyconnection.KinveyConstants;
 
 import android.app.Activity;
 import android.content.Context;
@@ -62,18 +66,13 @@ by event name using a search bar:
 public class SearchStockActivity extends Activity{
 
 	Client mKinveyClient = null;
-	String StockDataTableName = "StockRatioDataTable";
+	Activity caller;
 	ArrayAdapter<String> adapter;
-	
 	ProgressBar loadingCircle;
-	
-	long type_start_time = 0, type_click_time = 0, type_elapsed_time;
-	int switchtime = 1;
-	
+
 	AutoCompleteTextView searchTerm;
 	TextWatcher watcher;
-	int maxNamesDisplayed = 8;
-	String[] companyNames;
+	String[] companies;
 	
 	Stock[] stocks = null;
 	
@@ -108,14 +107,11 @@ public class SearchStockActivity extends Activity{
 				  @Override
 		            public void onTextChanged(CharSequence s, int start, int before, int count) {
 					  	if(s.toString().length()!=0) {		
-						  	//start timer to 300ms each time this is called
-					  		type_click_time = System.nanoTime();
-					  		//type_elapsed_time = (type_end_time-type_start_time)/1000000;
-					  		//if(Math.abs(type_elapsed_time)>200) {
-					  		//One issues is that autocomplete has to be case-sensitive
 					  		searchData = s.toString().toUpperCase(Locale.ENGLISH);//searchTerm.getText().toString().toUpperCase();
-					  		kinveyDataFetcher(searchData);
-					  		//}
+					  		Object[] objects = TickerTrie.getMatches(searchData, 
+					  				KinveyConstants.AUTOCOMPLETE_ROW_LIMIT).toArray();
+					  		companies = Arrays.copyOf(objects, objects.length, String[].class);
+					  		displayAutoComplete();
 					  	}
 		            }
 	
@@ -144,9 +140,22 @@ public class SearchStockActivity extends Activity{
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
+					//AutoCompleteTextView tickerView = (AutoCompleteTextView) view;
+					//String ticker = tickerView.getText().toString();
+					String ticker = companies[position];
 					
+					//get the price data for this ticker
+					//THIS PART PREPARES FOR GRAPHING SECTION
+					//ConnectToKinveyTask.kinveyFetchPriceQuery(ticker, 0, caller);
+					
+					Intent intent = new Intent(SearchStockActivity.this, DisplayStockRatioData.class);
+					Bundle b = new Bundle();
+					b.putString(KinveyConstants.TICKER_SINGLE, ticker);
+					intent.putExtra(KinveyConstants.RATIO_BUNDLE, b);
+					//i.putExtra("activityID", ActivityConstants.SearchStockActivity); //send the activity id					
+					startActivity(intent);
 					//
-					Stock clickedStock = stocks[position];
+					/*Stock clickedStock = stocks[position];			
 					searchTerm.setText(clickedStock.getCompany());
 					String[] values  = clickedStock.values().toString().split(",");
 					String[] keySet = clickedStock.keySet().toString().split(",");
@@ -157,7 +166,8 @@ public class SearchStockActivity extends Activity{
 					b.putStringArray("keySet", keySet);
 					i.putExtra("ratioData", b);
 					i.putExtra("activityID", ActivityConstants.SearchStockActivity); //send the activity id					
-					startActivity(i);
+					startActivity(i); 
+					*/
 				}
 				
 			});
@@ -168,71 +178,16 @@ public class SearchStockActivity extends Activity{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
+		caller = this;
 		setContentView(R.layout.search);
-	  	type_start_time = System.nanoTime();
 		initializeListeners();
 	}			
 	
 	private void displayAutoComplete() {
-		int listLength = maxNamesDisplayed;
-		/*if(!adapter.isEmpty())
-			adapter.clear();	//delete all previously stored data*/
-		if(stocks.length<maxNamesDisplayed)
-			listLength = stocks.length;
-		companyNames = new String[listLength];
-		for(int i=0;i<listLength;i++) {
-			companyNames[i] = stocks[i].getCompany().toString();
-		}
 		adapter = 
-			new ArrayAdapter<String>(SearchStockActivity.this, android.R.layout.simple_dropdown_item_1line, companyNames);		
+			new ArrayAdapter<String>(SearchStockActivity.this, android.R.layout.simple_dropdown_item_1line, companies);
 		//adapter.addAll(companyNames);
 		searchTerm.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
-	}
-	
-	//method to fetch specific Query from Kinvey
-	private void kinveyFetchQuery(Query fetchQuery) {
-		AsyncAppData<Stock> myData = mKinveyClient.appData(StockDataTableName, Stock.class);
-			myData.get(fetchQuery, new KinveyListCallback<Stock>() {
-				@Override
-				public void onSuccess(Stock[] arg0) {
-					// TODO Auto-generated method stub
-					Log.i("success","got: "+arg0.toString());
-					if(arg0.length==0) {
-						stocks = null;
-					}
-					else { 
-						stocks = arg0;
-						displayAutoComplete();
-					}					
-				}
-				@Override
-				public void onFailure(Throwable error) { 
-					Log.d("fail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
-				}
-
-			});
-	}
-	
-	//fetch data
-	private void kinveyDataFetcher(String searchString) {
-		Query fetchCompany = mKinveyClient.query();
-		Query fetchTicker = new Query(); //mKinveyClient.query();
-		
-		fetchCompany.startsWith("Company", searchString);
-		fetchTicker.startsWith("Ticker", searchString);
-		
-		fetchCompany.setLimit(maxNamesDisplayed);
-		fetchTicker.setLimit(maxNamesDisplayed);
-		
-		fetchCompany.addSort("Company", SortOrder.ASC);
-		fetchTicker.addSort("Ticker", SortOrder.ASC);
-		
-		/*fetchQuery.startsWith(searchCategory, searchString);
-		fetchQuery.setLimit(maxNamesDisplayed);
-		fetchQuery.addSort(searchCategory, SortOrder.ASC);
-		kinveyFetchQuery(fetchQuery);*/
-		kinveyFetchQuery(fetchTicker);
-		//kinveyFetchQuery(fetchCompany);
 	}
 }

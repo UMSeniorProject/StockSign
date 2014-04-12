@@ -2,22 +2,9 @@ package com.seniorproject.stocksign.kinveyconnection;
 
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kinvey.android.AsyncAppData;
@@ -27,18 +14,17 @@ import com.kinvey.android.callback.KinveyPingCallback;
 import com.kinvey.android.callback.KinveyUserCallback;
 import com.kinvey.java.Query;
 import com.kinvey.java.User;
-import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.activity.ActivityConstants;
+import com.seniorproject.stocksign.database.PriceData;
 import com.seniorproject.stocksign.database.Stock;
-import com.seniorproject.stocksign.display.DisplayStockRatioData;
 
 public class ConnectToKinveyTask implements ActivityConstants{
 		
-	Stock[] stocks;
-	Client mKinveyClient;
-	Activity callingActivity;
-	boolean conn_success;
-	String StockDataTableName = "StockRatioDataTable";
+	private static Stock[] stocks;
+	private static PriceData[] priceData;
+	private static Client mKinveyClient;
+	private static Activity callingActivity;
+	private boolean conn_success;
 	
 	public ConnectToKinveyTask() {
 		// TODO Auto-generated constructor stub
@@ -102,14 +88,15 @@ public class ConnectToKinveyTask implements ActivityConstants{
 		  }		
 	
 	//method to fetch from Kinvey
-	private void kinveyFetchAll() {
-		AsyncAppData<Stock> myData = mKinveyClient.appData(StockDataTableName, Stock.class);
+	public static void kinveyFetchAllStocks(String tableName, final Activity caller) {
+		AsyncAppData<Stock> myData = mKinveyClient.appData(tableName, Stock.class);
 			myData.get(new KinveyListCallback<Stock>() {
 				@Override
 				public void onSuccess(Stock[] arg0) {
 					// TODO Auto-generated method stub
 					Log.i("success","got: "+arg0.toString());
 					stocks = arg0;
+					KinveyCaller.callAppropriateActivityMethod(caller, stocks);
 				}
 				@Override
 				public void onFailure(Throwable error) { 
@@ -119,13 +106,88 @@ public class ConnectToKinveyTask implements ActivityConstants{
 			});
 	}
 	
-	//connect
-	public void kinveyAllDataFetcher() {
-		kinveyFetchAll();
+	//method to fetch Stock Query from Kinvey
+	public static void kinveyFetchStockQuery(String tableName, Query fetchQuery, final Activity caller) {
+		AsyncAppData<Stock> myData = mKinveyClient.appData(tableName, Stock.class);
+			myData.get(fetchQuery, new KinveyListCallback<Stock>() {
+				@Override
+				public void onSuccess(Stock[] arg0) {
+					// TODO Auto-generated method stub
+					Log.i("success","got: "+arg0.toString());
+					Log.i("caller", "StockQuery by " + caller.getLocalClassName());
+					if(arg0.length==0) {
+						stocks = null;
+					}
+					else { 
+						stocks = arg0;
+					}					
+					KinveyCaller.callAppropriateActivityMethod(caller, stocks);
+				}
+				@Override
+				public void onFailure(Throwable error) { 
+					Log.d("fail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+				}
+
+			});
 	}
 	
-	public Stock[] getStockData() {
-		return stocks;
+	public static void kinveyFetchPriceQuery(String tableName, int startDate, final Activity caller) {
+		Query getQuery = mKinveyClient.query();
+		getQuery.setLimit(KinveyConstants.PRICE_DATA_SECTION_LIMIT);
+		if(startDate != 0) {
+			getQuery.lessThanEqualTo("Date", startDate);
+		}
+		AsyncAppData<PriceData> myData = mKinveyClient.appData(tableName, PriceData.class);
+			myData.get(getQuery, new KinveyListCallback<PriceData>() {
+				@Override
+				public void onSuccess(PriceData[] arg0) {
+					// TODO Auto-generated method stub
+					Log.i("KinveySuccess","got: "+arg0.toString());
+					Log.i("caller", "PriceQuery by " + caller.getLocalClassName());
+					if(arg0.length==0) {
+						priceData = null;
+					}
+					else { 
+						priceData = arg0;
+						KinveyCaller.callAppropriateActivityMethod(caller, priceData);
+						//lineGraphHandler();
+					}					
+				}
+				@Override
+				public void onFailure(Throwable error) { 
+					Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+				}
+
+			});
+	}
+	
+	// method to fetch specific Query from Kinvey
+	public static void kinveyFetchFragmentQuery(final Fragment fragment, Query fetchQuery, final View rv, final String scoreType) {
+		AsyncAppData<Stock> myData = mKinveyClient.appData(KinveyConstants.RATIO_TABLE,
+				Stock.class);
+		myData.get(fetchQuery, new KinveyListCallback<Stock>() {
+			@Override
+			public void onSuccess(Stock[] arg0) {
+				// TODO Auto-generated method stub
+
+				Log.e("success", "got: " + arg0.toString());
+				Log.i("caller", "FragmentQuery" + fragment.getClass().getSimpleName());
+				if (arg0.length == 0) {
+					stocks = null;
+				} else {
+					stocks = arg0;
+				}
+				KinveyCaller.callAppropriateFragmentMethod(fragment, stocks, rv, scoreType);
+			}
+
+			@Override
+			public void onFailure(Throwable error) {
+				Log.d("fail", "failed to fetchByFilterCriteria: "
+						+ error.getCause().getMessage());
+			}
+
+		});
+
 	}
 }
 

@@ -1,5 +1,14 @@
 package com.seniorproject.stocksign.activity;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.ActionBar;
@@ -7,6 +16,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -15,6 +25,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +37,9 @@ import android.widget.Toast;
 
 import com.kinvey.android.Client;
 import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.database.SetTrie;
 import com.seniorproject.stocksign.database.StockDataSource;
+import com.seniorproject.stocksign.database.TickerTrie;
 import com.seniorproject.stocksign.debugging.Debugger;
 import com.seniorproject.stocksign.display.AboutUs;
 import com.seniorproject.stocksign.fragment.HotStocksSectionFragment;
@@ -83,6 +96,24 @@ public class MainActivity extends FragmentActivity implements
 			conn_kinvey.testKinveyService();
 		}
 	}
+	
+	protected void loadTickerTrie() {
+		SetTrie setTrie = new SetTrie(); 
+		InputStream inStream = getResources().openRawResource(R.raw.tickers);
+		BufferedReader bReader= new BufferedReader(new InputStreamReader(inStream));
+		String line;
+		try {
+			line = bReader.readLine();
+			while(line != null) {
+				setTrie.load(line);
+				line = bReader.readLine();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		TickerTrie.setTrie(setTrie);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +135,7 @@ public class MainActivity extends FragmentActivity implements
 
 		datasource = new StockDataSource(this);
 		connectToKinvey();
+		loadTickerTrie();
 
 		/*
 		 * SharedPreferences getPrefs =

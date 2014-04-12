@@ -6,25 +6,25 @@ package com.seniorproject.stocksign.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.kinvey.android.AsyncAppData;
 import com.kinvey.android.Client;
-import com.kinvey.android.callback.KinveyListCallback;
 import com.kinvey.java.Query;
+import com.kinvey.java.query.AbstractQuery.SortOrder;
 import com.seniorproject.stocksign.R;
-import com.seniorproject.stocksign.activity.ActivityConstants;
+import com.seniorproject.stocksign.activity.Utilities;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.display.DisplayStockRatioData;
 import com.seniorproject.stocksign.display.DividendScore;
 import com.seniorproject.stocksign.display.GrowthScore;
 import com.seniorproject.stocksign.display.TotalScore;
+import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
 import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
+import com.seniorproject.stocksign.kinveyconnection.KinveyConstants;
 
 /**
  * @author Sean
@@ -33,10 +33,9 @@ import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
 public class HotStocksSectionFragment extends Fragment {
 
 	Client mKinveyClient = null;
-	String StockDataTableName = "StockRatioDataTable";
-
-	static Stock[] stocks = null;
-	int maxNamesDisplayed = 9;
+	Stock[] bestTotal = null;
+	Stock[] bestDiv = null;
+	Stock[] bestGrow = null;
 
 	/** Should not be instantiated, empty constructor */
 	public HotStocksSectionFragment() {
@@ -55,11 +54,14 @@ public class HotStocksSectionFragment extends Fragment {
 				container, false);
 
 		mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
-		kinveyDataFetcher(rootView);
+		
+		kinveyDataFetcher(rootView, KinveyConstants.TOTALSCORE_COLUMN, KinveyConstants.TOTALSCORE_LIMIT);
+		kinveyDataFetcher(rootView, KinveyConstants.DIVSCORE_COLUMN, KinveyConstants.DIVSCORE_LIMIT);
+		kinveyDataFetcher(rootView, KinveyConstants.GROWTHSCORE_COLUMN, KinveyConstants.GROWTHSCORE_LIMIT);
 
 		TextView hotTextView = (TextView) rootView
 				.findViewById(R.id.section_label);
-		hotTextView.setText("Top Rated Stocks");
+		hotTextView.setText(KinveyConstants.TOP_RATED_STOCKS_TITLE);
 
 		TextView gscore = (TextView) rootView.findViewById(R.id.growthscore);
 		TextView tscore = (TextView) rootView.findViewById(R.id.totalscore);
@@ -69,156 +71,173 @@ public class HotStocksSectionFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(getActivity(), GrowthScore.class);
-				startActivity(i);
+				Intent intent = new Intent(getActivity(), GrowthScore.class);
+				String[] tickers = new String[bestGrow.length];
+				String[] scores = new String[bestGrow.length];
+				for(int i = 0; i < bestGrow.length; i++) {
+					tickers[i] = bestGrow[i].getTicker();
+					scores[i] = String.valueOf(bestGrow[i].getGrowthscore());
+				}
+				Bundle bundle = new Bundle();
+				bundle.putStringArray(KinveyConstants.TICKER_ARRAY, tickers);
+				bundle.putStringArray(KinveyConstants.SCORES_ARRAY, scores);
+				intent.putExtra(KinveyConstants.SCORES_BUNDLE, bundle);
+				startActivity(intent);
 			}
 		});
 		tscore.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(getActivity(), TotalScore.class);
-				startActivity(i);
+				Intent intent = new Intent(getActivity(), TotalScore.class);
+				String[] tickers = new String[bestTotal.length];
+				String[] scores = new String[bestTotal.length];
+				for(int i = 0; i < bestTotal.length; i++) {
+					tickers[i] = bestTotal[i].getTicker();
+					scores[i] = String.valueOf(bestTotal[i].getTotalscore());
+				}
+				Bundle bundle = new Bundle();
+				bundle.putStringArray(KinveyConstants.TICKER_ARRAY, tickers);
+				bundle.putStringArray(KinveyConstants.SCORES_ARRAY, scores);
+				intent.putExtra(KinveyConstants.SCORES_BUNDLE, bundle);
+				startActivity(intent);
 			}
 		});
 		dscore.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(getActivity(), DividendScore.class);
-				startActivity(i);
+				Intent intent = new Intent(getActivity(), DividendScore.class);
+				String[] tickers = new String[bestDiv.length];
+				String[] scores = new String[bestDiv.length];
+				for(int i = 0; i < bestDiv.length; i++) {
+					tickers[i] = bestDiv[i].getTicker();
+					scores[i] = String.valueOf(bestDiv[i].getDivscore());
+				}
+				Bundle bundle = new Bundle();
+				bundle.putStringArray(KinveyConstants.TICKER_ARRAY, tickers);
+				bundle.putStringArray(KinveyConstants.SCORES_ARRAY, scores);
+				intent.putExtra(KinveyConstants.SCORES_BUNDLE, bundle);
+				startActivity(intent);
 			}
 		});
-
-		// System.out.println("STOCKS IS: " + stocks.length);
-
 		return rootView;
 	}
-
-	// method to fetch specific Query from Kinvey
-	private void kinveyFetchQuery(Query fetchQuery, final View rv) {
-		AsyncAppData<Stock> myData = mKinveyClient.appData(StockDataTableName,
-				Stock.class);
-		myData.get(fetchQuery, new KinveyListCallback<Stock>() {
-			@Override
-			public void onSuccess(Stock[] arg0) {
-				// TODO Auto-generated method stub
-				Log.i("success", "got: " + arg0.toString());
-				if (arg0.length == 0) {
-					stocks = null;
-				} else {
-					stocks = arg0;
-					// displayAutoComplete();
-					System.out.println("STOCKS IS: " + stocks[0].getCompany());
-					// total score table
-					TextView tstock1 = (TextView) rv
-							.findViewById(R.id.totalstock1);
-					TextView tstock2 = (TextView) rv
-							.findViewById(R.id.totalstock2);
-					TextView tstock3 = (TextView) rv
-							.findViewById(R.id.totalstock3);
-
-					TextView tgrade1 = (TextView) rv
-							.findViewById(R.id.stock1_total);
-					TextView tgrade2 = (TextView) rv
-							.findViewById(R.id.stock2_total);
-					TextView tgrade3 = (TextView) rv
-							.findViewById(R.id.stock3_total);
-
-					tstock1.setText(stocks[0].getTicker());
-					tstock2.setText(stocks[1].getTicker());
-					tstock3.setText(stocks[2].getTicker());
-
-					tgrade1.setText(stocks[0].getRsi());
-					tgrade2.setText(stocks[1].getRsi());
-					tgrade3.setText(stocks[2].getRsi());
-
-					addClick(tstock1, stocks[0]);
-					addClick(tstock2, stocks[1]);
-					addClick(tstock3, stocks[2]);
-
-					// div score table
-					TextView divstock1 = (TextView) rv
-							.findViewById(R.id.divstock1);
-					TextView divstock2 = (TextView) rv
-							.findViewById(R.id.divstock2);
-					TextView divstock3 = (TextView) rv
-							.findViewById(R.id.divstock3);
-
-					TextView divgrade1 = (TextView) rv
-							.findViewById(R.id.stock1_div);
-					TextView divgrade2 = (TextView) rv
-							.findViewById(R.id.stock2_div);
-					TextView divgrade3 = (TextView) rv
-							.findViewById(R.id.stock3_div);
-
-					divstock1.setText(stocks[3].getTicker());
-					divstock2.setText(stocks[4].getTicker());
-					divstock3.setText(stocks[5].getTicker());
-
-					divgrade1.setText(stocks[3].getRsi());
-					divgrade2.setText(stocks[4].getRsi());
-					divgrade3.setText(stocks[5].getRsi());
-
-					addClick(divstock1, stocks[3]);
-					addClick(divstock2, stocks[4]);
-					addClick(divstock3, stocks[5]);
-
-					// growth score table
-					// div score table
-					TextView gstock1 = (TextView) rv
-							.findViewById(R.id.growthstock1);
-					TextView gstock2 = (TextView) rv
-							.findViewById(R.id.growthstock2);
-					TextView gstock3 = (TextView) rv
-							.findViewById(R.id.growthstock3);
-
-					TextView ggrade1 = (TextView) rv
-							.findViewById(R.id.stock1_growth);
-					TextView ggrade2 = (TextView) rv
-							.findViewById(R.id.stock2_growth);
-					TextView ggrade3 = (TextView) rv
-							.findViewById(R.id.stock3_growth);
-
-					gstock1.setText(stocks[6].getTicker());
-					gstock2.setText(stocks[7].getTicker());
-					gstock3.setText(stocks[8].getTicker());
-
-					ggrade1.setText(stocks[6].getRsi());
-					ggrade2.setText(stocks[7].getRsi());
-					ggrade3.setText(stocks[8].getRsi());
-
-					addClick(gstock1, stocks[6]);
-					addClick(gstock2, stocks[7]);
-					addClick(gstock3, stocks[8]);
-
-				}
-			}
-
-			@Override
-			public void onFailure(Throwable error) {
-				Log.d("fail", "failed to fetchByFilterCriteria: "
-						+ error.getCause().getMessage());
-			}
-
-		});
-
+	
+	public void kinveyResponceMethod(Stock[] stocks, View rv, String scoreType) {
+		
+		//ERROR CHECKS
+		//CHECK STOCKS SIZE
+		//CHECK NULL INPUTS
+		
+		if(scoreType.equals(KinveyConstants.TOTALSCORE_COLUMN)) {
+			// total score table
+			bestTotal = stocks;
+			
+			TextView tstock1 = (TextView) rv
+					.findViewById(R.id.totalstock1);
+			TextView tstock2 = (TextView) rv
+					.findViewById(R.id.totalstock2);
+			TextView tstock3 = (TextView) rv
+					.findViewById(R.id.totalstock3);
+	
+			TextView tgrade1 = (TextView) rv
+					.findViewById(R.id.stock1_total);
+			TextView tgrade2 = (TextView) rv
+					.findViewById(R.id.stock2_total);
+			TextView tgrade3 = (TextView) rv
+					.findViewById(R.id.stock3_total);
+	
+			tstock1.setText(stocks[0].getTicker());
+			tstock2.setText(stocks[1].getTicker());
+			tstock3.setText(stocks[2].getTicker());
+	
+			tgrade1.setText(String.valueOf(stocks[0].getTotalscore()));
+			tgrade2.setText(String.valueOf(stocks[1].getTotalscore()));
+			tgrade3.setText(String.valueOf(stocks[2].getTotalscore()));
+	
+			addClick(tstock1, stocks[0]);
+			addClick(tstock2, stocks[1]);
+			addClick(tstock3, stocks[2]);
+			
+			return;
+		}
+		
+		if(scoreType.equals(KinveyConstants.DIVSCORE_COLUMN)) {
+			// div score table
+			bestDiv = stocks;
+			
+			TextView divstock1 = (TextView) rv
+					.findViewById(R.id.divstock1);
+			TextView divstock2 = (TextView) rv
+					.findViewById(R.id.divstock2);
+			TextView divstock3 = (TextView) rv
+					.findViewById(R.id.divstock3);
+	
+			TextView divgrade1 = (TextView) rv
+					.findViewById(R.id.stock1_div);
+			TextView divgrade2 = (TextView) rv
+					.findViewById(R.id.stock2_div);
+			TextView divgrade3 = (TextView) rv
+					.findViewById(R.id.stock3_div);
+	
+			divstock1.setText(stocks[3].getTicker());
+			divstock2.setText(stocks[4].getTicker());
+			divstock3.setText(stocks[5].getTicker());
+	
+			divgrade1.setText(String.valueOf(stocks[3].getDivscore()));
+			divgrade2.setText(String.valueOf(stocks[4].getDivscore()));
+			divgrade3.setText(String.valueOf(stocks[5].getDivscore()));
+	
+			addClick(divstock1, stocks[3]);
+			addClick(divstock2, stocks[4]);
+			addClick(divstock3, stocks[5]);
+	
+			return;
+		}
+		
+		if(scoreType.equals(KinveyConstants.GROWTHSCORE_COLUMN)) {
+			// growth score table
+			bestGrow = stocks;
+			
+			TextView gstock1 = (TextView) rv
+					.findViewById(R.id.growthstock1);
+			TextView gstock2 = (TextView) rv
+					.findViewById(R.id.growthstock2);
+			TextView gstock3 = (TextView) rv
+					.findViewById(R.id.growthstock3);
+	
+			TextView ggrade1 = (TextView) rv
+					.findViewById(R.id.stock1_growth);
+			TextView ggrade2 = (TextView) rv
+					.findViewById(R.id.stock2_growth);
+			TextView ggrade3 = (TextView) rv
+					.findViewById(R.id.stock3_growth);
+	
+			gstock1.setText(stocks[6].getTicker());
+			gstock2.setText(stocks[7].getTicker());
+			gstock3.setText(stocks[8].getTicker());
+	
+			ggrade1.setText(String.valueOf(stocks[6].getGrowthscore()));
+			ggrade2.setText(String.valueOf(stocks[7].getGrowthscore()));
+			ggrade3.setText(String.valueOf(stocks[8].getGrowthscore()));
+	
+			addClick(gstock1, stocks[6]);
+			addClick(gstock2, stocks[7]);
+			addClick(gstock3, stocks[8]);
+			
+			return;
+		}
 	}
 
+
 	// fetch data
-	private void kinveyDataFetcher(View rv) {
+	private void kinveyDataFetcher(View rv, String scoreType, float scoreLimit) {
 		Query fetchRank = mKinveyClient.query();
-		Query fetchLastLetter = new Query(); // mKinveyClient.query();
-
-		// QUERY MUST BE CHANGED
-		// fetchRank.startsWith("PE", "9");
-
-		fetchLastLetter.startsWith("Ticker", "M");
-
-		fetchRank.setLimit(maxNamesDisplayed);
-		fetchLastLetter.setLimit(maxNamesDisplayed);
-
-		kinveyFetchQuery(fetchLastLetter, rv);
+		fetchRank.greaterThanEqualTo(scoreType, scoreLimit);
+		fetchRank.addSort(scoreType, SortOrder.DESC);
+		fetchRank.setLimit(KinveyConstants.SCORES_SECTION_LIMIT);
+		ConnectToKinveyTask.kinveyFetchFragmentQuery(this, fetchRank, rv, scoreType);
 
 	}
 
@@ -228,22 +247,12 @@ public class HotStocksSectionFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
-				String[] values = s.values().toString().split(",");
-				String[] keySet = s.keySet().toString().split(",");
-
-				Intent i = new Intent(getActivity(),
+				Intent intent = new Intent(getActivity(),
 						DisplayStockRatioData.class);
-				Bundle b = new Bundle();
-				b.putStringArray("values", values);
-				b.putStringArray("keySet", keySet);
-				i.putExtra("ratioData", b);
-				i.putExtra("activityID", ActivityConstants.SearchStockActivity); // send
-																					// the
-																					// activity
-																					// id
-				startActivity(i);
-
+				Bundle bundle = new Bundle();
+				bundle.putString(KinveyConstants.TICKER_SINGLE, s.getTicker());
+				intent.putExtra(KinveyConstants.RATIO_BUNDLE, bundle);
+				startActivity(intent);
 			}
 
 		});

@@ -19,102 +19,101 @@ public class Stock extends GenericJson{
 	@Key("_id")
 	private String _id;
 	@Key("Ticker")
-	private String t;
+	private String ticker;
 	@Key("Company")
-	private String n;
+	private String company;
 	@Key("Sector")
-	private String s;
+	private String sector;
 	@Key("Industry")
-	private String i;
+	private String industry;
 	@Key("Country")
-	private String c;
-	@Key("P/E")
-	private String PE;
-	@Key("Forward P/E")
-	private String FPE;
-	@Key("PEG")
-	private String PEG;
-	@Key("P/S")
-	private String PS;
-	@Key("P/B")
-	private String PB;
-	@Key("P/Cash")
-	private String PC;
-	@Key("P/Free Cash Flow")
-	private String PFCF;
-	@Key("Dividend Yield")
-	private String d;
-	@Key("Payout Ratio")
-	private String PO;
-	@Key("EPS growth this year")
-	private String EPSTHISYR;
-	@Key("EPS growth next year")
-	private String EPSNEXTYEAR;
-	@Key("EPS growth past 5 years")
-	private String EPS5;
-	@Key("EPS growth next 5 years")
-	private String eg;
-	@Key("Sales growth past 5 years")
-	private String SALES5;
+	private String country;
+	@Key("Price_to_Earnings")
+	private float pe;
+	@Key("Forward_Price_to_Earnings")
+	private float fpe;
+	@Key("Price_to_Earnings_Growth")
+	private float peg;
+	@Key("Price_to_Sales")
+	private float ps;
+	@Key("Price_to_Book")
+	private float pb;
+	@Key("Price_to_Cash")
+	private float pc;
+	@Key("Price_to_Free_Cash_Flow")
+	private float pfcf;
+	@Key("Dividend_Yield")
+	private float dyield;
+	@Key("Payout_Ratio")
+	private float po;
+	@Key("EPS_Growth_This_Year")
+	private float epsthisyr;
+	@Key("EPS_Growth_Next_Year")
+	private float epsnextyr;
+	@Key("EPS_Growth_Past_5_Years")
+	private float epspast5yr;
+	@Key("EPS_Growth_Next_5_Years")
+	private float epsnext5yr;
+	@Key("Sales_Growth_Past_5_Years")
+	private float salespast5yr;
 	@Key("Shares Float")
-	private String FLOAT;
+	private float sfloat;
 	@Key("Sales growth next 5 years")
-	private String salesgNext5years;
+	private float salesnext5yr;
 	@Key("EPS growth quarter over quarter")
-	private String epsg_qoq;
+	private float epsg_qoq;
 	@Key("Sales growth quarter over quarter")
-	private String salesg_qoq;
-	@Key("Insider Ownership")
-	private String INSIOWN;
-	@Key("Insider Transactions")
-	private String INSITRANS;
-	@Key("Institutional Ownership")
-	private String INSTOWN;
-	@Key("Institutional Transactions")
-	private String INSTTRANS;
-	@Key("Float Short")
-	private String SHORT;
+	private float salesg_qoq;
+	@Key("Insider_Ownership")
+	private float insiown;
+	@Key("Insider_Transactions")
+	private float insitrans;
+	@Key("Institutional_Ownership")
+	private float instown;
+	@Key("Institutional_Transactions")
+	private float insttrans;
+	@Key("Float_Short")
+	private float fshort;
 	@Key("Short Ratio")
-	private String shortRatio;
-	@Key("Return on Assets")
-	private String ROA;
-	@Key("Return on Equity")
-	private String ROE;
-	@Key("Return on Investment")
-	private String returnOnInvestment;
+	private float sr;
+	@Key("Return_On_Assets")
+	private float roa;
+	@Key("Return_On_Equity")
+	private float roe;
+	@Key("Return On Investment")
+	private float roi;
 	@Key("Current Ratio")
-	private String CR;
+	private float cr;
 	@Key("Quick Ratio")
-	private String QR;
-	@Key("LT Debt/Equity")
-	private String LTDE;
+	private float qr;
+	@Key("Longterm_Debt_to_Equity")
+	private float ltde;
 	@Key("Gross Margin")
-	private String grossMargin;
-	@Key("Profit Margin")
-	private String PM;
+	private float grossMargin;
+	@Key("Profit_Margin")
+	private float profitMargin;
 	@Key("Operating Margin")
-	private String operatingMargin;
-	@Key("BETA")
-	private String BETA;
+	private float operatingMargin;
+	@Key("Beta")
+	private float beta;
 	@Key("Volatility (Week)")
-	private String WVOL;
+	private float wvol;
 	@Key("Volatility (Month)")
-	private String MVOL;
-	@Key("Relative Strength Index")
-	private String RSI;
+	private float mvol;
+	@Key("Relative_Strength_Index")
+	private float rsi;
 	@Key("Average Volume")
-	private String AVGVOL;
+	private float avgvol;
 	@Key("Relative Volume")
-	private String RVOL;
-	@Key("Total Score")
-	private String dan;
-	@Key("Dividend Score")
-	private String DIVSCORE;
-	@Key("Growth Score")
-	private String growth;
+	private float rvol;
+	@Key("Total_Score")
+	private float totalscore;
+	@Key("Dividend_Score")
+	private float divscore;
+	@Key("Growth_Score")
+	private float growthscore;
 	
 	
-
 	 @Key("Date") private String date;
 	 @Key("Open") private String open;
 	 @Key("High") private String high;
@@ -130,630 +129,355 @@ public class Stock extends GenericJson{
 													// OPTIONAL
 	public Stock() {
 	} // GenericJson classes must have a public empty constructor
-
-	private String epsg;
-	private String salesg;
-
-	private String debtEquity;
-
-	/**
-	 * @return the stockSize
-	 */
-	public int getSize() {
+	public int getStockSize() {
 		return stockSize;
 	}
-	
-	/**
-	 * @param size the stockSize to set
-	 */
-	public void setSize(int size) {
-		this.stockSize = size;
+	public void setStockSize(int stockSize) {
+		this.stockSize = stockSize;
 	}
-	
-	
-	/**
-	 * @return the _id
-	 */
 	public String getId() {
 		return _id;
 	}
-	
-	/**
-	 * @param _id the _id to set
-	 */
 	public void setId(String _id) {
 		this._id = _id;
 	}
-
-	
-
-	/**
-	 * @return the ticker
-	 */
 	public String getTicker() {
-		return t;
+		return ticker;
 	}
-
-	/**
-	 * @param ticker the ticker to set
-	 */
 	public void setTicker(String ticker) {
-		this.t = ticker;
+		this.ticker = ticker;
 	}
-
-	/**
-	 * @return the company
-	 */
 	public String getCompany() {
-		return n;
+		return company;
 	}
-
-	/**
-	 * @param company the company to set
-	 */
 	public void setCompany(String company) {
-		this.n = company;
+		this.company = company;
 	}
-
-	/**
-	 * @return the sector
-	 */
 	public String getSector() {
-		return s;
+		return sector;
 	}
-
-	/**
-	 * @param sector the sector to set
-	 */
 	public void setSector(String sector) {
-		this.s = sector;
+		this.sector = sector;
 	}
-
-	/**
-	 * @return the industry
-	 */
 	public String getIndustry() {
-		return i;
+		return industry;
 	}
-
-	/**
-	 * @param industry the industry to set
-	 */
 	public void setIndustry(String industry) {
-		this.i = industry;
+		this.industry = industry;
 	}
-
-	/**
-	 * @return the country
-	 */
 	public String getCountry() {
-		return c;
+		return country;
 	}
-
-	/**
-	 * @param country the country to set
-	 */
 	public void setCountry(String country) {
-		this.c = country;
+		this.country = country;
 	}
-
-	/**
-	 * @return the pe
-	 */
-	public String getPe() {
-		return PE;
+	public float getPe() {
+		return pe;
 	}
-
-	/**
-	 * @param pe the pe to set
-	 */
-	public void setPe(String pe) {
-		this.PE = pe;
+	public void setPe(float pe) {
+		this.pe = pe;
 	}
-
-	/**
-	 * @return the forward_pe
-	 */
-	public String getForward_pe() {
-		return FPE;
+	public float getFpe() {
+		return fpe;
 	}
-
-	/**
-	 * @param forward_pe the forward_pe to set
-	 */
-	public void setForward_pe(String forward_pe) {
-		this.FPE = forward_pe;
+	public void setFpe(float fpe) {
+		this.fpe = fpe;
 	}
-
-	/**
-	 * @return the peg
-	 */
-	public String getPeg() {
-		return PEG;
+	public float getPeg() {
+		return peg;
 	}
-
-	/**
-	 * @param peg the peg to set
-	 */
-	public void setPeg(String peg) {
-		this.PEG = peg;
+	public void setPeg(float peg) {
+		this.peg = peg;
 	}
-
-	/**
-	 * @return the ps
-	 */
-	public String getPs() {
-		return PS;
+	public float getPs() {
+		return ps;
 	}
-
-	/**
-	 * @param ps the ps to set
-	 */
-	public void setPs(String ps) {
-		this.PS = ps;
+	public void setPs(float ps) {
+		this.ps = ps;
 	}
-
-	/**
-	 * @return the pb
-	 */
-	public String getPb() {
-		return PB;
+	public float getPb() {
+		return pb;
 	}
-
-	/**
-	 * @param pb the pb to set
-	 */
-	public void setPb(String pb) {
-		this.PB = pb;
+	public void setPb(float pb) {
+		this.pb = pb;
 	}
-
-	/**
-	 * @return the pc
-	 */
-	public String getPc() {
-		return PC;
+	public float getPc() {
+		return pc;
 	}
-
-	/**
-	 * @param pc the pc to set
-	 */
-	public void setPc(String pc) {
-		this.PC = pc;
+	public void setPc(float pc) {
+		this.pc = pc;
 	}
-
-	/**
-	 * @return the priceFreeCashFlow
-	 */
-	public String getPriceFreeCashFlow() {
-		return PFCF;
+	public float getPfcf() {
+		return pfcf;
 	}
-
-	/**
-	 * @param priceFreeCashFlow the priceFreeCashFlow to set
-	 */
-	public void setPriceFreeCashFlow(String priceFreeCashFlow) {
-		this.PFCF = priceFreeCashFlow;
+	public void setPfcf(float pfcf) {
+		this.pfcf = pfcf;
 	}
-
-	/**
-	 * @return the epsgThisYear
-	 */
-	public String getEpsgThisYear() {
-		return EPSTHISYR;
+	public float getDyield() {
+		return dyield;
 	}
-
-	/**
-	 * @param epsgThisYear the epsgThisYear to set
-	 */
-	public void setEpsgThisYear(String epsgThisYear) {
-		this.EPSTHISYR = epsgThisYear;
+	public void setDyield(float dyield) {
+		this.dyield = dyield;
 	}
-
-	/**
-	 * @return the epsgPast5Years
-	 */
-	public String getEpsgPast5Years() {
-		return EPS5;
+	public float getPo() {
+		return po;
 	}
-
-	/**
-	 * @param epsgPast5Years the epsgPast5Years to set
-	 */
-	public void setEpsgPast5Years(String epsgPast5Years) {
-		this.EPS5 = epsgPast5Years;
+	public void setPo(float po) {
+		this.po = po;
 	}
-
-	/**
-	 * @return the epsgNext5Years
-	 */
-	public String getEpsgNext5Years() {
-		return eg;
+	public float getEpsthisyr() {
+		return epsthisyr;
 	}
-
-	/**
-	 * @param epsgNext5Years the epsgNext5Years to set
-	 */
-	public void setEpsgNext5Years(String epsgNext5Years) {
-		this.eg = epsgNext5Years;
+	public void setEpsthisyr(float epsthisyr) {
+		this.epsthisyr = epsthisyr;
 	}
-
-	/**
-	 * @return the salesgPast5Years
-	 */
-	public String getSalesgPast5Years() {
-		return SALES5;
+	public float getEpsnextyr() {
+		return epsnextyr;
 	}
-
-	/**
-	 * @param salesgPast5Years the salesgPast5Years to set
-	 */
-	public void setSalesgPast5Years(String salesgPast5Years) {
-		this.SALES5 = salesgPast5Years;
+	public void setEpsnextyr(float epsnextyr) {
+		this.epsnextyr = epsnextyr;
 	}
-
-	/**
-	 * @return the epsg
-	 */
-	public String getEpsg() {
-		return epsg;
+	public float getEpspast5yr() {
+		return epspast5yr;
 	}
-
-	/**
-	 * @param epsg the epsg to set
-	 */
-	public void setEpsg(String epsg) {
-		this.epsg = epsg;
+	public void setEpspast5yr(float epspast5yr) {
+		this.epspast5yr = epspast5yr;
 	}
-
-	/**
-	 * @return the salesg
-	 */
-	public String getSalesg() {
-		return salesg;
+	public float getEpsnext5yr() {
+		return epsnext5yr;
 	}
-
-	/**
-	 * @param salesg the salesg to set
-	 */
-	public void setSalesg(String salesg) {
-		this.salesg = salesg;
+	public void setEpsnext5yr(float epsnext5yr) {
+		this.epsnext5yr = epsnext5yr;
 	}
-
-	/**
-	 * @return the dividendYield
-	 */
-	public String getDividendYield() {
-		return d;
+	public float getSalespast5yr() {
+		return salespast5yr;
 	}
-
-	/**
-	 * @param dividendYield the dividendYield to set
-	 */
-	public void setDividendYield(String dividendYield) {
-		this.d = dividendYield;
+	public void setSalespast5yr(float salespast5yr) {
+		this.salespast5yr = salespast5yr;
 	}
-
-	/**
-	 * @return the returnOnAssets
-	 */
-	public String getReturnOnAssets() {
-		return ROA;
+	public float getSfloat() {
+		return sfloat;
 	}
-
-	/**
-	 * @param returnOnAssets the returnOnAssets to set
-	 */
-	public void setReturnOnAssets(String returnOnAssets) {
-		this.ROA = returnOnAssets;
+	public void setSfloat(float sfloat) {
+		this.sfloat = sfloat;
 	}
-
-	/**
-	 * @return the returnOnEquity
-	 */
-	public String getReturnOnEquity() {
-		return ROE;
+	public float getSalesnext5yr() {
+		return salesnext5yr;
 	}
-
-	/**
-	 * @param returnOnEquity the returnOnEquity to set
-	 */
-	public void setReturnOnEquity(String returnOnEquity) {
-		this.ROE = returnOnEquity;
+	public void setSalesnext5yr(float salesnext5yr) {
+		this.salesnext5yr = salesnext5yr;
 	}
-
-	/**
-	 * @return the returnOnInvestment
-	 */
-	public String getReturnOnInvestment() {
-		return returnOnInvestment;
+	public float getEpsg_qoq() {
+		return epsg_qoq;
 	}
-
-	/**
-	 * @param returnOnInvestment the returnOnInvestment to set
-	 */
-	public void setReturnOnInvestment(String returnOnInvestment) {
-		this.returnOnInvestment = returnOnInvestment;
+	public void setEpsg_qoq(float epsg_qoq) {
+		this.epsg_qoq = epsg_qoq;
 	}
-
-	/**
-	 * @return the currentRatio
-	 */
-	public String getCurrentRatio() {
-		return CR;
+	public float getSalesg_qoq() {
+		return salesg_qoq;
 	}
-
-	/**
-	 * @param currentRatio the currentRatio to set
-	 */
-	public void setCurrentRatio(String currentRatio) {
-		this.CR = currentRatio;
+	public void setSalesg_qoq(float salesg_qoq) {
+		this.salesg_qoq = salesg_qoq;
 	}
-
-	/**
-	 * @return the quickRatio
-	 */
-	public String getQuickRatio() {
-		return QR;
+	public float getInsiown() {
+		return insiown;
 	}
-
-	/**
-	 * @param quickRatio the quickRatio to set
-	 */
-	public void setQuickRatio(String quickRatio) {
-		this.QR = quickRatio;
+	public void setInsiown(float insiown) {
+		this.insiown = insiown;
 	}
-
-	/**
-	 * @return the ltDebtEquity
-	 */
-	public String getLtDebtEquity() {
-		return LTDE;
+	public float getInsitrans() {
+		return insitrans;
 	}
-
-	/**
-	 * @param ltDebtEquity the ltDebtEquity to set
-	 */
-	public void setLtDebtEquity(String ltDebtEquity) {
-		this.LTDE = ltDebtEquity;
+	public void setInsitrans(float insitrans) {
+		this.insitrans = insitrans;
 	}
-
-	/**
-	 * @return the debtEquity
-	 */
-	public String getDebtEquity() {
-		return debtEquity;
+	public float getInstown() {
+		return instown;
 	}
-
-	/**
-	 * @param debtEquity the debtEquity to set
-	 */
-	public void setDebtEquity(String debtEquity) {
-		this.debtEquity = debtEquity;
+	public void setInstown(float instown) {
+		this.instown = instown;
 	}
-
-	/**
-	 * @return the grossMargin
-	 */
-	public String getGrossMargin() {
+	public float getInsttrans() {
+		return insttrans;
+	}
+	public void setInsttrans(float insttrans) {
+		this.insttrans = insttrans;
+	}
+	public float getFshort() {
+		return fshort;
+	}
+	public void setFshort(float fshort) {
+		this.fshort = fshort;
+	}
+	public float getSr() {
+		return sr;
+	}
+	public void setSr(float sr) {
+		this.sr = sr;
+	}
+	public float getRoa() {
+		return roa;
+	}
+	public void setRoa(float roa) {
+		this.roa = roa;
+	}
+	public float getRoe() {
+		return roe;
+	}
+	public void setRoe(float roe) {
+		this.roe = roe;
+	}
+	public float getRoi() {
+		return roi;
+	}
+	public void setRoi(float roi) {
+		this.roi = roi;
+	}
+	public float getCr() {
+		return cr;
+	}
+	public void setCr(float cr) {
+		this.cr = cr;
+	}
+	public float getQr() {
+		return qr;
+	}
+	public void setQr(float qr) {
+		this.qr = qr;
+	}
+	public float getLtde() {
+		return ltde;
+	}
+	public void setLtde(float ltde) {
+		this.ltde = ltde;
+	}
+	public float getGrossMargin() {
 		return grossMargin;
 	}
-
-	/**
-	 * @param grossMargin the grossMargin to set
-	 */
-	public void setGrossMargin(String grossMargin) {
+	public void setGrossMargin(float grossMargin) {
 		this.grossMargin = grossMargin;
 	}
-
-	/**
-	 * @return the operatingMargin
-	 */
-	public String getOperatingMargin() {
+	public float getProfitMargin() {
+		return profitMargin;
+	}
+	public void setProfitMargin(float profitMargin) {
+		this.profitMargin = profitMargin;
+	}
+	public float getOperatingMargin() {
 		return operatingMargin;
 	}
-
-	/**
-	 * @param operatingMargin the operatingMargin to set
-	 */
-	public void setOperatingMargin(String operatingMargin) {
+	public void setOperatingMargin(float operatingMargin) {
 		this.operatingMargin = operatingMargin;
 	}
-
-	/**
-	 * @return the netProfitMargin
-	 */
-	public String getNetProfitMargin() {
-		return PM;
+	public float getBeta() {
+		return beta;
 	}
-
-	/**
-	 * @param netProfitMargin the netProfitMargin to set
-	 */
-	public void setNetProfitMargin(String netProfitMargin) {
-		this.PM = netProfitMargin;
+	public void setBeta(float beta) {
+		this.beta = beta;
 	}
-
-	/**
-	 * @return the payoutRatio
-	 */
-	public String getPayoutRatio() {
-		return PO;
+	public float getWvol() {
+		return wvol;
 	}
-
-	/**
-	 * @param payoutRatio the payoutRatio to set
-	 */
-	public void setPayoutRatio(String payoutRatio) {
-		this.PO = payoutRatio;
+	public void setWvol(float wvol) {
+		this.wvol = wvol;
 	}
-
-	/**
-	 * @return the insiderOwnership
-	 */
-	public String getInsiderOwnership() {
-		return INSIOWN;
+	public float getMvol() {
+		return mvol;
 	}
-
-	/**
-	 * @param insiderOwnership the insiderOwnership to set
-	 */
-	public void setInsiderOwnership(String insiderOwnership) {
-		this.INSIOWN = insiderOwnership;
+	public void setMvol(float mvol) {
+		this.mvol = mvol;
 	}
-
-	/**
-	 * @return the institutionalTransactions
-	 */
-	public String getInstitutionalTransactions() {
-		return INSITRANS;
+	public float getRsi() {
+		return rsi;
 	}
-
-	/**
-	 * @param institutionalTransactions the institutionalTransactions to set
-	 */
-	public void setInstitutionalTransactions(String institutionalTransactions) {
-		this.INSITRANS = institutionalTransactions;
+	public void setRsi(float rsi) {
+		this.rsi = rsi;
 	}
-
-	/**
-	 * @return the floatShort
-	 */
-	public String getFloatShort() {
-		return SHORT;
+	public float getAvgvol() {
+		return avgvol;
 	}
-
-	/**
-	 * @param floaStringt the floatShort to set
-	 */
-	public void setFloatShort(String floatShort) {
-		this.SHORT = floatShort;
+	public void setAvgvol(float avgvol) {
+		this.avgvol = avgvol;
 	}
-
-	/**
-	 * @return the shortRatio
-	 */
-	public String getShortRatio() {
-		return shortRatio;
+	public float getRvol() {
+		return rvol;
 	}
-
-	/**
-	 * @param shortRatio the shortRatio to set
-	 */
-	public void setShortRatio(String shortRatio) {
-		this.shortRatio = shortRatio;
+	public void setRvol(float rvol) {
+		this.rvol = rvol;
 	}
-
-	/**
-	 * @return the rsi
-	 */
-	public String getRsi() {
-		return RSI;
+	public float getTotalscore() {
+		return totalscore;
 	}
-
-	/**
-	 * @param rsi the rsi to set
-	 */
-	public void setRsi(String rsi) {
-		this.RSI = rsi;
+	public void setTotalscore(float totalscore) {
+		this.totalscore = totalscore;
 	}
-
-	/**
-	 * @return the date
-	 */
+	public float getDivscore() {
+		return divscore;
+	}
+	public void setDivscore(float divscore) {
+		this.divscore = divscore;
+	}
+	public float getGrowthscore() {
+		return growthscore;
+	}
+	public void setGrowthscore(float growthscore) {
+		this.growthscore = growthscore;
+	}
 	public String getDate() {
 		return date;
 	}
-
-	/**
-	 * @param date the date to set
-	 */
 	public void setDate(String date) {
 		this.date = date;
 	}
-
-	/**
-	 * @return the open
-	 */
 	public String getOpen() {
 		return open;
 	}
-
-	/**
-	 * @param open the open to set
-	 */
 	public void setOpen(String open) {
 		this.open = open;
 	}
-
-	/**
-	 * @return the low
-	 */
-	public String getLow() {
-		return low;
-	}
-
-	/**
-	 * @return the high
-	 */
 	public String getHigh() {
 		return high;
 	}
-
-	/**
-	 * @param high the high to set
-	 */
 	public void setHigh(String high) {
 		this.high = high;
 	}
-
-	/**
-	 * @param low the low to set
-	 */
+	public String getLow() {
+		return low;
+	}
 	public void setLow(String low) {
 		this.low = low;
 	}
-
-	/**
-	 * @return the close
-	 */
 	public String getClose() {
 		return close;
 	}
-
-	/**
-	 * @param close the close to set
-	 */
 	public void setClose(String close) {
 		this.close = close;
 	}
-
-	/**
-	 * @return the volume
-	 */
 	public String getVolume() {
 		return volume;
 	}
-
-	/**
-	 * @param volume the volume to set
-	 */
 	public void setVolume(String volume) {
 		this.volume = volume;
 	}
-
-	/**
-	 * @return the adjclose
-	 */
 	public String getAdjclose() {
 		return adjclose;
 	}
-
-	/**
-	 * @param adj the adjclose to set
-	 */
 	public void setAdjclose(String adjclose) {
 		this.adjclose = adjclose;
 	}
-	
+	public KinveyMetaData getMeta() {
+		return meta;
+	}
+	public void setMeta(KinveyMetaData meta) {
+		this.meta = meta;
+	}
+	public KinveyMetaData.AccessControlList getAcl() {
+		return acl;
+	}
+	public void setAcl(KinveyMetaData.AccessControlList acl) {
+		this.acl = acl;
+	}
 
+	
+	
 }

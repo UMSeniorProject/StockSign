@@ -137,44 +137,44 @@ public class DownloadRatioDataTask extends AsyncTask<String, Integer, String>{
 				stock.setSector(nextLine[3]);
 				stock.setIndustry(nextLine[4]);
 				stock.setCountry(nextLine[5]);
-				stock.setPe(nextLine[6]);
-				stock.setForward_pe(nextLine[7]);
-				stock.setPeg(nextLine[8]);
-				stock.setPs(nextLine[9]);
-				stock.setPb(nextLine[10]);
+				stock.setPe(Float.valueOf(nextLine[6]));
+				stock.setFpe(Float.valueOf(nextLine[7]));
+				stock.setPeg(Float.valueOf(nextLine[8]));
+				stock.setPs(Float.valueOf(nextLine[9]));
+				stock.setPb(Float.valueOf(nextLine[10]));
 				
 				
-				stock.setPc(nextLine[11]);
-				stock.setPriceFreeCashFlow(nextLine[12]);
-				stock.setDividendYield(nextLine[13]);
-				stock.setPayoutRatio(nextLine[14]);
+				stock.setPc(Float.valueOf(nextLine[11]));
+				stock.setPfcf(Float.valueOf(nextLine[12]));
+				stock.setDyield(Float.valueOf(nextLine[13]));
+				stock.setPo(Float.valueOf(nextLine[14]));
 		
-				stock.setEpsgThisYear(nextLine[15]);
+				stock.setEpsthisyr(Float.valueOf(nextLine[15]));
 				//nextline[16] eps growth next year
-				stock.setEpsgPast5Years(nextLine[17]);
-				stock.setEpsgNext5Years(nextLine[18]);
-				stock.setSalesgPast5Years(nextLine[19]);
-				stock.setEpsg(nextLine[20]);
-				stock.setSalesg(nextLine[21]);
-				stock.setInsiderOwnership(nextLine[22]);
+				stock.setEpspast5yr(Float.valueOf(nextLine[17]));
+				stock.setEpsnext5yr(Float.valueOf(nextLine[18]));
+				stock.setSalespast5yr(Float.valueOf(nextLine[19]));
+				stock.setEpsg_qoq(Float.valueOf(nextLine[20]));
+				stock.setSalesg_qoq(Float.valueOf(nextLine[21]));
+				stock.setInsiown(Float.valueOf(nextLine[22]));
 				//nextline[23] insider transaction
 				//Institutional Ownership nextLine[24]
-				stock.setInstitutionalTransactions(nextLine[25]);
-				stock.setFloatShort(nextLine[26]);
-				stock.setShortRatio(nextLine[27]);
+				stock.setInstown(Float.valueOf(nextLine[25]));
+				stock.setSfloat(Float.valueOf(nextLine[26]));
+				stock.setSr(Float.valueOf(nextLine[27]));
 		//
 				
-				stock.setReturnOnAssets(nextLine[28]);
-				stock.setReturnOnEquity(nextLine[29]);
-				stock.setReturnOnInvestment(nextLine[30]);
-				stock.setCurrentRatio(nextLine[31]);
+				stock.setRoa(Float.valueOf(nextLine[28]));
+				stock.setRoe(Float.valueOf(nextLine[29]));
+				stock.setRoi(Float.valueOf(nextLine[30]));
+				stock.setCr(Float.valueOf(nextLine[31]));
 				
-				stock.setQuickRatio(nextLine[32]);
-				stock.setLtDebtEquity(nextLine[33]);
-				stock.setGrossMargin(nextLine[34]);
-				stock.setOperatingMargin(nextLine[35]);
+				stock.setQr(Float.valueOf(nextLine[32]));
+				stock.setLtde(Float.valueOf(nextLine[33]));
+				stock.setGrossMargin(Float.valueOf(nextLine[34]));
+				stock.setOperatingMargin(Float.valueOf(nextLine[35]));
 				//Profit Margin 36
-				stock.setRsi(nextLine[37]);
+				stock.setRsi(Float.valueOf(nextLine[37]));
 				
 				
 				
