@@ -91,7 +91,7 @@ public class TotalScore extends Activity {
 			labelTV.setId(200 + current);
 			labelTV.setText(tickers[current]);
 			labelTV.setTextColor(Color.BLACK);
-			labelTV.setTextSize(17);
+			labelTV.setTextSize(ApplicationConstants.SCORE_DATA_TEXT_SIZE);
 			labelTV.setLayoutParams(new LayoutParams(
 					LayoutParams.WRAP_CONTENT));
 			labelTV.setGravity(Gravity.CENTER);
@@ -102,7 +102,7 @@ public class TotalScore extends Activity {
 			valueTV.setId(300 + current);
 			valueTV.setText(scores[current]);
 			valueTV.setTextColor(Color.BLACK);
-			valueTV.setTextSize(17);
+			valueTV.setTextSize(ApplicationConstants.SCORE_DATA_TEXT_SIZE);
 			valueTV.setLayoutParams(new LayoutParams(
 					LayoutParams.WRAP_CONTENT));
 			valueTV.setGravity(Gravity.CENTER);

@@ -17,7 +17,6 @@ import com.kinvey.java.Query;
 import com.kinvey.java.query.AbstractQuery.SortOrder;
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.activity.ApplicationConstants;
-import com.seniorproject.stocksign.activity.Utilities;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.display.DisplayStockRatioData;
 import com.seniorproject.stocksign.display.DividendScore;
@@ -70,55 +69,67 @@ public class HotStocksSectionFragment extends Fragment {
 		gscore.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(), GrowthScore.class);
-				String[] tickers = new String[bestGrow.length];
-				String[] scores = new String[bestGrow.length];
-				for(int i = 0; i < bestGrow.length; i++) {
-					tickers[i] = bestGrow[i].getTicker();
-					scores[i] = String.valueOf(bestGrow[i].getGrowthscore());
+				
+				/* make sure there are scores to show */
+				if(bestGrow != null) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(getActivity(), GrowthScore.class);
+					String[] tickers = new String[bestGrow.length];
+					String[] scores = new String[bestGrow.length];
+					for(int i = 0; i < bestGrow.length; i++) {
+						tickers[i] = bestGrow[i].getTicker();
+						scores[i] = String.valueOf(bestGrow[i].getGrowthscore());
+					}
+					Bundle bundle = new Bundle();
+					bundle.putStringArray(ApplicationConstants.TICKER_ARRAY, tickers);
+					bundle.putStringArray(ApplicationConstants.SCORES_ARRAY, scores);
+					intent.putExtra(ApplicationConstants.SCORES_BUNDLE, bundle);
+					startActivity(intent);
 				}
-				Bundle bundle = new Bundle();
-				bundle.putStringArray(ApplicationConstants.TICKER_ARRAY, tickers);
-				bundle.putStringArray(ApplicationConstants.SCORES_ARRAY, scores);
-				intent.putExtra(ApplicationConstants.SCORES_BUNDLE, bundle);
-				startActivity(intent);
 			}
 		});
 		tscore.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(), TotalScore.class);
-				String[] tickers = new String[bestTotal.length];
-				String[] scores = new String[bestTotal.length];
-				for(int i = 0; i < bestTotal.length; i++) {
-					tickers[i] = bestTotal[i].getTicker();
-					scores[i] = String.valueOf(bestTotal[i].getTotalscore());
+				
+				/* make sure there are scores to show */
+				if(bestTotal != null) {
+					Intent intent = new Intent(getActivity(), TotalScore.class);
+					String[] tickers = new String[bestTotal.length];
+					String[] scores = new String[bestTotal.length];
+					for(int i = 0; i < bestTotal.length; i++) {
+						tickers[i] = bestTotal[i].getTicker();
+						scores[i] = String.valueOf(bestTotal[i].getTotalscore());
+					}
+					Bundle bundle = new Bundle();
+					bundle.putStringArray(ApplicationConstants.TICKER_ARRAY, tickers);
+					bundle.putStringArray(ApplicationConstants.SCORES_ARRAY, scores);
+					intent.putExtra(ApplicationConstants.SCORES_BUNDLE, bundle);
+					startActivity(intent);
 				}
-				Bundle bundle = new Bundle();
-				bundle.putStringArray(ApplicationConstants.TICKER_ARRAY, tickers);
-				bundle.putStringArray(ApplicationConstants.SCORES_ARRAY, scores);
-				intent.putExtra(ApplicationConstants.SCORES_BUNDLE, bundle);
-				startActivity(intent);
 			}
 		});
 		dscore.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(), DividendScore.class);
-				String[] tickers = new String[bestDiv.length];
-				String[] scores = new String[bestDiv.length];
-				for(int i = 0; i < bestDiv.length; i++) {
-					tickers[i] = bestDiv[i].getTicker();
-					scores[i] = String.valueOf(bestDiv[i].getDivscore());
+				
+				/* make sure there are scores to show */
+				if(bestDiv != null) {
+					Intent intent = new Intent(getActivity(), DividendScore.class);
+					String[] tickers = new String[bestDiv.length];
+					String[] scores = new String[bestDiv.length];
+					for(int i = 0; i < bestDiv.length; i++) {
+						tickers[i] = bestDiv[i].getTicker();
+						scores[i] = String.valueOf(bestDiv[i].getDivscore());
+					}
+					Bundle bundle = new Bundle();
+					bundle.putStringArray(ApplicationConstants.TICKER_ARRAY, tickers);
+					bundle.putStringArray(ApplicationConstants.SCORES_ARRAY, scores);
+					intent.putExtra(ApplicationConstants.SCORES_BUNDLE, bundle);
+					startActivity(intent);
 				}
-				Bundle bundle = new Bundle();
-				bundle.putStringArray(ApplicationConstants.TICKER_ARRAY, tickers);
-				bundle.putStringArray(ApplicationConstants.SCORES_ARRAY, scores);
-				intent.putExtra(ApplicationConstants.SCORES_BUNDLE, bundle);
-				startActivity(intent);
 			}
 		});
 		return rootView;

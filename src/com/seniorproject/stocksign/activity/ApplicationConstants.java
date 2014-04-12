@@ -3,6 +3,7 @@ package com.seniorproject.stocksign.activity;
 public interface ApplicationConstants {
 
 	int RATIO_DATA_TEXT_SIZE = 10;
+	int SCORE_DATA_TEXT_SIZE = 17;
 	
 	static String SCORES_ARRAY = "scores";
 	static String TICKER_ARRAY = "tickers";
@@ -10,6 +11,8 @@ public interface ApplicationConstants {
 	
 	static String RATIO_BUNDLE = "ratioData";
 	static String TICKER_SINGLE = "ticker";
+	
+	static String USER_PORTFOLIO_TITLE = "My Portfolio";
 	
 	//Kinvey Constants
 	static String RATIO_TABLE = "StockDataTable";

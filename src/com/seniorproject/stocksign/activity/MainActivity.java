@@ -45,6 +45,7 @@ import com.seniorproject.stocksign.display.AboutUs;
 import com.seniorproject.stocksign.fragment.HotStocksSectionFragment;
 import com.seniorproject.stocksign.fragment.MarketSectionFragment;
 import com.seniorproject.stocksign.fragment.NewsSectionFragment;
+import com.seniorproject.stocksign.fragment.PortfolioSectionFragment;
 import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
 import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
 import com.seniorproject.stocksign.searching.SearchStockActivity;
@@ -148,7 +149,7 @@ public class MainActivity extends FragmentActivity implements
 
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		// Create the adapter that will return a fragment for each of the three
+		// Create the adapter that will return a fragment for each of the
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
 				getSupportFragmentManager());
@@ -307,13 +308,17 @@ public class MainActivity extends FragmentActivity implements
 				break;
 
 			case 1:
-				fragment = new MarketSectionFragment();
+				fragment = new PortfolioSectionFragment();
 				break;
 
 			case 2:
 				fragment = new NewsSectionFragment();
 				break;
-
+			
+			case 3:
+				fragment = new MarketSectionFragment();
+				break;
+				
 			default:
 				fragment = new DummySectionFragment();
 				break;
@@ -334,7 +339,7 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public int getCount() {
 			// Show 4 total pages.
-			return 3;
+			return 4;
 		}
 
 		@Override
@@ -344,10 +349,12 @@ public class MainActivity extends FragmentActivity implements
 			case 0:
 				return getString(R.string.title_hotstocks).toUpperCase(l);
 			case 1:
-				return getString(R.string.title_markets).toUpperCase(l);
+				return getString(R.string.title_portfolio).toUpperCase(l);
 			case 2:
 				return getString(R.string.title_news).toUpperCase(l);
-
+			case 3:
+				return getString(R.string.title_markets).toUpperCase(l);
+				
 			}
 			return null;
 		}
