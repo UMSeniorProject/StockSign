@@ -16,6 +16,7 @@ import com.kinvey.android.Client;
 import com.kinvey.java.Query;
 import com.kinvey.java.query.AbstractQuery.SortOrder;
 import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.activity.ApplicationConstants;
 import com.seniorproject.stocksign.activity.Utilities;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.display.DisplayStockRatioData;
@@ -24,7 +25,6 @@ import com.seniorproject.stocksign.display.GrowthScore;
 import com.seniorproject.stocksign.display.TotalScore;
 import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
 import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
-import com.seniorproject.stocksign.kinveyconnection.KinveyConstants;
 
 /**
  * @author Sean
@@ -55,13 +55,13 @@ public class HotStocksSectionFragment extends Fragment {
 
 		mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
 		
-		kinveyDataFetcher(rootView, KinveyConstants.TOTALSCORE_COLUMN, KinveyConstants.TOTALSCORE_LIMIT);
-		kinveyDataFetcher(rootView, KinveyConstants.DIVSCORE_COLUMN, KinveyConstants.DIVSCORE_LIMIT);
-		kinveyDataFetcher(rootView, KinveyConstants.GROWTHSCORE_COLUMN, KinveyConstants.GROWTHSCORE_LIMIT);
+		kinveyDataFetcher(rootView, ApplicationConstants.TOTALSCORE_COLUMN, ApplicationConstants.TOTALSCORE_LIMIT);
+		kinveyDataFetcher(rootView, ApplicationConstants.DIVSCORE_COLUMN, ApplicationConstants.DIVSCORE_LIMIT);
+		kinveyDataFetcher(rootView, ApplicationConstants.GROWTHSCORE_COLUMN, ApplicationConstants.GROWTHSCORE_LIMIT);
 
 		TextView hotTextView = (TextView) rootView
 				.findViewById(R.id.section_label);
-		hotTextView.setText(KinveyConstants.TOP_RATED_STOCKS_TITLE);
+		hotTextView.setText(ApplicationConstants.TOP_RATED_STOCKS_TITLE);
 
 		TextView gscore = (TextView) rootView.findViewById(R.id.growthscore);
 		TextView tscore = (TextView) rootView.findViewById(R.id.totalscore);
@@ -79,9 +79,9 @@ public class HotStocksSectionFragment extends Fragment {
 					scores[i] = String.valueOf(bestGrow[i].getGrowthscore());
 				}
 				Bundle bundle = new Bundle();
-				bundle.putStringArray(KinveyConstants.TICKER_ARRAY, tickers);
-				bundle.putStringArray(KinveyConstants.SCORES_ARRAY, scores);
-				intent.putExtra(KinveyConstants.SCORES_BUNDLE, bundle);
+				bundle.putStringArray(ApplicationConstants.TICKER_ARRAY, tickers);
+				bundle.putStringArray(ApplicationConstants.SCORES_ARRAY, scores);
+				intent.putExtra(ApplicationConstants.SCORES_BUNDLE, bundle);
 				startActivity(intent);
 			}
 		});
@@ -97,9 +97,9 @@ public class HotStocksSectionFragment extends Fragment {
 					scores[i] = String.valueOf(bestTotal[i].getTotalscore());
 				}
 				Bundle bundle = new Bundle();
-				bundle.putStringArray(KinveyConstants.TICKER_ARRAY, tickers);
-				bundle.putStringArray(KinveyConstants.SCORES_ARRAY, scores);
-				intent.putExtra(KinveyConstants.SCORES_BUNDLE, bundle);
+				bundle.putStringArray(ApplicationConstants.TICKER_ARRAY, tickers);
+				bundle.putStringArray(ApplicationConstants.SCORES_ARRAY, scores);
+				intent.putExtra(ApplicationConstants.SCORES_BUNDLE, bundle);
 				startActivity(intent);
 			}
 		});
@@ -115,9 +115,9 @@ public class HotStocksSectionFragment extends Fragment {
 					scores[i] = String.valueOf(bestDiv[i].getDivscore());
 				}
 				Bundle bundle = new Bundle();
-				bundle.putStringArray(KinveyConstants.TICKER_ARRAY, tickers);
-				bundle.putStringArray(KinveyConstants.SCORES_ARRAY, scores);
-				intent.putExtra(KinveyConstants.SCORES_BUNDLE, bundle);
+				bundle.putStringArray(ApplicationConstants.TICKER_ARRAY, tickers);
+				bundle.putStringArray(ApplicationConstants.SCORES_ARRAY, scores);
+				intent.putExtra(ApplicationConstants.SCORES_BUNDLE, bundle);
 				startActivity(intent);
 			}
 		});
@@ -130,7 +130,7 @@ public class HotStocksSectionFragment extends Fragment {
 		//CHECK STOCKS SIZE
 		//CHECK NULL INPUTS
 		
-		if(scoreType.equals(KinveyConstants.TOTALSCORE_COLUMN)) {
+		if(scoreType.equals(ApplicationConstants.TOTALSCORE_COLUMN)) {
 			// total score table
 			bestTotal = stocks;
 			
@@ -163,7 +163,7 @@ public class HotStocksSectionFragment extends Fragment {
 			return;
 		}
 		
-		if(scoreType.equals(KinveyConstants.DIVSCORE_COLUMN)) {
+		if(scoreType.equals(ApplicationConstants.DIVSCORE_COLUMN)) {
 			// div score table
 			bestDiv = stocks;
 			
@@ -196,7 +196,7 @@ public class HotStocksSectionFragment extends Fragment {
 			return;
 		}
 		
-		if(scoreType.equals(KinveyConstants.GROWTHSCORE_COLUMN)) {
+		if(scoreType.equals(ApplicationConstants.GROWTHSCORE_COLUMN)) {
 			// growth score table
 			bestGrow = stocks;
 			
@@ -236,7 +236,7 @@ public class HotStocksSectionFragment extends Fragment {
 		Query fetchRank = mKinveyClient.query();
 		fetchRank.greaterThanEqualTo(scoreType, scoreLimit);
 		fetchRank.addSort(scoreType, SortOrder.DESC);
-		fetchRank.setLimit(KinveyConstants.SCORES_SECTION_LIMIT);
+		fetchRank.setLimit(ApplicationConstants.SCORES_SECTION_LIMIT);
 		ConnectToKinveyTask.kinveyFetchFragmentQuery(this, fetchRank, rv, scoreType);
 
 	}
@@ -250,8 +250,8 @@ public class HotStocksSectionFragment extends Fragment {
 				Intent intent = new Intent(getActivity(),
 						DisplayStockRatioData.class);
 				Bundle bundle = new Bundle();
-				bundle.putString(KinveyConstants.TICKER_SINGLE, s.getTicker());
-				intent.putExtra(KinveyConstants.RATIO_BUNDLE, bundle);
+				bundle.putString(ApplicationConstants.TICKER_SINGLE, s.getTicker());
+				intent.putExtra(ApplicationConstants.RATIO_BUNDLE, bundle);
 				startActivity(intent);
 			}
 

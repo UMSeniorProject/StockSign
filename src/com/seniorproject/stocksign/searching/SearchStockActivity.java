@@ -12,6 +12,7 @@ import com.kinvey.java.Query;
 import com.kinvey.java.query.AbstractQuery.SortOrder;
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.activity.ActivityConstants;
+import com.seniorproject.stocksign.activity.ApplicationConstants;
 import com.seniorproject.stocksign.database.PriceData;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.database.TickerTrie;
@@ -19,7 +20,6 @@ import com.seniorproject.stocksign.display.CommonStockClass;
 import com.seniorproject.stocksign.display.DisplayStockRatioData;
 import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
 import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
-import com.seniorproject.stocksign.kinveyconnection.KinveyConstants;
 
 import android.app.Activity;
 import android.content.Context;
@@ -109,7 +109,7 @@ public class SearchStockActivity extends Activity{
 					  	if(s.toString().length()!=0) {		
 					  		searchData = s.toString().toUpperCase(Locale.ENGLISH);//searchTerm.getText().toString().toUpperCase();
 					  		Object[] objects = TickerTrie.getMatches(searchData, 
-					  				KinveyConstants.AUTOCOMPLETE_ROW_LIMIT).toArray();
+					  				ApplicationConstants.AUTOCOMPLETE_ROW_LIMIT).toArray();
 					  		companies = Arrays.copyOf(objects, objects.length, String[].class);
 					  		displayAutoComplete();
 					  	}
@@ -150,8 +150,8 @@ public class SearchStockActivity extends Activity{
 					
 					Intent intent = new Intent(SearchStockActivity.this, DisplayStockRatioData.class);
 					Bundle b = new Bundle();
-					b.putString(KinveyConstants.TICKER_SINGLE, ticker);
-					intent.putExtra(KinveyConstants.RATIO_BUNDLE, b);
+					b.putString(ApplicationConstants.TICKER_SINGLE, ticker);
+					intent.putExtra(ApplicationConstants.RATIO_BUNDLE, b);
 					//i.putExtra("activityID", ActivityConstants.SearchStockActivity); //send the activity id					
 					startActivity(intent);
 					//

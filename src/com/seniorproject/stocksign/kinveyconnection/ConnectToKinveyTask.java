@@ -15,6 +15,7 @@ import com.kinvey.android.callback.KinveyUserCallback;
 import com.kinvey.java.Query;
 import com.kinvey.java.User;
 import com.seniorproject.stocksign.activity.ActivityConstants;
+import com.seniorproject.stocksign.activity.ApplicationConstants;
 import com.seniorproject.stocksign.database.PriceData;
 import com.seniorproject.stocksign.database.Stock;
 
@@ -133,7 +134,7 @@ public class ConnectToKinveyTask implements ActivityConstants{
 	
 	public static void kinveyFetchPriceQuery(String tableName, int startDate, final Activity caller) {
 		Query getQuery = mKinveyClient.query();
-		getQuery.setLimit(KinveyConstants.PRICE_DATA_SECTION_LIMIT);
+		getQuery.setLimit(ApplicationConstants.PRICE_DATA_SECTION_LIMIT);
 		if(startDate != 0) {
 			getQuery.lessThanEqualTo("Date", startDate);
 		}
@@ -163,7 +164,7 @@ public class ConnectToKinveyTask implements ActivityConstants{
 	
 	// method to fetch specific Query from Kinvey
 	public static void kinveyFetchFragmentQuery(final Fragment fragment, Query fetchQuery, final View rv, final String scoreType) {
-		AsyncAppData<Stock> myData = mKinveyClient.appData(KinveyConstants.RATIO_TABLE,
+		AsyncAppData<Stock> myData = mKinveyClient.appData(ApplicationConstants.RATIO_TABLE,
 				Stock.class);
 		myData.get(fetchQuery, new KinveyListCallback<Stock>() {
 			@Override

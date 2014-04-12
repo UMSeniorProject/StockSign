@@ -27,12 +27,12 @@ import com.kinvey.android.callback.KinveyListCallback;
 import com.kinvey.java.Query;
 import com.kinvey.java.query.AbstractQuery.SortOrder;
 import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.activity.ApplicationConstants;
 import com.seniorproject.stocksign.database.PriceData;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.graphing.LineGraph;
 import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
 import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
-import com.seniorproject.stocksign.kinveyconnection.KinveyConstants;
 import com.seniorproject.stocksign.searching.SearchStockActivity;
 
 public class DisplayStockRatioData extends Activity {
@@ -45,8 +45,7 @@ public class DisplayStockRatioData extends Activity {
 	TextView stockSector;
 	TextView stockIndustry;
 	TableLayout ratioTable;
-	
-	//int callingActivityID;
+
 	View currentView;
 
 	private GestureDetectorCompat mDetector;
@@ -63,36 +62,18 @@ public class DisplayStockRatioData extends Activity {
 		stockSector = (TextView) findViewById(R.id.tvStockSectorValue);
 		stockIndustry = (TextView) findViewById(R.id.tvStockIndustryValue);
 		ratioTable = (TableLayout) findViewById(R.id.tlStockratios);
+		
 		// get data
-		Bundle b = intent.getBundleExtra(KinveyConstants.RATIO_BUNDLE);
-		String ticker = b.getString(KinveyConstants.TICKER_SINGLE);
-		//ratioDataArray = b.getStringArray("values");
-		//ratioDataNames = b.getStringArray("keySet");
-		//callingActivityID = intent.getIntExtra("activityID", 0);
+		Bundle b = intent.getBundleExtra(ApplicationConstants.RATIO_BUNDLE);
+		String ticker = b.getString(ApplicationConstants.TICKER_SINGLE);
 		kinveyDataFetcher(ticker);	
 	}
 
 	//fetch data
 		private void kinveyDataFetcher(String searchString) {
-			//Query fetchCompany = mKinveyClient.query();
 			Query fetchTicker = mKinveyClient.query();
-			fetchTicker.equals(KinveyConstants.TICKER_COLUMN,searchString);
-			
-			//fetchCompany.startsWith("Company", searchString);
-			//fetchTicker.startsWith("Ticker", searchString);
-			
-			//fetchCompany.setLimit(KinveyConstants.AUTOCOMPLETE_ROW_LIMIT);
-			//fetchTicker.setLimit(KinveyConstants.AUTOCOMPLETE_ROW_LIMIT);
-			
-			//fetchCompany.addSort("Company", SortOrder.ASC);
-			//fetchTicker.addSort("Ticker", SortOrder.ASC);
-			
-			/*fetchQuery.startsWith(searchCategory, searchString);
-			fetchQuery.setLimit(maxNamesDisplayed);
-			fetchQuery.addSort(searchCategory, SortOrder.ASC);
-			kinveyFetchQuery(fetchQuery);*/
-			ConnectToKinveyTask.kinveyFetchStockQuery(KinveyConstants.RATIO_TABLE, fetchTicker, this);
-			//kinveyFetchQuery(fetchCompany);
+			fetchTicker.equals(ApplicationConstants.TICKER_COLUMN,searchString);
+			ConnectToKinveyTask.kinveyFetchStockQuery(ApplicationConstants.RATIO_TABLE, fetchTicker, this);
 		}
 	
 	public void kinveyResponceMethod(Object object) {
@@ -125,7 +106,7 @@ public class DisplayStockRatioData extends Activity {
 
 		// Go through each item in the array
 		for (int current = 1; current < ratioDataArray.length; current++) {
-			//skip all that are not ratios
+			//skip all ratios that are not needed
 			if (current != 2 && current != 3 && current != 4 && current != 7 &&
 				current != 14 && current != 16 && current != 22 && current != 31 &&
 				current != 32 && current != 34 && current != 37 && current != 38 &&
@@ -156,7 +137,7 @@ public class DisplayStockRatioData extends Activity {
 				labelTV.setId(200 + current);
 				labelTV.setText(ratioDataNames[current].replace('_', ' '));
 				labelTV.setTextColor(Color.BLACK);
-				labelTV.setTextSize(15);
+				labelTV.setTextSize(ApplicationConstants.RATIO_DATA_TEXT_SIZE);
 				labelTV.setLayoutParams(new LayoutParams(
 						LayoutParams.WRAP_CONTENT));
 				tr.addView(labelTV);
@@ -166,7 +147,7 @@ public class DisplayStockRatioData extends Activity {
 				valueTV.setId(300 + current);
 				valueTV.setText(ratioDataArray[current]);
 				valueTV.setTextColor(Color.BLACK);
-				valueTV.setTextSize(15);
+				valueTV.setTextSize(ApplicationConstants.RATIO_DATA_TEXT_SIZE);
 				valueTV.setLayoutParams(new LayoutParams(
 						LayoutParams.WRAP_CONTENT));
 				tr.addView(valueTV);

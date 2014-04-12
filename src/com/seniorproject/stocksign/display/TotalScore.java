@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.kinvey.android.Client;
 import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.activity.ApplicationConstants;
 import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
-import com.seniorproject.stocksign.kinveyconnection.KinveyConstants;
 
 public class TotalScore extends Activity {
 
@@ -49,14 +49,14 @@ public class TotalScore extends Activity {
 	private void initialize() {
 		// TODO Auto-generated method stub
 		TextView hotTextView = (TextView) findViewById(R.id.section_label);
-		hotTextView.setText(KinveyConstants.TOTAL_SCORE_STOCKS_TITLE);
+		hotTextView.setText(ApplicationConstants.TOTAL_SCORE_STOCKS_TITLE);
 		ratioTable = (TableLayout) findViewById(R.id.tlTotalScores);
 	}
 	
 	public void displayData(Intent intent) {
-		Bundle bundle = intent.getBundleExtra(KinveyConstants.SCORES_BUNDLE);
-		String[] tickers = bundle.getStringArray(KinveyConstants.TICKER_ARRAY);
-		String[] scores = bundle.getStringArray(KinveyConstants.SCORES_ARRAY);
+		Bundle bundle = intent.getBundleExtra(ApplicationConstants.SCORES_BUNDLE);
+		String[] tickers = bundle.getStringArray(ApplicationConstants.TICKER_ARRAY);
+		String[] scores = bundle.getStringArray(ApplicationConstants.SCORES_ARRAY);
 		int[] alternatingRGBColor = new int[3];
 		int alternator = 0;
 
@@ -127,8 +127,8 @@ public class TotalScore extends Activity {
 				Intent intent = new Intent(TotalScore.this,
 						DisplayStockRatioData.class);
 				Bundle bundle = new Bundle();
-				bundle.putString(KinveyConstants.TICKER_SINGLE, ticker);
-				intent.putExtra(KinveyConstants.RATIO_BUNDLE, bundle);
+				bundle.putString(ApplicationConstants.TICKER_SINGLE, ticker);
+				intent.putExtra(ApplicationConstants.RATIO_BUNDLE, bundle);
 				startActivity(intent);
 			}
 

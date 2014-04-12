@@ -1,13 +1,8 @@
-package com.seniorproject.stocksign.kinveyconnection;
+package com.seniorproject.stocksign.activity;
 
-public interface KinveyConstants {
+public interface ApplicationConstants {
 
-	static String RATIO_TABLE = "StockDataTable";
-	
-	static String TICKER_COLUMN = "Ticker";
-	static String DIVSCORE_COLUMN = "Dividend_Score";
-	static String GROWTHSCORE_COLUMN = "Growth_Score";
-	static String TOTALSCORE_COLUMN = "Total_Score";
+	int RATIO_DATA_TEXT_SIZE = 10;
 	
 	static String SCORES_ARRAY = "scores";
 	static String TICKER_ARRAY = "tickers";
@@ -15,6 +10,14 @@ public interface KinveyConstants {
 	
 	static String RATIO_BUNDLE = "ratioData";
 	static String TICKER_SINGLE = "ticker";
+	
+	//Kinvey Constants
+	static String RATIO_TABLE = "StockDataTable";
+	
+	static String TICKER_COLUMN = "Ticker";
+	static String DIVSCORE_COLUMN = "Dividend_Score";
+	static String GROWTHSCORE_COLUMN = "Growth_Score";
+	static String TOTALSCORE_COLUMN = "Total_Score";
 	
 	static String TOP_RATED_STOCKS_TITLE = "Top Rated Stocks";
 	static String TOTAL_SCORE_STOCKS_TITLE = "Total Score";
@@ -25,7 +28,7 @@ public interface KinveyConstants {
 	int PRICE_DATA_SECTION_LIMIT = 100;
 	int SCORES_SECTION_LIMIT = 20;
 	
-	float DIVSCORE_LIMIT = 90;
-	float GROWTHSCORE_LIMIT = 70;
-	float TOTALSCORE_LIMIT = 50;
+	float DIVSCORE_LIMIT = 90f;
+	float GROWTHSCORE_LIMIT = 70f;
+	float TOTALSCORE_LIMIT = 50f;
 }
