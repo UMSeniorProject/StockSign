@@ -2,7 +2,7 @@ package com.seniorproject.stocksign.activity;
 
 public interface ApplicationConstants {
 
-	int RATIO_DATA_TEXT_SIZE = 10;
+	int RATIO_DATA_TEXT_SIZE = 13;
 	int SCORE_DATA_TEXT_SIZE = 17;
 	
 	static String SCORES_ARRAY = "scores";
@@ -16,6 +16,7 @@ public interface ApplicationConstants {
 	
 	//Kinvey Constants
 	static String RATIO_TABLE = "StockDataTable";
+	static String SECTOR_TABLE = "SectorDataTable";
 	
 	static String TICKER_COLUMN = "Ticker";
 	static String DIVSCORE_COLUMN = "Dividend_Score";
@@ -34,4 +35,36 @@ public interface ApplicationConstants {
 	float DIVSCORE_LIMIT = 90f;
 	float GROWTHSCORE_LIMIT = 70f;
 	float TOTALSCORE_LIMIT = 50f;
+	
+	//ratio names
+	static String NAME_BETA = "Beta";
+	static String NAME_DIV_SCORE = "Dividend Score";
+	static String NAME_DIV_YIELD = "Dividend Yield";
+	static String NAME_EPSG_NX_5_YR = "EPS Growth Next 5 Years";
+	static String NAME_EPSG_NX_YR = "EPS Growth Next Year";
+	static String NAME_EPSG_PS_5_YR = "EPS Growth Past 5 Years";
+	static String NAME_EPSG_TH_YR = "EPS Growth This Year";
+	static String NAME_FS = "Float Short";
+	static String NAME_FPE = "Forward Price to Earnings";
+	static String NAME_GROWTH_SCORE = "Growth Score";
+	static String NAME_INSI_OWNER = "Insider Ownership";
+	static String NAME_INSI_TRANS = "Insider Transactions";
+	static String NAME_INST_OWNER = "Institutional Ownership";
+	static String NAME_INST_TRANS = "Institutional Transactions";
+	static String NAME_LONGTERM_DE = "Longterm Debt to Equity";
+	static String NAME_PR = "Payout Ratio";
+	static String NAME_PB = "Price to Book";
+	static String NAME_PC = "Price to Cash";
+	static String NAME_PE = "Price to Earnings";
+	static String NAME_PEG = "Price to Earnings Growth";
+	static String NAME_PFCF = "Price to Free Cash Flow";
+	static String NAME_PS = "Price to Sales";
+	static String NAME_PM = "Profit Margin";
+	static String NAME_RSI = "Relative Strength Index";
+	static String NAME_ROA = "Return On Assets";
+	static String NAME_ROE = "Return On Equity";
+	static String NAME_SG_PS_5_YR = "Sales Growth Past 5 Years";
+	
+	//Errors
+	static String SECTOR_MISSING = "missing";
 }

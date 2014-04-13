@@ -115,7 +115,7 @@ public class MainActivity extends FragmentActivity implements
 		}
 		TickerTrie.setTrie(setTrie);
 	}
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

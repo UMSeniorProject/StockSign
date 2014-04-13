@@ -29,6 +29,7 @@ import com.kinvey.java.query.AbstractQuery.SortOrder;
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.activity.ApplicationConstants;
 import com.seniorproject.stocksign.database.PriceData;
+import com.seniorproject.stocksign.database.SectorData;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.graphing.LineGraph;
 import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
@@ -76,11 +77,22 @@ public class DisplayStockRatioData extends Activity {
 			ConnectToKinveyTask.kinveyFetchStockQuery(ApplicationConstants.RATIO_TABLE, fetchTicker, this);
 		}
 	
+	/* ratio data responce method */
 	public void kinveyResponceMethod(Object object) {
+		
+		//ratio
 		Stock stock = (Stock) object;
 		String[] ratioDataArray = stock.values().toString().split(",");
 		String[] ratioDataNames = stock.keySet().toString().split(",");
-		displayRatioData(stock, ratioDataArray, ratioDataNames);
+		
+		//sector
+		String[] sectorDataArray = null;
+		Stock sector = SectorData.getSectorAvgs(stock.getSector());
+		if(sector != null) {
+			sectorDataArray = sector.values().toString().split(",");
+		}
+
+		displayRatioData(stock, ratioDataArray, ratioDataNames, sectorDataArray);
 	}
 	
 	@Override
@@ -93,7 +105,8 @@ public class DisplayStockRatioData extends Activity {
 		// time
 	}
 	
-	public void displayRatioData(Stock stock, String[] ratioDataArray, String[] ratioDataNames) {
+	public void displayRatioData(Stock stock, String[] ratioDataArray, 
+			String[] ratioDataNames, String[] sectorDataArray) {
 
 		stockName.setText(stock.getCompany());
 		stockTicker.setText(stock.getTicker());
@@ -140,6 +153,7 @@ public class DisplayStockRatioData extends Activity {
 				labelTV.setTextSize(ApplicationConstants.RATIO_DATA_TEXT_SIZE);
 				labelTV.setLayoutParams(new LayoutParams(
 						LayoutParams.WRAP_CONTENT));
+				labelTV.setPadding(5, 0, 0, 0);
 				tr.addView(labelTV);
 
 				// Create a TextView to hold the value of the ratio
@@ -150,13 +164,56 @@ public class DisplayStockRatioData extends Activity {
 				valueTV.setTextSize(ApplicationConstants.RATIO_DATA_TEXT_SIZE);
 				valueTV.setLayoutParams(new LayoutParams(
 						LayoutParams.WRAP_CONTENT));
+				valueTV.setPadding(5, 0, 0, 0);
 				tr.addView(valueTV);
-
+				
+				// Create a TextView to hold the value of the ratio
+				TextView sectorTV = new TextView(this);
+				sectorTV.setId(400 + current);
+				sectorTV.setTextColor(Color.BLACK);
+				if(sectorDataArray != null) {
+					sectorTV.setText(sectorDataArray[current]);
+				} else {
+					sectorTV.setText(ApplicationConstants.SECTOR_MISSING);
+					sectorTV.setTextColor(Color.RED);
+				}
+				sectorTV.setTextSize(ApplicationConstants.RATIO_DATA_TEXT_SIZE);
+				sectorTV.setLayoutParams(new LayoutParams(
+						LayoutParams.WRAP_CONTENT));
+				sectorTV.setPadding(5, 0, 0, 0);
+				tr.addView(sectorTV);
+				
+				//HAS NULL POINTER ERROR POSSIBILITY IF SECTOR DATA IS NULL
+				//OTHER ARRAY SHOULD ALSO PROBABLY BE CHECKED FOR NULL VALUES
+				setRatioValueColor(labelTV.getText().toString().trim(), valueTV, 
+										 ratioDataArray[current], sectorTV, 
+										 sectorDataArray[current]);
+				
 				// Add the TableRow to the TableLayout
 				ratioTable.addView(tr, new TableLayout.LayoutParams(
 						LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 			}
 		}
+	}
+	
+	private void setRatioValueColor(String ratioName, TextView tvValue, String value,
+											TextView tvSector, String sector) {
+		float fValue = Float.valueOf(value);
+		float sValue = Float.valueOf(sector);
+		
+		if(sValue > fValue) {
+			if(SectorData.goodSectorData.contains(ratioName)) {
+				tvValue.setTextColor(Color.parseColor("#009933"));
+			} else if(SectorData.badSectorData.contains(ratioName)) {
+				tvValue.setTextColor(Color.parseColor("#CC0000"));
+			}
+		} else if(sValue < fValue) {
+			if(SectorData.badSectorData.contains(ratioName)) {
+				tvValue.setTextColor(Color.parseColor("#009933"));
+			} else if(SectorData.goodSectorData.contains(ratioName)) {
+				tvValue.setTextColor(Color.parseColor("#CC0000"));
+			}
+		} 
 	}
 	
 	@Override 

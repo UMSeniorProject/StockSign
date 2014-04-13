@@ -17,6 +17,7 @@ import com.kinvey.java.User;
 import com.seniorproject.stocksign.activity.ActivityConstants;
 import com.seniorproject.stocksign.activity.ApplicationConstants;
 import com.seniorproject.stocksign.database.PriceData;
+import com.seniorproject.stocksign.database.SectorData;
 import com.seniorproject.stocksign.database.Stock;
 
 public class ConnectToKinveyTask implements ActivityConstants{
@@ -188,7 +189,32 @@ public class ConnectToKinveyTask implements ActivityConstants{
 			}
 
 		});
+	}
+	
+	//method to fetch Stock Query from Kinvey
+	public static void kinveyFetchSectorData() {
+		AsyncAppData<Stock> myData = mKinveyClient.appData(
+				ApplicationConstants.SECTOR_TABLE, Stock.class);
+			myData.get(new KinveyListCallback<Stock>() {
+				@Override
+				public void onSuccess(Stock[] arg0) {
+					// TODO Auto-generated method stub
+					if(arg0.length==0) {
+						stocks = null;
+						Log.i("error","got: null");
+					}
+					else { 
+						stocks = arg0;
+						Log.i("success","got: "+arg0.toString());
+					}					
+					SectorData.setData(stocks);
+				}
+				@Override
+				public void onFailure(Throwable error) { 
+					Log.d("fail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+				}
 
+			});
 	}
 }
 

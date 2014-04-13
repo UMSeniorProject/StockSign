@@ -42,4 +42,11 @@
     
     <string name="title_ticker">Ticker</string>
     <string name="title_score">Score</string>
+    
+    <string name="title_country">Country</string>
+    <string name="title_sector">Sector</string>
+    <string name="title_industry">Industry</string>
+    
+    <string name="title_ratio">Ratio</string>
+    <string name="title_value">Value</string>
 </resources>

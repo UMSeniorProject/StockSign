@@ -57,7 +57,8 @@ public class HotStocksSectionFragment extends Fragment {
 		kinveyDataFetcher(rootView, ApplicationConstants.TOTALSCORE_COLUMN, ApplicationConstants.TOTALSCORE_LIMIT);
 		kinveyDataFetcher(rootView, ApplicationConstants.DIVSCORE_COLUMN, ApplicationConstants.DIVSCORE_LIMIT);
 		kinveyDataFetcher(rootView, ApplicationConstants.GROWTHSCORE_COLUMN, ApplicationConstants.GROWTHSCORE_LIMIT);
-
+		loadSectorData();
+		
 		TextView hotTextView = (TextView) rootView
 				.findViewById(R.id.section_label);
 		hotTextView.setText(ApplicationConstants.TOP_RATED_STOCKS_TITLE);
@@ -133,6 +134,10 @@ public class HotStocksSectionFragment extends Fragment {
 			}
 		});
 		return rootView;
+	}
+	
+	protected void loadSectorData() {
+		ConnectToKinveyTask.kinveyFetchSectorData();
 	}
 	
 	public void kinveyResponceMethod(Stock[] stocks, View rv, String scoreType) {
