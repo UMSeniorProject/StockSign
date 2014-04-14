@@ -2,7 +2,7 @@ package com.seniorproject.stocksign.activity;
 
 public interface ApplicationConstants {
 
-	int RATIO_DATA_TEXT_SIZE = 13;
+	int RATIO_DATA_TEXT_SIZE = 15;
 	int SCORE_DATA_TEXT_SIZE = 17;
 	
 	static String SCORES_ARRAY = "scores";
@@ -36,7 +36,7 @@ public interface ApplicationConstants {
 	float GROWTHSCORE_LIMIT = 70f;
 	float TOTALSCORE_LIMIT = 50f;
 	
-	//ratio names
+	//Ratio names
 	static String NAME_BETA = "Beta";
 	static String NAME_DIV_SCORE = "Dividend Score";
 	static String NAME_DIV_YIELD = "Dividend Yield";
@@ -67,4 +67,14 @@ public interface ApplicationConstants {
 	
 	//Errors
 	static String SECTOR_MISSING = "missing";
+	
+	//Colors
+	static String COLOR_GREEN = "#009933";
+	static String COLOR_RED = "#CC0000";
+	
+	//Portfolio
+	static String ADD_PORTFOLIO = "Add To Portfolio";
+	static String REM_PORTFOLIO = "Remove From Portfolio";
+	static String PF_ADD = "Added";
+	static String PF_REM = "Removed";
 }

@@ -3,11 +3,17 @@ package com.seniorproject.stocksign.display;
 
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -16,10 +22,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.kinvey.android.AsyncAppData;
 import com.kinvey.android.Client;
@@ -28,6 +40,8 @@ import com.kinvey.java.Query;
 import com.kinvey.java.query.AbstractQuery.SortOrder;
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.activity.ApplicationConstants;
+import com.seniorproject.stocksign.activity.MySpinner;
+import com.seniorproject.stocksign.activity.Utilities;
 import com.seniorproject.stocksign.database.PriceData;
 import com.seniorproject.stocksign.database.SectorData;
 import com.seniorproject.stocksign.database.Stock;
@@ -38,38 +52,130 @@ import com.seniorproject.stocksign.searching.SearchStockActivity;
 
 public class DisplayStockRatioData extends Activity {
 
+	Context context = null;
 	Client mKinveyClient = null;
 	
-	TextView stockName;
-	TextView stockTicker;
-	TextView stockCountry;
-	TextView stockSector;
-	TextView stockIndustry;
-	TableLayout ratioTable;
-
-	View currentView;
+	TextView stockName = null;
+	TextView stockTicker = null;
+	TextView stockInfo = null;
+	TextView stockTotalScore = null;
+	TextView stockDivScore = null;
+	TextView stockGrowthScore = null;
+	
+	TableLayout ratioTable = null;
+	
+	Button portfolioButton = null;
+	
+	TableRow totalScoreRow = null;
+	TableRow divScoreRow = null;
+	TableRow growthScoreRow = null;
+	
+	View redLineSeparator = null;
+	
+	LinearLayout mainDisplayLayout = null;
 
 	private GestureDetectorCompat mDetector;
+	SharedPreferences settings = null;
+	//MySpinnerDialog dialog = null;
 	
 	public void initialize(Intent intent) {
-		mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
+		context = this;
 		
-		currentView = findViewById(R.layout.displaystockdata);
+		mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
+
 		mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 		
 		stockName = (TextView) findViewById(R.id.tvStockname);
 		stockTicker = (TextView) findViewById(R.id.tvStockticker);
-		stockCountry = (TextView) findViewById(R.id.tvStockCountryValue);
-		stockSector = (TextView) findViewById(R.id.tvStockSectorValue);
-		stockIndustry = (TextView) findViewById(R.id.tvStockIndustryValue);
+		stockInfo = (TextView) findViewById(R.id.tvStockInfoValue);
+		stockTotalScore = (TextView) findViewById(R.id.tvStockTotalScoreValue);
+		stockDivScore = (TextView) findViewById(R.id.tvStockDivScoreValue);
+		stockGrowthScore = (TextView) findViewById(R.id.tvStockGrowthScoreValue);
 		ratioTable = (TableLayout) findViewById(R.id.tlStockratios);
-		
+		portfolioButton = (Button) findViewById(R.id.bPortfolio);
+		totalScoreRow = (TableRow) findViewById(R.id.trStockTotalScore);
+		divScoreRow = (TableRow) findViewById(R.id.trStockDivScore);
+		growthScoreRow = (TableRow) findViewById(R.id.trStockGrowthScore);
+		redLineSeparator = findViewById(R.id.vRedLine_DisplayStockData);
+		mainDisplayLayout = (LinearLayout) findViewById(R.id.llDisplayStockData);
 		// get data
 		Bundle b = intent.getBundleExtra(ApplicationConstants.RATIO_BUNDLE);
 		String ticker = b.getString(ApplicationConstants.TICKER_SINGLE);
+		
 		kinveyDataFetcher(ticker);	
+		addListeners();	
 	}
 
+		private void addListeners() {
+			portfolioButton.setOnClickListener(new OnClickListener () {
+
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+
+					
+					/* error check to make sure th*/
+					if(stockTicker == null || stockTicker.getText().length() == 0) {
+						return;
+					}
+					
+					String buttonText = portfolioButton.getText().toString();
+					String portfolioTicker = stockTicker.getText().toString();
+					
+					settings = getSharedPreferences(
+							ApplicationConstants.USER_PORTFOLIO_TITLE, 0);
+				    
+					SharedPreferences.Editor editor = settings.edit();
+					
+					if(buttonText.equals(ApplicationConstants.ADD_PORTFOLIO)) {
+						
+						/* Adding stock to portfolio */
+						portfolioButton.setText(ApplicationConstants.REM_PORTFOLIO);
+						portfolioButton.setTextColor(Color.parseColor(ApplicationConstants.COLOR_RED));
+
+						Set<String> scores = new LinkedHashSet<String>();
+						scores.add(String.valueOf(stockTotalScore.getText()));
+						scores.add(String.valueOf(stockDivScore.getText()));
+						scores.add(String.valueOf(stockGrowthScore.getText()));
+						
+						Utilities.displayToast(context, ApplicationConstants.PF_ADD, portfolioTicker);
+						editor.putStringSet(portfolioTicker, scores);
+						
+						Log.d("PORTFOLIO", "added");
+						
+					} else if(buttonText.equals(ApplicationConstants.REM_PORTFOLIO)) {
+						
+						/* Removing stock from portfolio */
+						portfolioButton.setText(ApplicationConstants.ADD_PORTFOLIO);
+						portfolioButton.setTextColor(Color.parseColor(ApplicationConstants.COLOR_GREEN));
+					    editor.remove(portfolioTicker);
+						Utilities.displayToast(context, ApplicationConstants.PF_REM, portfolioTicker);
+					    Log.d("PORTFOLIO", "removed");
+
+					} else {
+						//Error
+						portfolioButton.setTextColor(Color.CYAN);
+						return;
+					}
+					
+					//commit the edits
+					editor.commit();
+				
+				}
+				
+			});
+		}
+		
+		private boolean portfolioContainsStock() {
+			String portfolioTicker = stockTicker.getText().toString();
+			settings = getSharedPreferences(
+					ApplicationConstants.USER_PORTFOLIO_TITLE, 0);
+			if(settings.contains(portfolioTicker)) {
+				return true;
+			}
+			return false;
+		}
+ 		
 	//fetch data
 		private void kinveyDataFetcher(String searchString) {
 			Query fetchTicker = mKinveyClient.query();
@@ -93,26 +199,90 @@ public class DisplayStockRatioData extends Activity {
 		}
 
 		displayRatioData(stock, ratioDataArray, ratioDataNames, sectorDataArray);
+		
+		if(portfolioContainsStock()) {
+			portfolioButton.setText(ApplicationConstants.REM_PORTFOLIO);
+			portfolioButton.setTextColor(Color.parseColor(ApplicationConstants.COLOR_RED));
+		} else {
+			portfolioButton.setText(ApplicationConstants.ADD_PORTFOLIO);
+			portfolioButton.setTextColor(Color.parseColor(ApplicationConstants.COLOR_GREEN));
+		}
+		
+		setElementsVisibility();
 	}
+	
+	private void setElementsVisibility() {
+		//loadingDone = true;
+		mainDisplayLayout.setVisibility(View.VISIBLE);
+		/*
+		stockName.setVisibility(View.VISIBLE);
+		stockTicker.setVisibility(View.VISIBLE);
+		stockInfo.setVisibility(View.VISIBLE);
+		stockTotalScore.setVisibility(View.VISIBLE);
+		stockDivScore.setVisibility(View.VISIBLE);
+		stockGrowthScore.setVisibility(View.VISIBLE);
+		ratioTable.setVisibility(View.VISIBLE);
+		portfolioButton.setVisibility(View.VISIBLE);
+		totalScoreRow.setVisibility(View.VISIBLE);
+		divScoreRow.setVisibility(View.VISIBLE);
+		growthScoreRow.setVisibility(View.VISIBLE);
+		redLineSeparator.setVisibility(View.VISIBLE);*/
+	}
+	
+	/*private void startProgressBar() {
+		setContentView(R.layout.progress_loader);
+		progressBar = (ProgressBar) findViewById(R.id.pbDisplayStockData);;
+		progressHandler = new Handler();
+		progressBar.setIndeterminate(true);
+		// Start lengthy operation in a background thread
+        new Thread(new Runnable() {
+            public void run() {
+                while (!loadingDone) {
+
+                    // Update the progress bar
+                    progressHandler.post(new Runnable() {
+                        public void run() {
+                            progressBar.setProgress(5);
+                        }
+                    });
+                }
+            }
+        }).start();
+	}*/
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.displaystockdata);
+		//startProgressBar();
 		initialize(getIntent());
 		// I can also get the calling activity ID but its unnecessary at this
 		// time
 	}
 	
+	
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		mainDisplayLayout.setVisibility(View.INVISIBLE);
+	}
+
 	public void displayRatioData(Stock stock, String[] ratioDataArray, 
 			String[] ratioDataNames, String[] sectorDataArray) {
 
 		stockName.setText(stock.getCompany());
 		stockTicker.setText(stock.getTicker());
-		stockCountry.setText(stock.getCountry());
-		stockSector.setText(stock.getSector());
-		stockIndustry.setText(stock.getIndustry());
+		stockInfo.setText(stock.getCountry() + " | " +
+				 stock.getSector() + " | " +
+				 stock.getIndustry());
+		stockInfo.setTextSize(12); 			//CHANGE NUMBER TO A CONSTANT
+		
+		stockTotalScore.setText(String.valueOf(stock.getTotalscore()));
+		stockDivScore.setText(String.valueOf(stock.getDivscore()));
+		stockGrowthScore.setText(String.valueOf(stock.getGrowthscore()));
 
 		int[] alternatingRGBColor = new int[3];
 		int alternator = 0;
@@ -120,11 +290,11 @@ public class DisplayStockRatioData extends Activity {
 		// Go through each item in the array
 		for (int current = 1; current < ratioDataArray.length; current++) {
 			//skip all ratios that are not needed
-			if (current != 2 && current != 3 && current != 4 && current != 7 &&
-				current != 14 && current != 16 && current != 22 && current != 31 &&
-				current != 32 && current != 34 && current != 37 && current != 38 &&
-				current != 40 && current != 41 && current != 42 && current != 43 && 
-				current < 45) {
+			//TODO THIS NEEDS TO BE FIXED IN A MORE PROGRAMMABLE WAY
+			if (current != 2 && current != 3 && current != 4 && current != 5 &&
+				current != 7 && current != 14 && current != 15 && current != 16 && 
+				current != 22 && current != 31 && current != 32 && current != 34 && 
+				current != 37 && current != 38 && current < 40) {
 
 				if (alternator == 0) {
 					alternatingRGBColor[0] = 209;// red
@@ -203,15 +373,15 @@ public class DisplayStockRatioData extends Activity {
 		
 		if(sValue > fValue) {
 			if(SectorData.goodSectorData.contains(ratioName)) {
-				tvValue.setTextColor(Color.parseColor("#009933"));
+				tvValue.setTextColor(Color.parseColor(ApplicationConstants.COLOR_GREEN));
 			} else if(SectorData.badSectorData.contains(ratioName)) {
-				tvValue.setTextColor(Color.parseColor("#CC0000"));
+				tvValue.setTextColor(Color.parseColor(ApplicationConstants.COLOR_RED));
 			}
 		} else if(sValue < fValue) {
 			if(SectorData.badSectorData.contains(ratioName)) {
-				tvValue.setTextColor(Color.parseColor("#009933"));
+				tvValue.setTextColor(Color.parseColor(ApplicationConstants.COLOR_GREEN));
 			} else if(SectorData.goodSectorData.contains(ratioName)) {
-				tvValue.setTextColor(Color.parseColor("#CC0000"));
+				tvValue.setTextColor(Color.parseColor(ApplicationConstants.COLOR_RED));
 			}
 		} 
 	}

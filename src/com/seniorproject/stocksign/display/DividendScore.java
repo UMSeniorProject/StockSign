@@ -1,6 +1,7 @@
 package com.seniorproject.stocksign.display;
 
 
+import android.R.drawable;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -87,7 +88,7 @@ public class DividendScore extends Activity {
 			tr.setLayoutParams(new LayoutParams(
 					LayoutParams.WRAP_CONTENT));
 
-			// Create a TextView to hold the label of the ratio
+			// Create a TextView to hold the ticker name (label)
 			TextView labelTV = new TextView(DividendScore.this);
 			labelTV.setId(200 + current);
 			labelTV.setText(tickers[current]);
@@ -96,9 +97,10 @@ public class DividendScore extends Activity {
 			labelTV.setLayoutParams(new LayoutParams(
 					LayoutParams.WRAP_CONTENT));
 			labelTV.setGravity(Gravity.CENTER);
+			labelTV.setBackgroundResource(drawable.list_selector_background);
 			tr.addView(labelTV);
 
-			// Create a TextView to hold the value of the ratio
+			// Create a TextView to hold the value of the dividend score
 			TextView valueTV = new TextView(DividendScore.this);
 			valueTV.setId(300 + current);
 			valueTV.setText(scores[current]);

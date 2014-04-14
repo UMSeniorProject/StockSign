@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llDisplayStockData"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F2F2"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:visibility="invisible" >
 
     <TableLayout
         android:id="@+id/tlStockMainData"
@@ -19,13 +21,14 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tvStockname"
+                android:id="@+id/tvStockticker"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="1dp"
                 android:layout_span="3"
-                android:gravity="left"
-                android:textSize="20sp"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textSize="24sp"
                 android:textStyle="bold" >
             </TextView>
         </TableRow>
@@ -37,105 +40,147 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tvStockticker"
+                android:id="@+id/tvStockname"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="1dp"
                 android:layout_span="3"
-                android:gravity="left"
-                android:textAllCaps="true"
-                android:textSize="18sp"
+                android:gravity="center"
+                android:textSize="17sp"
                 android:textStyle="bold" >
             </TextView>
         </TableRow>
 
         <TableRow
-            android:id="@+id/trStockCountryRow"
+            android:id="@+id/trStockInfoRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tvStockCountryWord"
+                android:id="@+id/tvStockInfoValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_span="1"
-                android:gravity="left"
-                android:orientation="vertical"
-                android:text="@string/title_country" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/tvStockCountryValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_span="2"
-                android:gravity="left"
+                android:layout_span="3"
+                android:gravity="center"
                 android:orientation="vertical" >
             </TextView>
         </TableRow>
 
         <TableRow
-            android:id="@+id/trStockSectorRow"
+            android:id="@+id/trStockTotalScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tvStockSectorWord"
+                android:id="@+id/tvStockTotalScoreName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_span="1"
                 android:gravity="left"
                 android:orientation="vertical"
-                android:text="@string/title_sector" >
+                android:text="@string/title_total_score"
+                android:textSize="15sp"
+                android:textStyle="italic" >
             </TextView>
 
             <TextView
-                android:id="@+id/tvStockSectorValue"
+                android:id="@+id/tvStockTotalScoreValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_span="2"
                 android:gravity="left"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:textSize="15sp"
+                android:textStyle="bold" >
             </TextView>
         </TableRow>
 
         <TableRow
-            android:id="@+id/trStockIndustryRow"
+            android:id="@+id/trStockDivScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tvStockIndustryWord"
+                android:id="@+id/tvStockDivScoreName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_span="1"
                 android:gravity="left"
                 android:orientation="vertical"
-                android:text="@string/title_industry" >
+                android:text="@string/title_div_score"
+                android:textSize="15sp"
+                android:textStyle="italic" >
             </TextView>
 
             <TextView
-                android:id="@+id/tvStockIndustryValue"
+                android:id="@+id/tvStockDivScoreValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_span="2"
                 android:gravity="left"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:textSize="15sp"
+                android:textStyle="bold" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/trStockGrowthScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvStockGrowthScoreName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_span="1"
+                android:gravity="left"
+                android:orientation="vertical"
+                android:text="@string/title_growth_score"
+                android:textSize="15sp"
+                android:textStyle="italic" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvStockGrowthScoreValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:gravity="left"
+                android:orientation="vertical"
+                android:textSize="15sp"
+                android:textStyle="bold" >
             </TextView>
         </TableRow>
     </TableLayout>
 
+    <Button
+        android:id="@+id/bPortfolio"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:checked="false"
+        android:contentDescription="@string/portfolio_description"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="#009933"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
     <View
+        android:id="@+id/vRedLine_DisplayStockData"
         android:layout_width="wrap_content"
-        android:layout_height="5dip"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="3dip"
+        android:layout_marginBottom="5dp"
         android:background="#B0171F" />
 
     <ScrollView
@@ -163,7 +208,9 @@
                     android:layout_span="1"
                     android:gravity="left"
                     android:orientation="vertical"
-                    android:text="@string/title_ratio" >
+                    android:text="@string/title_ratio"
+                    android:textSize="17sp"
+                    android:textStyle="bold" >
                 </TextView>
 
                 <TextView
@@ -174,7 +221,9 @@
                     android:layout_span="1"
                     android:gravity="left"
                     android:orientation="vertical"
-                    android:text="@string/title_value" >
+                    android:text="@string/title_value"
+                    android:textSize="17sp"
+                    android:textStyle="bold" >
                 </TextView>
 
                 <TextView
@@ -185,7 +234,9 @@
                     android:layout_span="1"
                     android:gravity="left"
                     android:orientation="vertical"
-                    android:text="@string/title_sector" >
+                    android:text="@string/title_sector"
+                    android:textSize="17sp"
+                    android:textStyle="bold" >
                 </TextView>
             </TableRow>
         </TableLayout>
