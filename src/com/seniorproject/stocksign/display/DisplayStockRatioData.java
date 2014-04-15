@@ -5,6 +5,7 @@ package com.seniorproject.stocksign.display;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 import android.app.Activity;
@@ -134,9 +135,13 @@ public class DisplayStockRatioData extends Activity {
 						portfolioButton.setTextColor(Color.parseColor(ApplicationConstants.COLOR_RED));
 
 						Set<String> scores = new LinkedHashSet<String>();
-						scores.add(String.valueOf(stockTotalScore.getText()));
-						scores.add(String.valueOf(stockDivScore.getText()));
-						scores.add(String.valueOf(stockGrowthScore.getText()));
+						/* add a character corresponding to the score name for two reasons:
+						 * 1) to check if the score order matches on the portfolio page
+						 * 2) to distinguish equal scores since a set doesn't allow duplicates
+						 */
+						scores.add(String.valueOf(stockTotalScore.getText()) + "t");
+						scores.add(String.valueOf(stockDivScore.getText()) + "d");
+						scores.add(String.valueOf(stockGrowthScore.getText()) + "g");
 						
 						Utilities.displayToast(context, ApplicationConstants.PF_ADD, portfolioTicker);
 						editor.putStringSet(portfolioTicker, scores);

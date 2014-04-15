@@ -189,7 +189,11 @@ public class PortfolioSectionFragment extends Fragment{
 			for(String score : scores) {
 				TextView scoreTV = new TextView(fragmentActivity);
 				scoreTV.setId(300 + idCounter);
-				scoreTV.setText(score);
+				/* we use a substring for score value due to the extra character
+				 * sent from the display ratio page do distinguish scores that
+				 * are equivalent
+				 */
+				scoreTV.setText(score.substring(0, score.length() - 1));
 				scoreTV.setTextColor(Color.BLACK);
 				scoreTV.setTextSize(17);
 				scoreTV.setLayoutParams(new LayoutParams(
