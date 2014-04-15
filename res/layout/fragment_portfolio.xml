@@ -31,79 +31,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:checked="false"
-        android:text="@string/add_stock"
         android:focusableInTouchMode="true"
         android:gravity="center"
+        android:text="@string/add_stock"
         android:textAlignment="center"
         android:textColor="#009933"
         android:textSize="15sp"
         android:textStyle="bold" />
-
-    <TableLayout
-        android:id="@+id/tlPortfolioColumns"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:stretchColumns="0,1,2,3,4" >
-
-        <TableRow
-            android:id="@+id/trPFmain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp" >
-
-            <TextView
-                android:id="@+id/tvPFticker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_span="1"
-                android:gravity="left"
-                android:text="@string/title_ticker"
-                android:textColor="#000000"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvPF_Tscore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_span="1"
-                android:gravity="left"
-                android:text="@string/score_total"
-                android:textColor="#000000"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvPF_Dscore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_span="1"
-                android:gravity="left"
-                android:text="@string/score_div"
-                android:textColor="#000000"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvPF_Gscore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_span="1"
-                android:gravity="left"
-                android:text="@string/score_growth"
-                android:textColor="#000000"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-            
-           <TextView
-                android:id="@+id/tvPF_dummy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_span="1"
-                android:gravity="left" />
-        </TableRow>
-    </TableLayout>
 
     <ScrollView
         android:layout_width="fill_parent"

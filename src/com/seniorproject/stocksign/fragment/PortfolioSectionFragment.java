@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -36,53 +37,55 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.TableRow.LayoutParams;
 
-public class PortfolioSectionFragment extends Fragment{
+public class PortfolioSectionFragment extends Fragment {
 
 	Client mKinveyClient = null;
 	Activity fragmentActivity = null;
 	SharedPreferences portfolioData = null;
 	TableLayout portfolioTable = null;
 	Button addStock = null;
-	
+
 	/** Should not be instantiated, empty constructor */
 	public PortfolioSectionFragment() {
 	}
-	
-	
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.fragment_portfolio,
 				container, false);
-		
+
 		fragmentActivity = this.getActivity();
 		portfolioData = fragmentActivity.getSharedPreferences(
 				ApplicationConstants.USER_PORTFOLIO_TITLE, 0);
-		
-		//portfolioData.edit().clear().commit();
-		
-		portfolioTable = (TableLayout) rootView.findViewById(R.id.tlPortfolioScores);
+
+		// portfolioData.edit().clear().commit();
+
+		portfolioTable = (TableLayout) rootView
+				.findViewById(R.id.tlPortfolioScores);
 		addStock = (Button) rootView.findViewById(R.id.bAddStock);
-		
+
 		addStock.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(fragmentActivity != null) {
-					Intent doSearch = new Intent(fragmentActivity, SearchStockActivity.class);
+				if (fragmentActivity != null) {
+					Intent doSearch = new Intent(fragmentActivity,
+							SearchStockActivity.class);
 					startActivity(doSearch);
 				} else {
-					Log.e("PORTFOLIO", "fragment activity is null when addStock button is clicked");
+					Log.e("PORTFOLIO",
+							"fragment activity is null when addStock button is clicked");
 				}
 			}
-			
+
 		});
-		
+
 		TextView hotTextView = (TextView) rootView
 				.findViewById(R.id.section_label);
 		hotTextView.setText(ApplicationConstants.USER_PORTFOLIO_TITLE);
-		
+
 		return rootView;
 	}
 
@@ -92,15 +95,18 @@ public class PortfolioSectionFragment extends Fragment{
 		super.onResume();
 		getAndDisplayTable();
 	}
-	
+
 	private void getAndDisplayTable() {
-		/*Map<String, Set<String>> pStocks 
-				= (Map<String, Set<String>>) portfolioData.getAll();*/
-		
-		TreeMap<String, ?> stocks = new TreeMap<String, Object>(portfolioData.getAll());		
+		/*
+		 * Map<String, Set<String>> pStocks = (Map<String, Set<String>>)
+		 * portfolioData.getAll();
+		 */
+
+		TreeMap<String, ?> stocks = new TreeMap<String, Object>(
+				portfolioData.getAll());
 		displayData(stocks);
 	}
-	
+
 	@Override
 	public void onStop() {
 		// TODO Auto-generated method stub
@@ -111,47 +117,121 @@ public class PortfolioSectionFragment extends Fragment{
 		portfolioTable.removeAllViews();
 		portfolioTable.invalidate();
 	}
-	
+
 	private void deletePortfolioRow(String tag) {
 		View removedRow = portfolioTable.findViewWithTag(tag);
 		portfolioTable.removeView(removedRow);
 		portfolioTable.invalidate();
 	}
-	
+
+	//functio to add the initial row containing column names
+	private void addColumnNames() {
+		int mainId = 999;
+		int tickerId = 555;
+		int totalScoreId = 666;
+		int divScoreId = 777;
+		int growthScoreId = 888;
+		int dummyId = 0;
+		
+		// Create a TableRow and give it an ID
+		TableRow tr = new TableRow(fragmentActivity);
+		tr.setId(mainId);
+		tr.setBackgroundColor(Color.rgb(232, 232, 232));
+		TableRow.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT);
+		params.setMargins(0, 0, 0, 3);
+		tr.setLayoutParams(params);
+
+		// Create a TextView to hold the ticker column name
+		TextView tickerTV = new TextView(fragmentActivity);
+		tickerTV.setId(tickerId);
+		tickerTV.setText(getString(R.string.title_ticker));
+		tickerTV.setTextColor(Color.BLACK);
+		tickerTV.setTextSize(11);
+		tickerTV.setTypeface(null, Typeface.BOLD);
+		tickerTV.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT));
+		tickerTV.setGravity(Gravity.LEFT);
+		tr.addView(tickerTV);
+		
+		// Create a TextView to hold total score column name
+		TextView totalTV = new TextView(fragmentActivity);
+		totalTV.setId(totalScoreId);
+		totalTV.setText(getString(R.string.score_total));
+		totalTV.setTextColor(Color.BLACK);
+		totalTV.setTextSize(11);
+		totalTV.setTypeface(null, Typeface.BOLD);
+		totalTV.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT));
+		totalTV.setGravity(Gravity.LEFT);
+		tr.addView(totalTV);
+		
+		// Create a TextView to hold dividend score column name
+		TextView divTV = new TextView(fragmentActivity);
+		divTV.setId(divScoreId);
+		divTV.setText(getString(R.string.score_div));
+		divTV.setTextColor(Color.BLACK);
+		divTV.setTextSize(11);
+		divTV.setTypeface(null, Typeface.BOLD);
+		divTV.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT));
+		divTV.setGravity(Gravity.LEFT);
+		tr.addView(divTV);
+		
+		// Create a TextView to hold growth score column name
+		TextView growthTV = new TextView(fragmentActivity);
+		growthTV.setId(growthScoreId);
+		growthTV.setText(getString(R.string.score_growth));
+		growthTV.setTextColor(Color.BLACK);
+		growthTV.setTextSize(11);
+		growthTV.setTypeface(null, Typeface.BOLD);
+		growthTV.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT));
+		growthTV.setGravity(Gravity.LEFT);
+		tr.addView(growthTV);
+		
+		// Create a TextView to hold the dummy column
+		TextView dummyTV = new TextView(fragmentActivity);
+		dummyTV.setId(dummyId);
+		dummyTV.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT));
+		dummyTV.setGravity(Gravity.LEFT);
+		tr.addView(dummyTV);
+		
+		portfolioTable.addView(tr, new TableLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+	}
+
 	private void displayData(TreeMap<String, ?> stocks) {
-		if(stocks == null) {
+		if (stocks == null) {
 			Log.e("PORTFOLIO", "portfolio fragment stocks is null");
 			return;
 		}
-		
+
 		Set<String> tickers = stocks.keySet();
-		
-		if(tickers == null) {
+
+		if (tickers == null) {
 			Log.e("PORTFOLIO", "keys don't exist");
 			return;
 		}
-		
+
 		Log.d("REMOVINGCHILDREN", "newline");
-		for(String tick : tickers) {
+		for (String tick : tickers) {
 			Log.d("REMOVINGCHILDREN", "ticker = " + tick);
 		}
 		deleteAllPortfolioRows();
 		
+		addColumnNames();
+
 		int[] alternatingRGBColor = new int[3];
 		int alternator = 0;
 		int idCounter = 0;
-		
+
 		// Go through each item in the array
 		for (String ticker : tickers) {
-			
+
 			@SuppressWarnings("unchecked")
 			Set<String> scores = (Set<String>) stocks.get(ticker);
 
-			if(scores == null || scores.size() < 3) {
+			if (scores == null || scores.size() < 3) {
 				Log.e("PORTFOLIO", "missing scores for ticker " + ticker);
 				return;
 			}
-			
+
 			if (alternator == 0) {
 				alternatingRGBColor[0] = 209;// red
 				alternatingRGBColor[1] = 209;// green
@@ -170,8 +250,7 @@ public class PortfolioSectionFragment extends Fragment{
 			tr.setTag(ticker);
 			tr.setBackgroundColor(Color.rgb(alternatingRGBColor[0],
 					alternatingRGBColor[1], alternatingRGBColor[2]));
-			tr.setLayoutParams(new LayoutParams(
-					LayoutParams.WRAP_CONTENT));
+			tr.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT));
 
 			// Create a TextView to hold the label of the ticker
 			TextView tickerTV = new TextView(fragmentActivity);
@@ -179,17 +258,17 @@ public class PortfolioSectionFragment extends Fragment{
 			tickerTV.setText(ticker);
 			tickerTV.setTextColor(Color.BLACK);
 			tickerTV.setTextSize(17);
-			tickerTV.setLayoutParams(new LayoutParams(
-					LayoutParams.WRAP_CONTENT));
+			tickerTV.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT));
 			tickerTV.setGravity(Gravity.LEFT);
 			tickerTV.setBackgroundResource(drawable.list_selector_background);
 			tr.addView(tickerTV);
 
-			// Create TextViews to hold values of each score			
-			for(String score : scores) {
+			// Create TextViews to hold values of each score
+			for (String score : scores) {
 				TextView scoreTV = new TextView(fragmentActivity);
 				scoreTV.setId(300 + idCounter);
-				/* we use a substring for score value due to the extra character
+				/*
+				 * we use a substring for score value due to the extra character
 				 * sent from the display ratio page do distinguish scores that
 				 * are equivalent
 				 */
@@ -208,14 +287,13 @@ public class PortfolioSectionFragment extends Fragment{
 			deleteRowTV.setLayoutParams(new LayoutParams(
 					LayoutParams.WRAP_CONTENT));
 			deleteRowTV.setGravity(Gravity.RIGHT);
-			deleteRowTV.setBackgroundResource(R.drawable.ic_action_cancel);
+			deleteRowTV.setBackgroundResource(R.drawable.ic_action_discard);
 			tr.addView(deleteRowTV);
 			addDeleteClick(deleteRowTV, ticker);
-			
+
 			// Add the TableRow to the TableLayout
 			portfolioTable.addView(tr, new TableLayout.LayoutParams(
-					LayoutParams.MATCH_PARENT,
-					LayoutParams.WRAP_CONTENT));
+					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 			addClick(tickerTV, ticker);
 
 			idCounter++;
@@ -230,14 +308,15 @@ public class PortfolioSectionFragment extends Fragment{
 				// TODO Auto-generated method stub
 				Log.d("PORTFOLIO", "ticker is " + ticker);
 				deletePortfolioRow(ticker);
-				Utilities.displayToast(fragmentActivity, ApplicationConstants.PF_REM, ticker);
+				Utilities.displayToast(fragmentActivity,
+						ApplicationConstants.PF_REM, ticker);
 				portfolioData.edit().remove(ticker).commit();
 				getAndDisplayTable();
 			}
-			
+
 		});
 	}
-	
+
 	private void addClick(TextView tv, final String ticker) {
 		// TODO Auto-generated method stub
 		tv.setOnClickListener(new OnClickListener() {
@@ -255,13 +334,11 @@ public class PortfolioSectionFragment extends Fragment{
 
 		});
 	}
-	
+
 	@Override
 	public void onViewStateRestored(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewStateRestored(savedInstanceState);
 	}
-	
-	
 
 }
