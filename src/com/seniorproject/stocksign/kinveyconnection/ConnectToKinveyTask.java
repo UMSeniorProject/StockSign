@@ -14,16 +14,18 @@ import com.kinvey.android.callback.KinveyPingCallback;
 import com.kinvey.android.callback.KinveyUserCallback;
 import com.kinvey.java.Query;
 import com.kinvey.java.User;
+import com.kinvey.java.query.AbstractQuery.SortOrder;
 import com.seniorproject.stocksign.activity.ActivityConstants;
 import com.seniorproject.stocksign.activity.ApplicationConstants;
 import com.seniorproject.stocksign.database.PriceData;
+import com.seniorproject.stocksign.database.PriceDataStorage;
 import com.seniorproject.stocksign.database.SectorData;
 import com.seniorproject.stocksign.database.Stock;
 
 public class ConnectToKinveyTask implements ActivityConstants{
 		
-	private static Stock[] stocks;
-	private static PriceData[] priceData;
+	//private static Stock[] stocks;
+	//private static PriceData[] priceData;
 	private static Client mKinveyClient;
 	private static Activity callingActivity;
 	private boolean conn_success;
@@ -60,7 +62,7 @@ public class ConnectToKinveyTask implements ActivityConstants{
 		  		mKinveyClient.user().login(new KinveyUserCallback() {
 		    	    @Override
 		    	    public void onFailure(Throwable error) {
-		    	        Log.e("KinveyLogin", "Login Failure: "+error.getCause().getMessage(), error);
+		    	        //Log.e("KinveyLogin", "Login Failure: "+error.getCause().getMessage(), error);
 		    	        conn_success = false;
 		    	    }
 		    	    
@@ -97,8 +99,8 @@ public class ConnectToKinveyTask implements ActivityConstants{
 				public void onSuccess(Stock[] arg0) {
 					// TODO Auto-generated method stub
 					Log.i("success","got: "+arg0.toString());
-					stocks = arg0;
-					KinveyCaller.callAppropriateActivityMethod(caller, stocks);
+					//stocks = arg0;
+					KinveyCaller.callAppropriateActivityMethod(caller, arg0);
 				}
 				@Override
 				public void onFailure(Throwable error) { 
@@ -118,12 +120,13 @@ public class ConnectToKinveyTask implements ActivityConstants{
 					Log.i("success","got: "+arg0.toString());
 					Log.i("caller", "StockQuery by " + caller.getLocalClassName());
 					if(arg0.length==0) {
-						stocks = null;
+						//stocks = null;
+						arg0 = null;
 					}
 					else { 
-						stocks = arg0;
+						//stocks = arg0;
 					}					
-					KinveyCaller.callAppropriateActivityMethod(caller, stocks);
+					KinveyCaller.callAppropriateActivityMethod(caller, arg0);
 				}
 				@Override
 				public void onFailure(Throwable error) { 
@@ -134,25 +137,30 @@ public class ConnectToKinveyTask implements ActivityConstants{
 	}
 	
 	public static void kinveyFetchPriceQuery(String tableName, int startDate, final Activity caller) {
+		/*if(PriceDataStorage.currentStock != null && tableName.compareTo(PriceDataStorage.currentStock) == 0) {
+			Log.i("KINVEYPRICE","already have price data for " + tableName);
+			return;
+		}*/
 		Query getQuery = mKinveyClient.query();
 		getQuery.setLimit(ApplicationConstants.PRICE_DATA_SECTION_LIMIT);
 		if(startDate != 0) {
-			getQuery.lessThanEqualTo("Date", startDate);
+			getQuery.greaterThanEqualTo("Date", startDate).addSort("Date", SortOrder.ASC);
 		}
 		AsyncAppData<PriceData> myData = mKinveyClient.appData(tableName, PriceData.class);
 			myData.get(getQuery, new KinveyListCallback<PriceData>() {
 				@Override
 				public void onSuccess(PriceData[] arg0) {
 					// TODO Auto-generated method stub
-					Log.i("KinveySuccess","got: "+arg0.toString());
 					Log.i("caller", "PriceQuery by " + caller.getLocalClassName());
 					if(arg0.length==0) {
-						priceData = null;
+						//priceData = null;
+						arg0 = null;
+						Log.i("KINVEYPRICE","got: null");
 					}
 					else { 
-						priceData = arg0;
-						KinveyCaller.callAppropriateActivityMethod(caller, priceData);
-						//lineGraphHandler();
+						Log.i("KINVEYPRICE","got: "+arg0.toString());
+						//priceData = arg0;
+						KinveyCaller.callAppropriateActivityMethod(caller, arg0);
 					}					
 				}
 				@Override
@@ -175,11 +183,12 @@ public class ConnectToKinveyTask implements ActivityConstants{
 				Log.e("success", "got: " + arg0.toString());
 				Log.i("caller", "FragmentQuery" + fragment.getClass().getSimpleName());
 				if (arg0.length == 0) {
-					stocks = null;
+					//stocks = null;
+					arg0 = null;
 				} else {
-					stocks = arg0;
+					//stocks = arg0;
 				}
-				KinveyCaller.callAppropriateFragmentMethod(fragment, stocks, rv, scoreType);
+				KinveyCaller.callAppropriateFragmentMethod(fragment, arg0, rv, scoreType);
 			}
 
 			@Override
@@ -200,14 +209,15 @@ public class ConnectToKinveyTask implements ActivityConstants{
 				public void onSuccess(Stock[] arg0) {
 					// TODO Auto-generated method stub
 					if(arg0.length==0) {
-						stocks = null;
+						//stocks = null;
+						arg0 = null;
 						Log.i("error","got: null");
 					}
 					else { 
-						stocks = arg0;
+						//stocks = arg0;
 						Log.i("success","got: "+arg0.toString());
 					}					
-					SectorData.setData(stocks);
+					SectorData.setData(arg0);
 				}
 				@Override
 				public void onFailure(Throwable error) { 

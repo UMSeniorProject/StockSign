@@ -136,7 +136,7 @@ public class PortfolioSectionFragment extends Fragment {
 		// Create a TableRow and give it an ID
 		TableRow tr = new TableRow(fragmentActivity);
 		tr.setId(mainId);
-		tr.setBackgroundColor(Color.rgb(232, 232, 232));
+		//tr.setBackgroundColor(Color.rgb(232, 232, 232));
 		TableRow.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT);
 		params.setMargins(0, 0, 0, 3);
 		tr.setLayoutParams(params);

@@ -314,10 +314,6 @@ public class MainActivity extends FragmentActivity implements
 			case 2:
 				fragment = new NewsSectionFragment();
 				break;
-			
-			case 3:
-				fragment = new MarketSectionFragment();
-				break;
 				
 			default:
 				fragment = new DummySectionFragment();
@@ -338,8 +334,8 @@ public class MainActivity extends FragmentActivity implements
 
 		@Override
 		public int getCount() {
-			// Show 4 total pages.
-			return 4;
+			// Show 3 total pages.
+			return 3;
 		}
 
 		@Override
@@ -352,8 +348,6 @@ public class MainActivity extends FragmentActivity implements
 				return getString(R.string.title_portfolio).toUpperCase(l);
 			case 2:
 				return getString(R.string.title_news).toUpperCase(l);
-			case 3:
-				return getString(R.string.title_markets).toUpperCase(l);
 				
 			}
 			return null;

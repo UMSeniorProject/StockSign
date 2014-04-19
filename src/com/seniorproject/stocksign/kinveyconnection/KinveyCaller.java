@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import com.seniorproject.stocksign.activity.MainActivity;
 import com.seniorproject.stocksign.database.PriceData;
-import com.seniorproject.stocksign.database.PriceDataLists;
+import com.seniorproject.stocksign.database.PriceDataStorage;
 import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.display.DisplayStockRatioData;
 import com.seniorproject.stocksign.display.DividendScore;
@@ -38,33 +38,33 @@ public class KinveyCaller {
 			
 		} else if(caller instanceof DisplayStockRatioData) {
 			if(data instanceof Stock[]) {
-				((DisplayStockRatioData) caller).kinveyResponceMethod(data[0]);
+				((DisplayStockRatioData) caller).kinveyResponceStockMethod(data[0]);
 			} else if(data instanceof PriceData[]) {
-				///////NOT SURE YET
+				((DisplayStockRatioData) caller).kinveyResponcePriceMethod(data);
 			}
 			
 		} else if(caller instanceof SearchStockActivity) {
 			PriceData[] priceData = Arrays.copyOf(data, data.length, PriceData[].class);
 			for(PriceData p : priceData) {
-				if(!PriceDataLists.getOpenPrices().isEmpty()) {
-					PriceDataLists.getOpenPrices().clear();
+				if(!PriceDataStorage.getOpenPrices().isEmpty()) {
+					PriceDataStorage.getOpenPrices().clear();
 				}
-				PriceDataLists.addOpenPrice(p.getOpen());
+				PriceDataStorage.addOpenPrice(p.getOpen());
 				
-				if(!PriceDataLists.getClosePrices().isEmpty()) {
-					PriceDataLists.getClosePrices().clear();
+				if(!PriceDataStorage.getClosePrices().isEmpty()) {
+					PriceDataStorage.getClosePrices().clear();
 				}
-				PriceDataLists.addClosePrice(p.getClose());
+				PriceDataStorage.addClosePrice(p.getClose());
 				
-				if(!PriceDataLists.getHighPrices().isEmpty()) {
-					PriceDataLists.getHighPrices().clear();
+				if(!PriceDataStorage.getHighPrices().isEmpty()) {
+					PriceDataStorage.getHighPrices().clear();
 				}
-				PriceDataLists.addHighPrice(p.getHigh());
+				PriceDataStorage.addHighPrice(p.getHigh());
 				
-				if(!PriceDataLists.getLowPrices().isEmpty()) {
-					PriceDataLists.getLowPrices().clear();
+				if(!PriceDataStorage.getLowPrices().isEmpty()) {
+					PriceDataStorage.getLowPrices().clear();
 				}
-				PriceDataLists.addLowPrice(p.getLow());
+				PriceDataStorage.addLowPrice(p.getLow());
 			}
 		} else if(caller instanceof DividendScore) {
 			if(data instanceof Stock[]) {

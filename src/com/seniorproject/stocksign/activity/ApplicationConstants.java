@@ -29,7 +29,7 @@ public interface ApplicationConstants {
 	static String GROWTH_SCORE_STOCKS_TITLE = "Growth Score";
 	
 	int AUTOCOMPLETE_ROW_LIMIT = 5;
-	int PRICE_DATA_SECTION_LIMIT = 100;
+	int PRICE_DATA_SECTION_LIMIT = 1800;
 	int SCORES_SECTION_LIMIT = 20;
 	
 	float DIVSCORE_LIMIT = 90f;

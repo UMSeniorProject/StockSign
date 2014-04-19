@@ -45,7 +45,7 @@
                 android:stretchColumns="0,1" >
 
                 <TableRow
-                    android:id="@+id/totaltableRow0"
+                    android:id="@+id/trHotTotalScore0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/table_margin"
@@ -59,7 +59,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/totalscore"
+                        android:id="@+id/tvHotTotalScoreTitle"
                         android:layout_column="1"
                         android:layout_gravity="center"
                         android:background="@android:drawable/list_selector_background"
@@ -75,7 +75,7 @@
                 </View>
 
                 <TableRow
-                    android:id="@+id/totaltableRow1"
+                    android:id="@+id/trHotTotalScore1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/table_margin"
@@ -83,16 +83,18 @@
                     android:gravity="right" >
 
                     <TextView
-                        android:id="@+id/totalstock1"
+                        android:id="@+id/tvHotTotalScoreTicker1"
                         android:layout_column="0"
                         android:layout_gravity="center"
                         android:background="@android:drawable/list_selector_background"
+                        android:text="@string/data_missing"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/stock1_total"
+                        android:id="@+id/tvHotTotalScore1"
                         android:layout_column="1"
                         android:layout_gravity="center"
+                        android:text="@string/data_null"
                         android:textSize="18sp" />
                 </TableRow>
 
@@ -101,23 +103,25 @@
                     android:background="#C0C0C0" />
 
                 <TableRow
-                    android:id="@+id/totaltableRow2"
+                    android:id="@+id/trHotTotalScore2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/table_margin"
                     android:layout_marginTop="@dimen/table_margin" >
 
                     <TextView
-                        android:id="@+id/totalstock2"
+                        android:id="@+id/tvHotTotalScoreTicker2"
                         android:layout_column="0"
                         android:layout_gravity="center"
                         android:background="@android:drawable/list_selector_background"
+                        android:text="@string/data_missing"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/stock2_total"
+                        android:id="@+id/tvHotTotalScore2"
                         android:layout_column="1"
                         android:layout_gravity="center"
+                        android:text="@string/data_null"
                         android:textSize="18sp" />
                 </TableRow>
 
@@ -126,23 +130,25 @@
                     android:background="#C0C0C0" />
 
                 <TableRow
-                    android:id="@+id/totaltableRow3"
+                    android:id="@+id/trHotTotalScore3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/table_margin"
                     android:layout_marginTop="@dimen/table_margin" >
 
                     <TextView
-                        android:id="@+id/totalstock3"
+                        android:id="@+id/tvHotTotalScoreTicker3"
                         android:layout_column="0"
                         android:layout_gravity="center"
                         android:background="@android:drawable/list_selector_background"
+                        android:text="@string/data_missing"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/stock3_total"
+                        android:id="@+id/tvHotTotalScore3"
                         android:layout_column="1"
                         android:layout_gravity="center"
+                        android:text="@string/data_null"
                         android:textSize="18sp" />
                 </TableRow>
 
@@ -159,7 +165,7 @@
                 android:stretchColumns="0,1" >
 
                 <TableRow
-                    android:id="@+id/tableRow0"
+                    android:id="@+id/trHotDivScore0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/table_margin"
@@ -173,7 +179,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/dividendscore"
+                        android:id="@+id/tvHotDivScoreTitle"
                         android:layout_column="1"
                         android:layout_gravity="center"
                         android:background="@android:drawable/list_selector_background"
@@ -189,7 +195,7 @@
                 </View>
 
                 <TableRow
-                    android:id="@+id/divtableRow1"
+                    android:id="@+id/trHotDivScore1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/table_margin"
@@ -197,16 +203,18 @@
                     android:gravity="right" >
 
                     <TextView
-                        android:id="@+id/divstock1"
+                        android:id="@+id/tvHotDivScoreTicker1"
                         android:layout_column="0"
                         android:layout_gravity="center"
                         android:background="@android:drawable/list_selector_background"
+                        android:text="@string/data_missing"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/stock1_div"
+                        android:id="@+id/tvHotDivScore1"
                         android:layout_column="1"
                         android:layout_gravity="center"
+                        android:text="@string/data_null"
                         android:textSize="18sp" />
                 </TableRow>
 
@@ -215,23 +223,25 @@
                     android:background="#C0C0C0" />
 
                 <TableRow
-                    android:id="@+id/divtableRow2"
+                    android:id="@+id/trHotDivScore2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/table_margin"
                     android:layout_marginTop="@dimen/table_margin" >
 
                     <TextView
-                        android:id="@+id/divstock2"
+                        android:id="@+id/tvHotDivScoreTicker2"
                         android:layout_column="0"
                         android:layout_gravity="center"
                         android:background="@android:drawable/list_selector_background"
+                        android:text="@string/data_missing"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/stock2_div"
+                        android:id="@+id/tvHotDivScore2"
                         android:layout_column="1"
                         android:layout_gravity="center"
+                        android:text="@string/data_null"
                         android:textSize="18sp" />
                 </TableRow>
 
@@ -240,23 +250,25 @@
                     android:background="#C0C0C0" />
 
                 <TableRow
-                    android:id="@+id/divtableRow3"
+                    android:id="@+id/trHotDivScore3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/table_margin"
                     android:layout_marginTop="@dimen/table_margin" >
 
                     <TextView
-                        android:id="@+id/divstock3"
+                        android:id="@+id/tvHotDivScoreTicker3"
                         android:layout_column="0"
                         android:layout_gravity="center"
                         android:background="@android:drawable/list_selector_background"
+                        android:text="@string/data_missing"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/stock3_div"
+                        android:id="@+id/tvHotDivScore3"
                         android:layout_column="1"
                         android:layout_gravity="center"
+                        android:text="@string/data_null"
                         android:textSize="18sp" />
                 </TableRow>
 
@@ -273,7 +285,7 @@
                 android:stretchColumns="0,1" >
 
                 <TableRow
-                    android:id="@+id/growthtableRow0"
+                    android:id="@+id/trHotGrowthScore0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/table_margin"
@@ -287,7 +299,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/growthscore"
+                        android:id="@+id/tvHotGrowthScoreTitle"
                         android:layout_column="1"
                         android:layout_gravity="center"
                         android:background="@android:drawable/list_selector_background"
@@ -303,7 +315,7 @@
                 </View>
 
                 <TableRow
-                    android:id="@+id/growthtableRow1"
+                    android:id="@+id/trHotGrowthScore1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/table_margin"
@@ -311,16 +323,18 @@
                     android:gravity="right" >
 
                     <TextView
-                        android:id="@+id/growthstock1"
+                        android:id="@+id/tvHotGrowthScoreTicker1"
                         android:layout_column="0"
                         android:layout_gravity="center"
                         android:background="@android:drawable/list_selector_background"
+                        android:text="@string/data_missing"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/stock1_growth"
+                        android:id="@+id/tvHotGrowthScore1"
                         android:layout_column="1"
                         android:layout_gravity="center"
+                        android:text="@string/data_null"
                         android:textSize="18sp" />
                 </TableRow>
 
@@ -329,23 +343,25 @@
                     android:background="#C0C0C0" />
 
                 <TableRow
-                    android:id="@+id/growthtableRow2"
+                    android:id="@+id/trHotGrowthScore2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/table_margin"
                     android:layout_marginTop="@dimen/table_margin" >
 
                     <TextView
-                        android:id="@+id/growthstock2"
+                        android:id="@+id/tvHotGrowthScoreTicker2"
                         android:layout_column="0"
                         android:layout_gravity="center"
                         android:background="@android:drawable/list_selector_background"
+                        android:text="@string/data_missing"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/stock2_growth"
+                        android:id="@+id/tvHotGrowthScore2"
                         android:layout_column="1"
                         android:layout_gravity="center"
+                        android:text="@string/data_null"
                         android:textSize="18sp" />
                 </TableRow>
 
@@ -354,23 +370,25 @@
                     android:background="#C0C0C0" />
 
                 <TableRow
-                    android:id="@+id/growthtableRow3"
+                    android:id="@+id/trHotGrowthScore3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/table_margin"
                     android:layout_marginTop="@dimen/table_margin" >
 
                     <TextView
-                        android:id="@+id/growthstock3"
+                        android:id="@+id/tvHotGrowthScoreTicker3"
                         android:layout_column="0"
                         android:layout_gravity="center"
                         android:background="@android:drawable/list_selector_background"
+                        android:text="@string/data_missing"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/stock3_growth"
+                        android:id="@+id/tvHotGrowthScore3"
                         android:layout_column="1"
                         android:layout_gravity="center"
+                        android:text="@string/data_null"
                         android:textSize="18sp" />
                 </TableRow>
 

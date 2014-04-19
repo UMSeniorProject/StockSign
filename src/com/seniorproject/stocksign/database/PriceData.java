@@ -9,7 +9,7 @@ public class PriceData extends GenericJson {
 	@Key("_id")
 	private String _id;
 	@Key("Date")
-	private String date;
+	private int date;
 	
 	@Key("Open")
 	private float open;
@@ -43,7 +43,7 @@ public class PriceData extends GenericJson {
 		return _id;
 	}
 
-	public String getDate() {
+	public int getDate() {
 		return date;
 	}
 
