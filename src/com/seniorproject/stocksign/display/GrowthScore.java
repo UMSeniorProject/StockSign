@@ -20,7 +20,7 @@ import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
 
 public class GrowthScore extends Activity {
 
-	Client mKinveyClient = null;
+	private Client mKinveyClient = null;
 	private TableLayout ratioTable;
 
 	@Override

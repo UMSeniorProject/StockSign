@@ -61,34 +61,36 @@ import com.seniorproject.stocksign.database.Stock;
 import com.seniorproject.stocksign.graphing.ChartMethods;
 import com.seniorproject.stocksign.graphing.GraphActivity;
 import com.seniorproject.stocksign.kinveyconnection.ConnectToKinveyTask;
+import com.seniorproject.stocksign.kinveyconnection.ConnectionDetector;
 import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
 import com.seniorproject.stocksign.searching.SearchStockActivity;
 
 public class DisplayStockRatioData extends Activity {
 
-	Context context = null;
-	Client mKinveyClient = null;
+	private Context context = null;
+	private Client mKinveyClient = null;
 
-	TextView stockName = null;
-	TextView stockTicker = null;
-	TextView stockInfo = null;
-	TextView stockTotalScore = null;
-	TextView stockDivScore = null;
-	TextView stockGrowthScore = null;
+	private TextView stockName = null;
+	private TextView stockTicker = null;
+	private TextView stockInfo = null;
+	private TextView stockTotalScore = null;
+	private TextView stockDivScore = null;
+	private TextView stockGrowthScore = null;
 
-	TableLayout ratioTable = null;
+	private TableLayout ratioTable = null;
 
-	Button portfolioButton = null;
-	Button graphButton = null;
+	private Button portfolioButton = null;
+	private Button graphButton = null;
 
-	TableRow totalScoreRow = null;
-	TableRow divScoreRow = null;
-	TableRow growthScoreRow = null;
+	private TableRow totalScoreRow = null;
+	private TableRow divScoreRow = null;
+	private TableRow growthScoreRow = null;
 
-	LinearLayout mainDisplayLayout = null;
+	private LinearLayout mainDisplayLayout = null;
 
-	SharedPreferences settings = null;
-	Stock theStock = null;
+	private SharedPreferences portfolioSettings = null;
+	private SharedPreferences indicatorSettings = null;
+	private Stock theStock = null;
 
 	// MySpinnerDialog dialog = null;
 
@@ -109,6 +111,21 @@ public class DisplayStockRatioData extends Activity {
 		mainDisplayLayout = (LinearLayout) findViewById(R.id.llDisplayStockData);
 	}
 
+	private void fetchKinvey(String ticker) {
+		if (!ticker.equals("missing")
+				|| ConnectionDetector.isConnectingToInternet(this)) {
+			/*
+			 * obtain the kinvey client and send a query to get data for this
+			 * ticker
+			 */
+			mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
+			kinveyStockDataFetcher(ticker);
+			kinveyPriceDataFetcher(ticker);
+		} else {
+			Utilities.displayToast(this, "No Internet Connection", "");
+		}
+	}
+
 	private void initialize(Intent intent) {
 		/* remember the context of this activity */
 		context = this;
@@ -117,10 +134,7 @@ public class DisplayStockRatioData extends Activity {
 		Bundle b = intent.getBundleExtra(ApplicationConstants.RATIO_BUNDLE);
 		String ticker = b.getString(ApplicationConstants.TICKER_SINGLE);
 
-		/* obtain the kinvey client and send a query to get data for this ticker */
-		mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
-		kinveyStockDataFetcher(ticker);
-		kinveyPriceDataFetcher(ticker);
+		fetchKinvey(ticker);
 
 		/* initialize variables relating to XML elements on this page */
 		initializeXML();
@@ -146,10 +160,10 @@ public class DisplayStockRatioData extends Activity {
 				String buttonText = portfolioButton.getText().toString();
 				String portfolioTicker = stockTicker.getText().toString();
 
-				settings = getSharedPreferences(
-						ApplicationConstants.USER_PORTFOLIO_TITLE, 0);
+				portfolioSettings = getSharedPreferences(
+						ApplicationConstants.PORTFOLIO_PREFERENCES, 0);
 
-				SharedPreferences.Editor editor = settings.edit();
+				SharedPreferences.Editor editor = portfolioSettings.edit();
 
 				if (buttonText.equals(ApplicationConstants.ADD_PORTFOLIO)) {
 
@@ -225,9 +239,9 @@ public class DisplayStockRatioData extends Activity {
 
 	private boolean portfolioContainsStock() {
 		String portfolioTicker = stockTicker.getText().toString();
-		settings = getSharedPreferences(
-				ApplicationConstants.USER_PORTFOLIO_TITLE, 0);
-		if (settings.contains(portfolioTicker)) {
+		portfolioSettings = getSharedPreferences(
+				ApplicationConstants.PORTFOLIO_PREFERENCES, 0);
+		if (portfolioSettings.contains(portfolioTicker)) {
 			return true;
 		}
 		return false;
@@ -242,7 +256,7 @@ public class DisplayStockRatioData extends Activity {
 	}
 
 	private void kinveyPriceDataFetcher(String searchString) {
-		//DATE IS HARD CODED FOR NOW
+		// DATE IS HARD CODED FOR NOW
 		ConnectToKinveyTask.kinveyFetchPriceQuery(searchString, 20110404, this);
 	}
 
@@ -250,6 +264,8 @@ public class DisplayStockRatioData extends Activity {
 	public void kinveyResponceStockMethod(Object object) {
 
 		if (object != null) {
+			portfolioButton.setEnabled(true);
+
 			// stock data
 			theStock = (Stock) object;
 			String[] ratioDataArray = theStock.values().toString().split(",");
@@ -281,16 +297,20 @@ public class DisplayStockRatioData extends Activity {
 		}
 	}
 
-	/* ratio data responce method */
+	/* price data responce method */
 	public void kinveyResponcePriceMethod(final Object[] objects) {
 		Utilities.displayToast(this, "Got price data for ", stockTicker
 				.getText().toString());
 
 		graphButton.setEnabled(true);
 		graphButton.setBackgroundResource(R.drawable.best_192x96);
-		PriceDataStorage.priceData = (PriceData[]) objects;	
-		PriceDataStorage.currentStock = stockTicker.getText().toString();
+
+		indicatorSettings = getSharedPreferences(
+				ApplicationConstants.INDICATOR_PREFERENCES, 0);
 		
+		PriceDataStorage.setPriceData((PriceData[]) objects, stockTicker
+				.getText().toString(), context, indicatorSettings.getAll());
+
 		graphButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -336,7 +356,14 @@ public class DisplayStockRatioData extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		// kinveyResponceStockMethod(theStock);
+		fetchKinvey(stockName.getText().toString());
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		fetchKinvey(stockName.getText().toString());
 	}
 
 	@Override

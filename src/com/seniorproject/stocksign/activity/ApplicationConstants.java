@@ -4,15 +4,23 @@ public interface ApplicationConstants {
 
 	int RATIO_DATA_TEXT_SIZE = 15;
 	int SCORE_DATA_TEXT_SIZE = 17;
+	int SPINNER_GRAPH_TEXT_SIZE = 15;
+	
+	int INDICATORS_SIZE = 4;
+	
 	
 	static String SCORES_ARRAY = "scores";
 	static String TICKER_ARRAY = "tickers";
+	static String INDICATOR_ARRAY = "indicators";
 	static String SCORES_BUNDLE = "scoreData";
 	
 	static String RATIO_BUNDLE = "ratioData";
 	static String TICKER_SINGLE = "ticker";
 	
-	static String USER_PORTFOLIO_TITLE = "My Portfolio";
+	static String PORTFOLIO_TITLE = "My Portfolio";
+	
+	static String PORTFOLIO_PREFERENCES = "portfolio";
+	static String INDICATOR_PREFERENCES = "indicator";
 	
 	//Kinvey Constants
 	static String RATIO_TABLE = "StockDataTable";

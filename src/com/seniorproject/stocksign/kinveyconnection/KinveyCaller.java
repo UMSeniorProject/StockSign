@@ -44,28 +44,7 @@ public class KinveyCaller {
 			}
 			
 		} else if(caller instanceof SearchStockActivity) {
-			PriceData[] priceData = Arrays.copyOf(data, data.length, PriceData[].class);
-			for(PriceData p : priceData) {
-				if(!PriceDataStorage.getOpenPrices().isEmpty()) {
-					PriceDataStorage.getOpenPrices().clear();
-				}
-				PriceDataStorage.addOpenPrice(p.getOpen());
-				
-				if(!PriceDataStorage.getClosePrices().isEmpty()) {
-					PriceDataStorage.getClosePrices().clear();
-				}
-				PriceDataStorage.addClosePrice(p.getClose());
-				
-				if(!PriceDataStorage.getHighPrices().isEmpty()) {
-					PriceDataStorage.getHighPrices().clear();
-				}
-				PriceDataStorage.addHighPrice(p.getHigh());
-				
-				if(!PriceDataStorage.getLowPrices().isEmpty()) {
-					PriceDataStorage.getLowPrices().clear();
-				}
-				PriceDataStorage.addLowPrice(p.getLow());
-			}
+			// POSSIBLY ADD LOADING OF PRICE DATA HERE INSTEAD OF DISPLAYRATIOACTIVITY
 		} else if(caller instanceof DividendScore) {
 			if(data instanceof Stock[]) {
 				((DividendScore) caller).kinveyResponceMethod(data);

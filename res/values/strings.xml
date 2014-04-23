@@ -59,15 +59,25 @@
     <string name="score_growth">Growth</string>
     <string name="data_missing">missing</string>
     <string name="data_null">null</string>
-
     <string name="period_prompt">Choose Time Period</string>
+
     <string-array name="chart_periods">
-        <item>1m</item>
-        <item>3m</item>
-        <item>6m</item>
-        <item>1y</item>
-        <item>2y</item>
-        <item>3y</item>
+        <item name="1m">1m</item>
+        <item name="3m">3m</item>
+        <item name="6m">6m</item>
+        <item name="1y">1y</item>
+        <item name="2y">2y</item>
+        <item name="3y">3y</item>
     </string-array>
+    <string-array name="chart_indicators">
+        <item>MACDsum</item>
+        <item>MACDslope</item>
+        <item>CMFInd</item>
+        <item>Vortex</item>
+    </string-array>
+    
+    <string name="title_display">Display</string>
+    <string name="title_indicator">Ind</string>
+    <string name="title_indicators">Indicators</string>
 
 </resources>

@@ -16,13 +16,22 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    
-    <style name="GenericProgressIndicator" parent="@android:style/Widget.ProgressBar.Large"
-        style="?android:attr/progressBarStyleLarge">
-    	<item name="android:layout_width">wrap_content</item>
-    	<item name="android:layout_height">wrap_content</item>
-    	<item name="android:indeterminate">true</item>
-	</style>
-    
+
+    <style name="GenericProgressIndicator" style="?android:attr/progressBarStyleLarge" parent="@android:style/Widget.ProgressBar.Large">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:indeterminate">true</item>
+    </style>
+
+    <style name="SpinnerText">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-1</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 
 </resources>

@@ -3,9 +3,14 @@ package com.seniorproject.stocksign.graphing;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.PointStyle;
@@ -21,56 +26,47 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.activity.ApplicationConstants;
 import com.seniorproject.stocksign.activity.Utilities;
 import com.seniorproject.stocksign.database.PriceData;
 import com.seniorproject.stocksign.database.PriceDataStorage;
 
 public class GraphActivity extends Activity {
 
-	LinearLayout graphView = null;
-	Spinner dateRange = null;
-	int startDate = 100;
-	Context context = null;
-	//Date today = null;
+	private LinearLayout graphView = null;
+	private Spinner dateRange = null;
+	private Button indicatorField = null;
+	private TextView tickerField = null;
 
-	private void initializeXML() {
-		graphView = (LinearLayout) findViewById(R.id.llGraph);
-		dateRange = (Spinner) findViewById(R.id.spChartPeriods);
-	}
+	private int startDate = 100;
 
-	private void displayGraph() {
-		if(graphView.getChildCount() > 0) {
-			graphView.removeAllViews();
-		}
-   		View graph = buildGraphView();
-		if(graph != null) {
-			graphView.addView(graph);
-		}
-		// graphView.invalidate();
-		// graphView.refreshDrawableState();
-	}
+	private Context context = null;
+	private String[] periods = null;
 
-	private void setupSpinnerListener() {	
-		dateRange.setOnItemSelectedListener(new CustomOnItemSelectedListener());
-	}
+	// Date today = null;
 
-	/*private void setupDate() {
-		try {
-			today = new SimpleDateFormat("YYYY-MM-DD", Locale.ENGLISH)
-					.parse(priceData[0].getDate());
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
+	private float[] priceValues = null;
+	private float minVal_Y = Float.MAX_VALUE;
+	private float maxVal_Y = Float.MIN_VALUE;
+
+	private HashMap<String, IndicatorInfo> indicatorMap = null;
+	private LinkedHashSet<String> lineTitles = null;
+	private ArrayList<Integer> lineColors = null;
+	private ArrayList<float[]> lineValues = null;
+	private ArrayList<PointStyle> pointStyles = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,89 +76,189 @@ public class GraphActivity extends Activity {
 		context = this;
 		initializeXML();
 		setChartPeriod(dateRange.getItemAtPosition(0).toString());
-		displayGraph();
-		setupSpinnerListener();
+		setupSpinner();
 	}
 
-	public View buildGraphView() {
-		String[] titles = { "BUY", "SELL", "PRICE", "ZERO" };
-		List<float[]> values = new ArrayList<float[]>();
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		displayGraph();
+	}
 
-		if(startDate > PriceDataStorage.priceData.length) {
-			Log.e("GRAPH", "date larger than price data size");
-			startDate = PriceDataStorage.priceData.length;
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		displayGraph();
+	}
+
+	private void initializeXML() {
+		graphView = (LinearLayout) findViewById(R.id.llGraph);
+		dateRange = (Spinner) findViewById(R.id.spChartPeriods);
+		indicatorField = (Button) findViewById(R.id.btChartLines);
+		tickerField = (TextView) findViewById(R.id.tvGraphTicker);
+
+		periods = context.getResources().getStringArray(R.array.chart_periods);
+	}
+
+	private void setChartPeriod(String period) {
+
+		if (period.equals(periods[0])) {
+			// 1m
+			startDate = 30;
+		} else if (period.equals(periods[1])) {
+			// 3m
+			startDate = 90;
+		} else if (period.equals(periods[2])) {
+			// 6m
+			startDate = 180;
+		} else if (period.equals(periods[3])) {
+			// 1y
+			startDate = 360;
+		} else if (period.equals(periods[4])) {
+			// 2y
+			startDate = 720;
+		} else if (period.equals(periods[5])) {
+			// 3y
+			startDate = 1080;
 		}
-		
-		int length = PriceDataStorage.priceData.length;	
-		
-		Log.d("GRAPH","Length:\t" + length);
-		
+	}
+
+	private void setGraphData() {
+		indicatorMap = PriceDataStorage.getIndicatorMap();
+		if (indicatorMap != null) {
+			Collection<IndicatorInfo> indicators = indicatorMap.values();
+
+			// CHECK IF NEEDED TO RECREATE EACH TIME OR SHOULD WE CLEAN IT
+
+			lineTitles = new LinkedHashSet<String>();
+			lineValues = new ArrayList<float[]>();
+			lineColors = new ArrayList<Integer>();
+			pointStyles = new ArrayList<PointStyle>();
+
+			if (startDate > PriceDataStorage.getSize()) {
+				Log.e("GRAPH", "date larger than price data size");
+				startDate = PriceDataStorage.getSize();
+			}
+
+			// add indicator, color and point style values
+			int i = 1;
+			for (IndicatorInfo ind : indicators) {
+				if (ind.isChecked()) {
+					lineTitles.add(ind.getName());
+					float[] indValues = new float[startDate];
+					populateValuesBasedOnDateRange(indValues, ind.getValues(),
+							ind.getValues().length - startDate, startDate);
+					lineValues.add(indValues);
+					if (i >= GraphingConstants.COLOR_VALUES.length) {
+						Log.e("GRAPH", "missing color values in setGraphData()");
+						break;
+					}
+					lineColors.add(GraphingConstants.COLOR_VALUES[i]);
+					pointStyles.add(PointStyle.POINT);
+					i++;
+				}
+			}
+
+			// add the price values
+			priceValues = new float[startDate];
+			populateValuesBasedOnDateRange(priceValues,
+					PriceDataStorage.getPrices(), PriceDataStorage.getPrices()
+							.size() - startDate, startDate);
+
+			lineValues.add(priceValues);
+			lineTitles.add("PRICE");
+			lineColors.add(GraphingConstants.COLOR_VALUES[0]);
+			pointStyles.add(PointStyle.POINT);
+
+		} else {
+			Log.e("GRAPH", "indicator names are null when building titles");
+		}
+	}
+
+	private void populateValuesBasedOnDateRange(float[] data, float[] valData,
+			int start, int limit) {
+		for (int i = start, j = 0; j < limit; i++, j++) {
+			data[j] = valData[i];
+			if (data[j] < minVal_Y) {
+				minVal_Y = data[j];
+			}
+			if (data[j] > maxVal_Y) {
+				maxVal_Y = data[j];
+			}
+		}
+	}
+
+	private void populateValuesBasedOnDateRange(float[] data,
+			ArrayList<Float> valData, int start, int limit) {
+		for (int i = start, j = 0; j < limit; i++, j++) {
+			data[j] = valData.get(i);
+			if (data[j] < minVal_Y) {
+				minVal_Y = data[j];
+			}
+			if (data[j] > maxVal_Y) {
+				maxVal_Y = data[j];
+			}
+		}
+	}
+
+	private void displayGraph() {
+		if (graphView.getChildCount() > 0) {
+			graphView.removeAllViews();
+		}
+		setGraphData();
+		View graph = buildGraphView();
+		if (graph != null) {
+			graphView.addView(graph);
+		}
+		tickerField.setText(PriceDataStorage.getTicker());
+		// graphView.invalidate();
+		// graphView.refreshDrawableState();
+	}
+
+	private void setupSpinner() {
+
+		dateRange.setOnItemSelectedListener(new PeriodOnItemSelectedListener());
+		ArrayList<String> dates = new ArrayList<String>();
+		for (int i = 0; i < periods.length; i++) {
+			dates.add(periods[i]);
+		}
+		dateRange.setAdapter(new DatePeriodAdapter(this,
+				android.R.layout.simple_spinner_item, dates));
+
+		indicatorField.setOnClickListener(new IndicatorOnClickListener());
+		/*
+		 * indicatorField.setAdapter(new IndicatorAdapter(this,
+		 * android.R.layout.simple_spinner_item, indicatorList));
+		 */
+	}
+
+	/*
+	 * private void setupDate() { try { today = new
+	 * SimpleDateFormat("YYYY-MM-DD", Locale.ENGLISH)
+	 * .parse(priceData[0].getDate()); } catch (ParseException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); } }
+	 */
+
+	private View buildGraphView() {
+		// String[] titles = { "BUY", "SELL", "PRICE", "ZERO" };
+
+		int length = PriceDataStorage.getSize();
+
+		Log.d("GRAPH", "Length:\t" + length);
+
 		float screenScaleX = 10;
 		float screenScaleY = 20;
 		float minX = -screenScaleX, maxX = startDate + screenScaleX;
-		float minY = Float.MAX_VALUE, maxY = Float.MIN_VALUE;
-		float[] data1_pos = new float[startDate];
-		float[] data1_neg = new float[startDate];
-		float[] data2 = new float[startDate];
-		
-		int start = length - startDate;
-		for (int i = 0, j = start; j < length; j++, i++) {
-			float current = PriceDataStorage.priceData[j].getVortex();
-			if(current > 0) {
-				data1_pos[i] = 10 * current;
-				data1_neg[i] = 0;
-			} else {
-				data1_neg[i] = 10 * current;
-				data1_pos[i] = 0;
-			}
-			data2[i] = 10 * PriceDataStorage.priceData[j].getCmfInd();		
-			
-			//Log.d("GRAPH","Date:\t" + PriceDataStorage.priceData[j].getDate());
-			
-			/*
-			if(data1[i] < data2[i]) {
-				if (minY > data1[i]) {
-					minY = data1[i];
-				}
-				if (maxY < data2[i]) {
-					maxY = data2[i];
-				}
-			} else {
-				if (minY > data2[i]) {
-					minY = data2[i];
-				}
-				if (maxY < data1[i]) {
-					maxY = data1[i];
-				}
-			}	*/
-		}
 
-		values.add(data1_pos);
-		values.add(data1_neg);
-		values.add(data2);
+		float minY = minVal_Y - screenScaleY;
+		float maxY = maxVal_Y + screenScaleY;
 
-		float[] diff = new float[startDate];
-		for (int i = 0; i < startDate; i++) {
-			diff[i] = 0; //open[i] - close[i];
-			if (diff[i] > maxY) {
-				maxY = diff[i];
-			}
-			if (diff[i] < minY) {
-				minY = diff[i];
-			}
-		}
-		values.add(diff);
-
-		minY = 0 - screenScaleY;
-		maxY = 0 + screenScaleY;
-
-		int[] colors = new int[] { Color.GREEN, Color.RED, Color.YELLOW, Color.WHITE };
-		PointStyle[] styles = new PointStyle[] { PointStyle.POINT,
-				PointStyle.POINT, PointStyle.POINT, PointStyle.POINT };
-		XYMultipleSeriesRenderer renderer = ChartMethods.buildRenderer(colors,
-				styles);
-		ChartMethods.setChartSettings(renderer, "Open vs Close", "Month",
-				"Price", minX, maxX, minY, maxY, Color.GRAY, Color.GRAY);
+		XYMultipleSeriesRenderer renderer = ChartMethods.buildRenderer(
+				lineColors, pointStyles);
+		ChartMethods.setChartSettings(renderer, "GRAPH", "Time", "Values",
+				minX, maxX, minY, maxY, Color.WHITE, Color.WHITE);
 		renderer.setXLabels(12);
 		renderer.setYLabels(10);
 		renderer.setBarWidth(10.0f);
@@ -173,50 +269,38 @@ public class GraphActivity extends Activity {
 		renderer.setLegendTextSize(15);
 		renderer.setBackgroundColor(Color.BLACK);
 		renderer.setApplyBackgroundColor(true);
+		renderer.setShowGrid(true);
 		length = renderer.getSeriesRendererCount();
 
 		for (int i = 0; i < length; i++) {
 			XYSeriesRenderer seriesRenderer = (XYSeriesRenderer) renderer
 					.getSeriesRendererAt(i);
-			/*if (i == length - 1) {
-				FillOutsideLine fill = new FillOutsideLine(
-						FillOutsideLine.Type.BOUNDS_ALL);
-				fill.setColor(Color.CYAN);
-				seriesRenderer.addFillOutsideLine(fill);
-			}*/
+			/*
+			 * if (i == length - 1) { FillOutsideLine fill = new
+			 * FillOutsideLine( FillOutsideLine.Type.BOUNDS_ALL);
+			 * fill.setColor(Color.CYAN);
+			 * seriesRenderer.addFillOutsideLine(fill); }
+			 */
 			seriesRenderer.setLineWidth(3.5f);
-			//seriesRenderer.setDisplayChartValues(true);
-			//seriesRenderer.setChartValuesTextSize(10f);
+			// seriesRenderer.setDisplayChartValues(true);
+			// seriesRenderer.setChartValuesTextSize(10f);
 		}
+
+		String[] lineTitlesArray = lineTitles.toArray(new String[0]);
+		/*
+		 * for(int i = 0; i < lineValues.size(); i++) { String values = "";
+		 * for(int j = 0; j < lineValues.get(i).length; j++) { values += " ";
+		 * values += String.valueOf(lineValues.get(i)[j]); } Log.d("GRAPH",
+		 * "Title = " + lineTitlesArray[i]); Log.d("GRAPH", "Color = " +
+		 * lineColors.get(i)); Log.d("GRAPH", "Values = " + values); }
+		 */
+
 		return ChartFactory.getCubeLineChartView(this,
-				ChartMethods.buildBarDataset(titles, values), renderer, 0.5f);
+				ChartMethods.buildBarDataset(lineTitlesArray, lineValues),
+				renderer, 0.5f);
 	}
 
-	private void setChartPeriod(String period) {
-		String[] periods = context.getResources().getStringArray(
-				R.array.chart_periods);
-		if(period.equals(periods[0])) {
-			//1m
-			startDate = 30;
-		} else if(period.equals(periods[1])) {
-			//3m
-			startDate = 90;
-		} else if(period.equals(periods[2])) {
-			//6m
-			startDate = 180;
-		} else if(period.equals(periods[3])) {
-			//1y
-			startDate = 360;
-		} else if(period.equals(periods[4])) {
-			//2y
-			startDate = 720;
-		} else if(period.equals(periods[5])) {
-			//3y
-			startDate = 1080;
-		}
-	}
-
-	private class CustomOnItemSelectedListener implements
+	private class PeriodOnItemSelectedListener implements
 			OnItemSelectedListener {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos,
@@ -227,7 +311,17 @@ public class GraphActivity extends Activity {
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
-			// TODO Auto-generated method stub
+			// arg0.set
+		}
+
+	}
+
+	private class IndicatorOnClickListener implements OnClickListener {
+
+		@Override
+		public void onClick(View arg0) {
+			Intent intent = new Intent(context, IndicatorPickerActivity.class);
+			startActivityForResult(intent, 0);
 		}
 
 	}

@@ -57,7 +57,7 @@ public class PortfolioSectionFragment extends Fragment {
 
 		fragmentActivity = this.getActivity();
 		portfolioData = fragmentActivity.getSharedPreferences(
-				ApplicationConstants.USER_PORTFOLIO_TITLE, 0);
+				ApplicationConstants.PORTFOLIO_PREFERENCES, 0);
 
 		// portfolioData.edit().clear().commit();
 
@@ -84,7 +84,7 @@ public class PortfolioSectionFragment extends Fragment {
 
 		TextView hotTextView = (TextView) rootView
 				.findViewById(R.id.section_label);
-		hotTextView.setText(ApplicationConstants.USER_PORTFOLIO_TITLE);
+		hotTextView.setText(ApplicationConstants.PORTFOLIO_TITLE);
 
 		return rootView;
 	}
@@ -287,7 +287,7 @@ public class PortfolioSectionFragment extends Fragment {
 			deleteRowTV.setLayoutParams(new LayoutParams(
 					LayoutParams.WRAP_CONTENT));
 			deleteRowTV.setGravity(Gravity.RIGHT);
-			deleteRowTV.setBackgroundResource(R.drawable.ic_action_discard);
+			deleteRowTV.setBackgroundResource(R.drawable.selector_discard);
 			tr.addView(deleteRowTV);
 			addDeleteClick(deleteRowTV, ticker);
 

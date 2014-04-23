@@ -4,15 +4,51 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <Spinner
-        android:id="@+id/spChartPeriods"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_gravity="center"
-        android:entries="@array/chart_periods"
-        android:prompt="@string/period_prompt"
-        android:textAlignment="center" >
-    </Spinner>
+        android:background="@drawable/black_gradient_bg_small"
+        android:orientation="horizontal" >
+
+        <Spinner
+            android:id="@+id/spChartPeriods"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_dropdown"
+            android:entries="@array/chart_periods"
+            android:prompt="@string/period_prompt"
+            android:textAlignment="center" >
+        </Spinner>
+
+        <Button
+            android:id="@+id/btChartLines"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_dropdown"
+            android:text="@string/title_indicator"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF" >
+       </Button>
+
+        <TextView
+            android:id="@+id/tvGraphTicker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llGraph"

@@ -28,20 +28,22 @@ public class ConnectToKinveyTask implements ActivityConstants{
 	//private static PriceData[] priceData;
 	private static Client mKinveyClient;
 	private static Activity callingActivity;
-	private boolean conn_success;
+	private static boolean conn_success;
 	
-	public ConnectToKinveyTask() {
+	/*public ConnectToKinveyTask() {
 		// TODO Auto-generated constructor stub
 		  mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
-	}	  
+	}*/	  
 	
-	public void setCallingActivity(Activity currentCallingActivity) {		
+	public static void setCallingActivity(Activity currentCallingActivity) {		
 		  callingActivity =  currentCallingActivity;
 	}
 
-	public boolean testKinveyService() {
+	public static boolean testKinveyService() {
 		 // call `myClient.user().logout().execute() first -or- check `myClient.user().isUserLoggedIn()` before attempting to login again
-	    	
+	    
+		  mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
+		
 		  boolean login = mKinveyClient.user().isUserLoggedIn();
 			
 		  	if(login) {
@@ -165,7 +167,7 @@ public class ConnectToKinveyTask implements ActivityConstants{
 				}
 				@Override
 				public void onFailure(Throwable error) { 
-					Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+					//Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
 				}
 
 			});

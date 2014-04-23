@@ -15,6 +15,7 @@ import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -67,8 +68,7 @@ public class MainActivity extends FragmentActivity implements
 
 	public static StockDataSource datasource;
 
-	// Kinvey connection task and client
-	ConnectToKinveyTask conn_kinvey = null;
+	// Kinvey connection client
 	Client mKinveyClient = null;
 
 	/**
@@ -90,11 +90,11 @@ public class MainActivity extends FragmentActivity implements
 		// Connect to kinvey
 		if (KinveyConnectionSingleton.setInstance(this,
 				ActivityConstants.MainActivity)) {
-			conn_kinvey = new ConnectToKinveyTask();
-			conn_kinvey.setCallingActivity(this);
+			mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
+			ConnectToKinveyTask.setCallingActivity(this);
 			// login and fire off the ping call to ensure we can communicate
 			// with Kinvey
-			conn_kinvey.testKinveyService();
+			ConnectToKinveyTask.testKinveyService();
 		}
 	}
 	
@@ -123,14 +123,16 @@ public class MainActivity extends FragmentActivity implements
 		final ActionBar actionBar = getActionBar();
 
 		// make fullscreen on landscape
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+		/*if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			Debugger.info("Orientation ", "LANDSCAPE");
 			// getActionBar().hide();
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		} else {
 			Debugger.info("Orientation ", "PORTRAIT");
-		}
+		}*/
+		
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		setContentView(R.layout.activity_main);
 
@@ -202,6 +204,10 @@ public class MainActivity extends FragmentActivity implements
 
 	public void refresh() {
 
+		if(mKinveyClient == null) {
+			connectToKinvey();
+		}
+		
 		Context context = getApplicationContext();
 		CharSequence refreshtoast = "Refreshing...";
 		int duration = Toast.LENGTH_SHORT;

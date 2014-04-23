@@ -21,7 +21,7 @@ import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
 
 public class DividendScore extends Activity {
 
-	Client mKinveyClient = null;
+	private Client mKinveyClient = null;
 	private TableLayout ratioTable;
 
 	@Override
@@ -62,6 +62,10 @@ public class DividendScore extends Activity {
 		int[] alternatingRGBColor = new int[3];
 		int alternator = 0;
 
+		if(tickers == null || scores == null) {
+			return;
+		}
+		
 		//ERROR CHECK FOR TICKERS.LENGTH VS SCORE.LENGTH??
 		
 		// Go through each item in the array

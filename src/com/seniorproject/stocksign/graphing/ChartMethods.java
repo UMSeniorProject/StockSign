@@ -15,8 +15,10 @@
  */
 package com.seniorproject.stocksign.graphing;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.CategorySeries;
@@ -68,28 +70,29 @@ public class ChartMethods {
   /**
    * Builds an XY multiple series renderer.
    * 
-   * @param colors the series rendering colors
-   * @param styles the series point styles
+   * @param lineColors the series rendering colors
+   * @param pointStyles the series point styles
    * @return the XY multiple series renderers
    */
-  public static XYMultipleSeriesRenderer buildRenderer(int[] colors, PointStyle[] styles) {
+  public static XYMultipleSeriesRenderer buildRenderer(ArrayList<Integer> lineColors, ArrayList<PointStyle> pointStyles) {
     XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-    setRenderer(renderer, colors, styles);
+    setRenderer(renderer, lineColors, pointStyles);
     return renderer;
   }
 
-  public static void setRenderer(XYMultipleSeriesRenderer renderer, int[] colors, PointStyle[] styles) {
+  public static void setRenderer(XYMultipleSeriesRenderer renderer, ArrayList<Integer> lineColors, ArrayList<PointStyle> pointStyles) {
     renderer.setAxisTitleTextSize(16);
     renderer.setChartTitleTextSize(20);
     renderer.setLabelsTextSize(15);
     renderer.setLegendTextSize(15);
     renderer.setPointSize(5f);
     renderer.setMargins(new int[] { 20, 30, 15, 20 });
-    int length = colors.length;
+    int length = lineColors.size();
     for (int i = 0; i < length; i++) {
       XYSeriesRenderer r = new XYSeriesRenderer();
-      r.setColor(colors[i]);
-      r.setPointStyle(styles[i]);
+      r.setColor(lineColors.get(i));
+      r.setHighlighted(true);
+      r.setPointStyle(pointStyles.get(i));
       renderer.addSeriesRenderer(r);
     }
   }
@@ -220,7 +223,11 @@ public class ChartMethods {
       float[] v = values.get(i);
       int seriesLength = v.length;
       for (int k = 0; k < seriesLength; k++) {
-        series.add(v[k]);
+    	  if(!titles[i].equals(GraphingConstants.TITLE_PRICE)) {
+    		  series.add(GraphingConstants.INDICATOR_VALUE_SCALE * v[k]);
+    	  } else {
+    		  series.add(GraphingConstants.PRICE_VALUE_SCALE * v[k]);
+    	  }
       }
       dataset.addSeries(series.toXYSeries());
     }

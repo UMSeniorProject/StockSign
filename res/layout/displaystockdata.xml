@@ -209,6 +209,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="1dp"
         android:checked="false"
+        android:enabled="false"
         android:contentDescription="@string/portfolio_description"
         android:gravity="center"
         android:textAlignment="center"
