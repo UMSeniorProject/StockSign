@@ -26,9 +26,13 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,6 +56,7 @@ import com.kinvey.java.Query;
 import com.kinvey.java.query.AbstractQuery.SortOrder;
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.activity.ApplicationConstants;
+import com.seniorproject.stocksign.activity.MenuInflator;
 import com.seniorproject.stocksign.activity.MySpinner;
 import com.seniorproject.stocksign.activity.Utilities;
 import com.seniorproject.stocksign.database.PriceData;
@@ -91,6 +96,8 @@ public class DisplayStockRatioData extends Activity {
 	private SharedPreferences portfolioSettings = null;
 	private SharedPreferences indicatorSettings = null;
 	private Stock theStock = null;
+	
+	private MenuInflator mInflator = null;
 
 	// MySpinnerDialog dialog = null;
 
@@ -130,6 +137,12 @@ public class DisplayStockRatioData extends Activity {
 		/* remember the context of this activity */
 		context = this;
 
+		/* initialize the menu */
+		mInflator = new MenuInflator(this);
+		
+		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		/* get ticker name sent to this activity */
 		Bundle b = intent.getBundleExtra(ApplicationConstants.RATIO_BUNDLE);
 		String ticker = b.getString(ApplicationConstants.TICKER_SINGLE);
@@ -355,6 +368,16 @@ public class DisplayStockRatioData extends Activity {
 		initialize(getIntent());
 		// I can also get the calling activity ID but its unnecessary at this
 		// time
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return mInflator.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return mInflator.onOptionsItemSelected(item);
 	}
 
 	@Override

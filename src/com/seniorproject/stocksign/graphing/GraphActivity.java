@@ -25,6 +25,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -40,6 +42,7 @@ import android.widget.Toast;
 
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.activity.ApplicationConstants;
+import com.seniorproject.stocksign.activity.MenuInflator;
 import com.seniorproject.stocksign.activity.Utilities;
 import com.seniorproject.stocksign.database.PriceData;
 import com.seniorproject.stocksign.database.PriceDataStorage;
@@ -67,6 +70,8 @@ public class GraphActivity extends Activity {
 	private ArrayList<Integer> lineColors = null;
 	private ArrayList<float[]> lineValues = null;
 	private ArrayList<PointStyle> pointStyles = null;
+	
+	private MenuInflator mInflator = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +79,22 @@ public class GraphActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.graph);
 		context = this;
+		mInflator = new MenuInflator(this);
+		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);	
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		initializeXML();
 		setChartPeriod(dateRange.getItemAtPosition(0).toString());
 		setupSpinner();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return mInflator.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return mInflator.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -143,7 +161,7 @@ public class GraphActivity extends Activity {
 			}
 
 			// add indicator, color and point style values
-			int i = 1;
+			int i = 0;
 			for (IndicatorInfo ind : indicators) {
 				if (ind.isChecked()) {
 					//add titles names

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TableLayout;
@@ -17,12 +19,13 @@ import android.widget.TextView;
 import com.kinvey.android.Client;
 import com.seniorproject.stocksign.R;
 import com.seniorproject.stocksign.activity.ApplicationConstants;
+import com.seniorproject.stocksign.activity.MenuInflator;
 import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
 
 public class DividendScore extends Activity {
 
-	private Client mKinveyClient = null;
-	private TableLayout ratioTable;
+	private TableLayout ratioTable = null;;
+	private MenuInflator mInflator = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,6 @@ public class DividendScore extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dividendscore);
 
-		mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
 		initialize();
 		displayData(getIntent());
 
@@ -47,9 +49,22 @@ public class DividendScore extends Activity {
 		});
 
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return mInflator.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return mInflator.onOptionsItemSelected(item);
+	}
 
 	private void initialize() {
 		// TODO Auto-generated method stub
+		mInflator = new MenuInflator(this);
+		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);	
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		TextView hotTextView = (TextView) findViewById(R.id.section_label);
 		hotTextView.setText(ApplicationConstants.DIV_SCORE_STOCKS_TITLE);
 		ratioTable = (TableLayout) findViewById(R.id.tlDivScores);
