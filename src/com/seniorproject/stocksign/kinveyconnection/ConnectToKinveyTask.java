@@ -167,7 +167,12 @@ public class ConnectToKinveyTask implements ActivityConstants{
 				}
 				@Override
 				public void onFailure(Throwable error) { 
-					//Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+					Throwable cause = error.getCause();
+					if(cause != null) {
+						Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+					} else {
+						Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause());
+					}
 				}
 
 			});

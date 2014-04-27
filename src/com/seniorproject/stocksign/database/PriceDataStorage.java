@@ -84,27 +84,26 @@ public class PriceDataStorage {
 		// populate indicator map
 		for (int i = 0; i < indicators.length; i++) {
 			String name = indicators[i];
-			float[] values = new float[size];
 			boolean isActive = activeIndicators.containsKey(name) ? true
 					: false;
 			indicatorMap
-					.put(name, new IndicatorInfo(name, values, i, isActive));
+					.put(name, new IndicatorInfo(name, i, isActive, size));
 		}
 
 		// TODO: indicator names should be added programatically
 		for (int i = 0; i < size; i++) {
 			// populate MACDsum
-			indicatorMap.get("MACDsum").getValues()[i] = priceData[i]
-					.getMacdSum();
+			indicatorMap.get("MACDsum").addValue(priceData[i]
+					.getMacdSum(), i);
 			// populate MACDslope
-			indicatorMap.get("MACDslope").getValues()[i] = priceData[i]
-					.getMacdSlope();
+			indicatorMap.get("MACDslope").addValue(priceData[i]
+					.getMacdSlope(), i);
 			// populate CMFInd
-			indicatorMap.get("CMFInd").getValues()[i] = priceData[i]
-					.getCmfInd();
+			indicatorMap.get("CMFInd").addValue(priceData[i]
+					.getCmfInd(), i);
 			// populate Vortex
-			indicatorMap.get("Vortex").getValues()[i] = priceData[i]
-					.getVortex();
+			indicatorMap.get("Vortex").addValue(priceData[i]
+					.getVortex(), i);
 		}
 	}
 

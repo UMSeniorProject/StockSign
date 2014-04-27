@@ -146,21 +146,44 @@ public class GraphActivity extends Activity {
 			int i = 1;
 			for (IndicatorInfo ind : indicators) {
 				if (ind.isChecked()) {
-					lineTitles.add(ind.getName());
-					float[] indValues = new float[startDate];
-					populateValuesBasedOnDateRange(indValues, ind.getValues(),
-							ind.getValues().length - startDate, startDate);
-					lineValues.add(indValues);
-					if (i >= GraphingConstants.COLOR_VALUES.length) {
+					//add titles names
+					lineTitles.add(ind.getName() + "+");
+					lineTitles.add(ind.getName() + "-");
+					float[] indPosValues = new float[startDate];
+					float[] indNegValues = new float[startDate];
+					//create positive values
+					populateValuesBasedOnDateRange(indPosValues, ind.getPositives(),
+							ind.getPositives().length - startDate, startDate);
+					//create negative values
+					populateValuesBasedOnDateRange(indNegValues, ind.getNegatives(),
+							ind.getNegatives().length - startDate, startDate);
+					//add pos and neg values to the line values
+					lineValues.add(indPosValues);
+					lineValues.add(indNegValues);
+					//add colors to line values
+					if (i >= GraphingConstants.POS_COLORS.length) {
 						Log.e("GRAPH", "missing color values in setGraphData()");
 						break;
 					}
-					lineColors.add(GraphingConstants.COLOR_VALUES[i]);
+					lineColors.add(Color.parseColor(GraphingConstants.POS_COLORS[i]));
+					if (i >= GraphingConstants.NEG_COLORS.length) {
+						Log.e("GRAPH", "missing color values in setGraphData()");
+						break;
+					}
+					lineColors.add(Color.parseColor(GraphingConstants.NEG_COLORS[i]));
+					//add two point styles
+					pointStyles.add(PointStyle.POINT);
 					pointStyles.add(PointStyle.POINT);
 					i++;
 				}
 			}
 
+			//add the zero line
+			lineValues.add(new float[startDate]);
+			lineTitles.add("ZERO");
+			lineColors.add(GraphingConstants.ZERO_COLOR);
+			pointStyles.add(PointStyle.POINT);
+			
 			// add the price values
 			priceValues = new float[startDate];
 			populateValuesBasedOnDateRange(priceValues,
@@ -169,7 +192,7 @@ public class GraphActivity extends Activity {
 
 			lineValues.add(priceValues);
 			lineTitles.add("PRICE");
-			lineColors.add(GraphingConstants.COLOR_VALUES[0]);
+			lineColors.add(GraphingConstants.PRICE_COLOR);
 			pointStyles.add(PointStyle.POINT);
 
 		} else {

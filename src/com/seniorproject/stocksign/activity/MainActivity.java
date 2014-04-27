@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.kinvey.android.Client;
 import com.seniorproject.stocksign.R;
+import com.seniorproject.stocksign.database.Companies;
 import com.seniorproject.stocksign.database.SetTrie;
 import com.seniorproject.stocksign.database.StockDataSource;
 import com.seniorproject.stocksign.database.TickerTrie;
@@ -116,6 +117,27 @@ public class MainActivity extends FragmentActivity implements
 		TickerTrie.setTrie(setTrie);
 	}
 	
+	protected void loadCompanyNames() {
+		InputStream inStream = getResources().openRawResource(R.raw.tickers_names);
+		BufferedReader bReader= new BufferedReader(new InputStreamReader(inStream));
+		String line;
+		try {
+			line = bReader.readLine();
+			while(line != null) {
+				String[] row = line.split(",");
+				if(row.length != 2) {
+					Log.e("COMPANIES", "error in the ticker_names file");
+					break;
+				}
+				Companies.fillNames(row[0], row[1]);
+				line = bReader.readLine();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -139,6 +161,7 @@ public class MainActivity extends FragmentActivity implements
 		datasource = new StockDataSource(this);
 		connectToKinvey();
 		loadTickerTrie();
+		loadCompanyNames();
 
 		/*
 		 * SharedPreferences getPrefs =

@@ -299,15 +299,20 @@ public class DisplayStockRatioData extends Activity {
 
 	/* price data responce method */
 	public void kinveyResponcePriceMethod(final Object[] objects) {
-		Utilities.displayToast(this, "Got price data for ", stockTicker
-				.getText().toString());
+		/*
+		 * Utilities.displayToast(this, "Got price data for ", stockTicker
+		 * .getText().toString());
+		 */
+
+		Utilities.displayToastPositionaly(this, Math.round(graphButton.getPivotX() + 120),
+				Math.round(graphButton.getPivotY()) - 150, "Graph Loaded");
 
 		graphButton.setEnabled(true);
 		graphButton.setBackgroundResource(R.drawable.best_192x96);
 
 		indicatorSettings = getSharedPreferences(
 				ApplicationConstants.INDICATOR_PREFERENCES, 0);
-		
+
 		PriceDataStorage.setPriceData((PriceData[]) objects, stockTicker
 				.getText().toString(), context, indicatorSettings.getAll());
 
@@ -356,14 +361,14 @@ public class DisplayStockRatioData extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		fetchKinvey(stockName.getText().toString());
+		//fetchKinvey(stockName.getText().toString());
 	}
 
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		fetchKinvey(stockName.getText().toString());
+		//fetchKinvey(stockName.getText().toString());
 	}
 
 	@Override

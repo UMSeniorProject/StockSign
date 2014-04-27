@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.content.Context;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Toast;
 
 public class Utilities {
@@ -20,6 +22,24 @@ public class Utilities {
 		int duration = Toast.LENGTH_SHORT;
 		toastMessage = toastMessage + " " + ticker;
 		Toast.makeText(context, toastMessage, duration).show();
+	}
+
+	public static void displayToastPositionaly(Context context, int xOffset,
+			int yOffset, String toastMessage) {
+		int duration = Toast.LENGTH_SHORT;
+		Toast toast = Toast.makeText(context, toastMessage, duration);
+		toast.setGravity(Gravity.CENTER_VERTICAL, xOffset, yOffset);
+		toast.setDuration(duration);
+		toast.show();
+	}
+	
+	public static void displayToastInView(Context context, View view, String toastMessage) {
+		int duration = Toast.LENGTH_SHORT;
+		Toast toast = Toast.makeText(context, toastMessage, duration);
+		toast.setView(view);
+		toast.setDuration(duration);
+		toast.setText(toastMessage);
+		toast.show();
 	}
 
 	public static int calculateWorkDays(Date startDate, Date endDate) {
