@@ -62,6 +62,8 @@ public class GraphActivity extends Activity {
 	// Date today = null;
 
 	private float[] priceValues = null;
+	private float minPrice = Float.MAX_VALUE;
+	private float maxPrice = Float.MIN_VALUE;
 	private float minVal_Y = Float.MAX_VALUE;
 	private float maxVal_Y = Float.MIN_VALUE;
 
@@ -70,7 +72,7 @@ public class GraphActivity extends Activity {
 	private ArrayList<Integer> lineColors = null;
 	private ArrayList<float[]> lineValues = null;
 	private ArrayList<PointStyle> pointStyles = null;
-	
+
 	private MenuInflator mInflator = null;
 
 	@Override
@@ -80,18 +82,18 @@ public class GraphActivity extends Activity {
 		setContentView(R.layout.graph);
 		context = this;
 		mInflator = new MenuInflator(this);
-		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);	
+		// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		initializeXML();
 		setChartPeriod(dateRange.getItemAtPosition(0).toString());
 		setupSpinner();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return mInflator.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return mInflator.onOptionsItemSelected(item);
@@ -155,6 +157,12 @@ public class GraphActivity extends Activity {
 			lineColors = new ArrayList<Integer>();
 			pointStyles = new ArrayList<PointStyle>();
 
+			// reset mins and maxes
+			minPrice = Float.MAX_VALUE;
+			maxPrice = Float.MIN_VALUE;
+			minVal_Y = Float.MAX_VALUE;
+			maxVal_Y = Float.MIN_VALUE;
+
 			if (startDate > PriceDataStorage.getSize()) {
 				Log.e("GRAPH", "date larger than price data size");
 				startDate = PriceDataStorage.getSize();
@@ -164,44 +172,48 @@ public class GraphActivity extends Activity {
 			int i = 0;
 			for (IndicatorInfo ind : indicators) {
 				if (ind.isChecked()) {
-					//add titles names
+					// add titles names
 					lineTitles.add(ind.getName() + "+");
 					lineTitles.add(ind.getName() + "-");
 					float[] indPosValues = new float[startDate];
 					float[] indNegValues = new float[startDate];
-					//create positive values
-					populateValuesBasedOnDateRange(indPosValues, ind.getPositives(),
-							ind.getPositives().length - startDate, startDate);
-					//create negative values
-					populateValuesBasedOnDateRange(indNegValues, ind.getNegatives(),
-							ind.getNegatives().length - startDate, startDate);
-					//add pos and neg values to the line values
+					// create positive values
+					populateValuesBasedOnDateRange(indPosValues,
+							ind.getPositives(), ind.getPositives().length
+									- startDate, startDate);
+					// create negative values
+					populateValuesBasedOnDateRange(indNegValues,
+							ind.getNegatives(), ind.getNegatives().length
+									- startDate, startDate);
+					// add pos and neg values to the line values
 					lineValues.add(indPosValues);
 					lineValues.add(indNegValues);
-					//add colors to line values
+					// add colors to line values
 					if (i >= GraphingConstants.POS_COLORS.length) {
 						Log.e("GRAPH", "missing color values in setGraphData()");
 						break;
 					}
-					lineColors.add(Color.parseColor(GraphingConstants.POS_COLORS[i]));
+					lineColors.add(Color
+							.parseColor(GraphingConstants.POS_COLORS[i]));
 					if (i >= GraphingConstants.NEG_COLORS.length) {
 						Log.e("GRAPH", "missing color values in setGraphData()");
 						break;
 					}
-					lineColors.add(Color.parseColor(GraphingConstants.NEG_COLORS[i]));
-					//add two point styles
+					lineColors.add(Color
+							.parseColor(GraphingConstants.NEG_COLORS[i]));
+					// add two point styles
 					pointStyles.add(PointStyle.POINT);
 					pointStyles.add(PointStyle.POINT);
 					i++;
 				}
 			}
 
-			//add the zero line
+			// add the zero line
 			lineValues.add(new float[startDate]);
 			lineTitles.add("ZERO");
 			lineColors.add(GraphingConstants.ZERO_COLOR);
 			pointStyles.add(PointStyle.POINT);
-			
+
 			// add the price values
 			priceValues = new float[startDate];
 			populateValuesBasedOnDateRange(priceValues,
@@ -235,6 +247,14 @@ public class GraphActivity extends Activity {
 			ArrayList<Float> valData, int start, int limit) {
 		for (int i = start, j = 0; j < limit; i++, j++) {
 			data[j] = valData.get(i);
+
+			if (data[j] < minPrice) {
+				minPrice = data[j];
+			}
+			if (data[j] > maxPrice) {
+				maxPrice = data[j];
+			}
+
 			if (data[j] < minVal_Y) {
 				minVal_Y = data[j];
 			}
@@ -282,6 +302,35 @@ public class GraphActivity extends Activity {
 	 * Auto-generated catch block e.printStackTrace(); } }
 	 */
 
+	private float convertYLabelValue(float value) {
+		double val = ((100.0 * Math.exp(value)) - 100);
+		return Utilities.round((float) val, 2);
+	}
+
+	private float getIncrement(float max, float min) {
+		float num1 = Math.abs(max);
+		float num2 = Math.abs(min);
+		return ((num1 + num2) / GraphingConstants.NUMBER_OF_LABELS);
+	}
+
+	private void buildYLabels(XYMultipleSeriesRenderer renderer) {
+		String label;
+
+		float start = maxPrice;
+		float end = minPrice;
+		float inc = getIncrement(maxPrice, minPrice);
+		for (int i = 0; i <= GraphingConstants.NUMBER_OF_LABELS; i++) {
+			float value = convertYLabelValue(start);
+			label = (value + "%");
+			renderer.addYTextLabel(start * GraphingConstants.PRICE_VALUE_SCALE,
+					label);
+			start -= inc;
+			if (start < end) {
+				break;
+			}
+		}
+	}
+
 	private View buildGraphView() {
 		// String[] titles = { "BUY", "SELL", "PRICE", "ZERO" };
 
@@ -289,19 +338,29 @@ public class GraphActivity extends Activity {
 
 		Log.d("GRAPH", "Length:\t" + length);
 
-		float screenScaleX = 10;
-		float screenScaleY = 20;
-		float minX = -screenScaleX, maxX = startDate + screenScaleX;
+		float screenPaddingX = 10;
+		float screenPaddingY = 0;
+		float minX = -screenPaddingX, maxX = startDate + screenPaddingX;
 
-		float minY = minVal_Y - screenScaleY;
-		float maxY = maxVal_Y + screenScaleY;
+		// float minY = (minVal_Y * GraphingConstants.PRICE_VALUE_SCALE) -
+		// screenPaddingY;
+		// float maxY = (maxVal_Y * GraphingConstants.PRICE_VALUE_SCALE) +
+		// screenPaddingY;
+
+		float larger = (Math.abs(minPrice) > Math.abs(maxPrice) ? Math
+				.abs(minPrice) : Math.abs(maxPrice));
+		
+		GraphingConstants.PRICE_VALUE_SCALE = (GraphingConstants.MAX_Y/larger);
+		
+		float minY = GraphingConstants.MIN_Y;
+		float maxY = GraphingConstants.MAX_Y;
 
 		XYMultipleSeriesRenderer renderer = ChartMethods.buildRenderer(
 				lineColors, pointStyles);
 		ChartMethods.setChartSettings(renderer, "GRAPH", "Time", "Values",
 				minX, maxX, minY, maxY, Color.WHITE, Color.WHITE);
 		renderer.setXLabels(12);
-		renderer.setYLabels(10);
+		renderer.setYLabels(1);
 		renderer.setBarWidth(10.0f);
 		renderer.setChartTitleTextSize(20);
 		renderer.setTextTypeface("sans_serif", Typeface.BOLD);
@@ -311,6 +370,9 @@ public class GraphActivity extends Activity {
 		renderer.setBackgroundColor(Color.BLACK);
 		renderer.setApplyBackgroundColor(true);
 		renderer.setShowGrid(true);
+
+		buildYLabels(renderer);
+
 		length = renderer.getSeriesRendererCount();
 
 		for (int i = 0; i < length; i++) {

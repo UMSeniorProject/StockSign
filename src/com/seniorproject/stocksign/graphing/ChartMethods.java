@@ -94,7 +94,7 @@ public class ChartMethods {
 		renderer.setLabelsTextSize(15);
 		renderer.setLegendTextSize(15);
 		renderer.setPointSize(5f);
-		renderer.setMargins(new int[] { 20, 30, 15, 20 });
+		renderer.setMargins(new int[] { 0, 30, 15, 20 });
 		int length = lineColors.size();
 		for (int i = 0; i < length; i++) {
 			XYSeriesRenderer r = new XYSeriesRenderer();
