@@ -112,6 +112,12 @@ public class Stock extends GenericJson{
 	private float divscore;
 	@Key("Growth_Score")
 	private float growthscore;
+	@Key("Total_Rank")
+	private int totalrank;
+	@Key("Dividend_Rank")
+	private int divrank;
+	@Key("Growth_Rank")
+	private int growthrank;
 	
 	
 	 @Key("Date") private String date;
@@ -477,7 +483,22 @@ public class Stock extends GenericJson{
 	public void setAcl(KinveyMetaData.AccessControlList acl) {
 		this.acl = acl;
 	}
-
-	
-	
+	public int getTotalRank() {
+		return totalrank;
+	}
+	public int getDividendRank() {
+		return divrank;
+	}
+	public int getGrowthRank() {
+		return growthrank;
+	}
+	public void setTotalRank(int totalrank) {
+		this.totalrank = totalrank;
+	}
+	public void setDividendRank(int divrank) {
+		this.divrank = divrank;
+	}
+	public void setGrowthRank(int growthrank) {
+		this.growthrank = growthrank;
+	}
 }

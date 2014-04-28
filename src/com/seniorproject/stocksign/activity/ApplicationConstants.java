@@ -2,12 +2,13 @@ package com.seniorproject.stocksign.activity;
 
 public interface ApplicationConstants {
 
-	int RATIO_DATA_TEXT_SIZE = 15;
+	int RATIO_DATA_TEXT_SIZE = 13;
 	int SCORE_DATA_TEXT_SIZE = 17;
 	int SPINNER_GRAPH_TEXT_SIZE = 15;
 	
 	int INDICATORS_SIZE = 4;
 	
+	int TOTAL_NUMBER_OF_STOCKS = 6744;
 	
 	static String SCORES_ARRAY = "scores";
 	static String TICKER_ARRAY = "tickers";
@@ -81,8 +82,8 @@ public interface ApplicationConstants {
 	static String COLOR_RED = "#CC0000";
 	
 	//Portfolio
-	static String ADD_PORTFOLIO = "Add To Portfolio";
-	static String REM_PORTFOLIO = "Remove From Portfolio";
+	static String ADD_PORTFOLIO = "Insert Into Portfolio";
+	static String REM_PORTFOLIO = "Delete From Portfolio";
 	static String PF_ADD = "Added";
 	static String PF_REM = "Removed";
 }

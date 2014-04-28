@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llDisplayStockData"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="#F2F2F2"
     android:orientation="vertical"
     android:visibility="visible" >
@@ -84,151 +84,159 @@
         </TableRow>
     </TableLayout>
 
-    <LinearLayout
-        android:id="@+id/llGradesAndGraph"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <LinearLayout
-            android:id="@+id/llGrades"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
-
-            <TableLayout
-                android:id="@+id/tlStockGradeData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:stretchColumns="0,1" >
-
-                <TableRow
-                    android:id="@+id/trStockTotalScore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/tvStockTotalScoreName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_span="1"
-                        android:gravity="left"
-                        android:orientation="vertical"
-                        android:text="@string/title_total_score"
-                        android:textSize="13sp"
-                        android:textStyle="italic" >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/tvStockTotalScoreValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_span="2"
-                        android:gravity="left"
-                        android:orientation="vertical"
-                        android:text="@string/data_null"
-                        android:textSize="13sp"
-                        android:textStyle="bold" >
-                    </TextView>
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/trStockDivScore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/tvStockDivScoreName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_span="1"
-                        android:gravity="left"
-                        android:orientation="vertical"
-                        android:text="@string/title_div_score"
-                        android:textSize="13sp"
-                        android:textStyle="italic" >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/tvStockDivScoreValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_span="2"
-                        android:gravity="left"
-                        android:orientation="vertical"
-                        android:text="@string/data_null"
-                        android:textSize="13sp"
-                        android:textStyle="bold" >
-                    </TextView>
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/trStockGrowthScore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/tvStockGrowthScoreName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_span="1"
-                        android:gravity="left"
-                        android:orientation="vertical"
-                        android:text="@string/title_growth_score"
-                        android:textSize="13sp"
-                        android:textStyle="italic" >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/tvStockGrowthScoreValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_span="2"
-                        android:gravity="left"
-                        android:orientation="vertical"
-                        android:text="@string/data_null"
-                        android:textSize="13sp"
-                        android:textStyle="bold" >
-                    </TextView>
-                </TableRow>
-            </TableLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llGraph"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
-
-            <Button
-                android:id="@+id/bGraph"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/best_192x96_bw" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/bPortfolio"
+    <TableLayout
+        android:id="@+id/tlStockGradeData"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="1dp"
-        android:checked="false"
-        android:contentDescription="@string/portfolio_description"
-        android:enabled="false"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:textColor="#009933"
-        android:textSize="13sp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:stretchColumns="0,1,2" >
+
+        <TableRow
+            android:id="@+id/trStockTotalScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvStockTotalScoreName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:gravity="left"
+                android:text="@string/row_total_score"
+                android:textSize="13sp"
+                android:textStyle="italic" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvStockTotalScoreValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/data_null"
+                android:textSize="13sp"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvStockTotalScoreRank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/data_null"
+                android:textSize="13sp"
+                android:textStyle="bold" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/trStockDivScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvStockDivScoreName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:gravity="left"
+                android:text="@string/row_div_score"
+                android:textSize="13sp"
+                android:textStyle="italic" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvStockDivScoreValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/data_null"
+                android:textSize="13sp"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvStockDivScoreRank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/data_null"
+                android:textSize="13sp"
+                android:textStyle="bold" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/trStockGrowthScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvStockGrowthScoreName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:gravity="left"
+                android:text="@string/row_growth_score"
+                android:textSize="13sp"
+                android:textStyle="italic" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvStockGrowthScoreValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/data_null"
+                android:textSize="13sp"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvStockGrowthScoreRank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/data_null"
+                android:textSize="13sp"
+                android:textStyle="bold" >
+            </TextView>
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:id="@+id/llPortfolioAndGraph"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:baselineAligned="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/bPortfolio"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:checked="false"
+            android:contentDescription="@string/portfolio_description"
+            android:enabled="false"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="#009933"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/bGraph"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/graph_192x72_bw" />
+    </LinearLayout>
 
     <View
         android:id="@+id/vRedLine_DisplayStockData"
@@ -239,11 +247,11 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="wrap_content" >
 
         <TableLayout
             android:id="@+id/tlStockratios"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:stretchColumns="0,1,2" >

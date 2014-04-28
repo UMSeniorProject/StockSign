@@ -82,6 +82,9 @@ public class DisplayStockRatioData extends Activity {
 	private TextView stockTotalScore = null;
 	private TextView stockDivScore = null;
 	private TextView stockGrowthScore = null;
+	private TextView rankTotalScore = null;
+	private TextView rankDivScore = null;
+	private TextView rankGrowthScore = null;
 
 	private TableLayout ratioTable = null;
 
@@ -111,6 +114,9 @@ public class DisplayStockRatioData extends Activity {
 		stockTotalScore = (TextView) findViewById(R.id.tvStockTotalScoreValue);
 		stockDivScore = (TextView) findViewById(R.id.tvStockDivScoreValue);
 		stockGrowthScore = (TextView) findViewById(R.id.tvStockGrowthScoreValue);
+		rankTotalScore = (TextView) findViewById(R.id.tvStockTotalScoreRank);
+		rankDivScore = (TextView) findViewById(R.id.tvStockDivScoreRank);
+		rankGrowthScore = (TextView) findViewById(R.id.tvStockGrowthScoreRank);
 		graphButton = (Button) findViewById(R.id.bGraph);
 		graphButton.setEnabled(false);
 		ratioTable = (TableLayout) findViewById(R.id.tlStockratios);
@@ -242,11 +248,12 @@ public class DisplayStockRatioData extends Activity {
 			public boolean onTouch(View view, MotionEvent event) {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
-					graphButton.setBackgroundResource(R.drawable.best_192x96_b);
+					graphButton
+							.setBackgroundResource(R.drawable.graph_192x72_b);
 					// call graphing method
 					break;
 				case MotionEvent.ACTION_UP:
-					graphButton.setBackgroundResource(R.drawable.best_192x96);
+					graphButton.setBackgroundResource(R.drawable.graph_192x72);
 					break;
 				}
 				// TODO Auto-generated method stub
@@ -329,10 +336,10 @@ public class DisplayStockRatioData extends Activity {
 		if (objects != null) {
 			Utilities.displayToastPositionaly(this,
 					Math.round(graphButton.getPivotX() + 120),
-					Math.round(graphButton.getPivotY()) - 150, "Graph Loaded");
+					Math.round(graphButton.getPivotY()) - 150, "Chart Loaded");
 
 			graphButton.setEnabled(true);
-			graphButton.setBackgroundResource(R.drawable.best_192x96);
+			graphButton.setBackgroundResource(R.drawable.graph_192x72);
 
 			indicatorSettings = getSharedPreferences(
 					ApplicationConstants.INDICATOR_PREFERENCES, 0);
@@ -351,6 +358,9 @@ public class DisplayStockRatioData extends Activity {
 			});
 		} else {
 			Utilities.displayToast(context, "Check Internet", "Connection");
+			Utilities.displayToastPositionaly(this,
+					Math.round(graphButton.getPivotX() + 120),
+					Math.round(graphButton.getPivotY()) - 150, "Unavailable");
 			Log.d("DISPLAY", "kinvey responce got null");
 		}
 	}
@@ -432,9 +442,29 @@ public class DisplayStockRatioData extends Activity {
 				+ " | " + stock.getIndustry());
 		stockInfo.setTextSize(12); // CHANGE NUMBER TO A CONSTANT
 
+		/*
+		 * stockTotalScore.setText(String.valueOf(stock.getTotalscore()) + " ("
+		 * + String.valueOf(stock.getTotalRank() + " out of " +
+		 * ApplicationConstants.TOTAL_NUMBER_OF_STOCKS + ")"));
+		 * stockDivScore.setText(String.valueOf(stock.getDivscore()) + " (" +
+		 * String.valueOf(stock.getDividendRank() + " out of " +
+		 * ApplicationConstants.TOTAL_NUMBER_OF_STOCKS + ")"));
+		 * stockGrowthScore.setText(String.valueOf(stock.getGrowthscore()) +
+		 * " (" + String.valueOf(stock.getGrowthRank() + " out of " +
+		 * ApplicationConstants.TOTAL_NUMBER_OF_STOCKS + ")"));
+		 */
+
 		stockTotalScore.setText(String.valueOf(stock.getTotalscore()));
+		rankTotalScore.setText("(#" + String.valueOf(stock.getTotalRank())
+				+ ")");
+
 		stockDivScore.setText(String.valueOf(stock.getDivscore()));
+		rankDivScore.setText("(#" + String.valueOf(stock.getDividendRank())
+				+ ")");
+
 		stockGrowthScore.setText(String.valueOf(stock.getGrowthscore()));
+		rankGrowthScore.setText("(#" + String.valueOf(stock.getGrowthRank())
+				+ ")");
 
 		int[] alternatingRGBColor = new int[3];
 		int alternator = 0;
@@ -443,11 +473,17 @@ public class DisplayStockRatioData extends Activity {
 		for (int current = 1; current < ratioDataArray.length; current++) {
 			// skip all ratios that are not needed
 			// TODO THIS NEEDS TO BE FIXED IN A MORE PROGRAMMABLE WAY
-			if (current != 2 && current != 3 && current != 4 && current != 5
-					&& current != 7 && current != 14 && current != 15
-					&& current != 16 && current != 22 && current != 31
-					&& current != 32 && current != 34 && current != 37
-					&& current != 38 && current < 40) {
+			if (current != 2 && current != 3 && current != 5 && current != 6
+					&& current != 16 && current != 17 && current != 18
+					&& current != 42 && current < 45) {
+
+				/*
+				 * if (current != 2 && current != 3 && current != 4 && current
+				 * != 5 && current != 7 && current != 14 && current != 15 &&
+				 * current != 16 && current != 22 && current != 31 && current !=
+				 * 32 && current != 34 && current != 37 && current != 38 &&
+				 * current < 40) {
+				 */
 
 				if (alternator == 0) {
 					alternatingRGBColor[0] = 209;// red
