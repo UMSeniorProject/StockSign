@@ -3,6 +3,7 @@ package com.seniorproject.stocksign.graphing;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,10 +19,13 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer.FillOutsideLine;
 
+import org.joda.time.DateTime;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,15 +59,17 @@ public class GraphActivity extends Activity {
 	private LinearLayout graphView = null;
 	private Spinner dateRange = null;
 	private Button indicatorField = null;
-	//private LinearLayout indicatorField = null;
+	// private LinearLayout indicatorField = null;
 	private TextView tickerField = null;
 
-	private int startDate = 100;
+	private int workingDays = 100;
+	private DateTime todayDate = null;
+	private DateTime startDate = null;
+	private ArrayList<DateTime> dateValues = null;
 
 	private Context context = null;
 	private String[] periods = null;
-
-	// Date today = null;
+	private String currentPeriod = null;
 
 	private float[] priceValues = null;
 	private float minPrice = Float.MAX_VALUE;
@@ -81,7 +87,6 @@ public class GraphActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.graph);
 		context = this;
@@ -89,8 +94,23 @@ public class GraphActivity extends Activity {
 		// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		initializeXML();
+		setupTodayDate();
 		setChartPeriod(dateRange.getItemAtPosition(0).toString());
 		setupSpinner();
+	}
+
+	private void setupTodayDate() {
+		int todayInt = PriceDataStorage.getDates().get(
+				PriceDataStorage.getDates().size() - 1);
+		todayDate = createDateTime(todayInt);
+	}
+
+	private DateTime createDateTime(int date) {
+		String t = String.valueOf(date);
+		int year = Integer.valueOf(t.substring(0, 4));
+		int month = Integer.valueOf(t.substring(4, 6));
+		int day = Integer.valueOf(t.substring(6));
+		return new DateTime(year, month, day, 0, 0);
 	}
 
 	@Override
@@ -105,14 +125,12 @@ public class GraphActivity extends Activity {
 
 	@Override
 	protected void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
-		displayGraph();
+		// displayGraph();
 	}
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		displayGraph();
 	}
@@ -121,7 +139,7 @@ public class GraphActivity extends Activity {
 		graphView = (LinearLayout) findViewById(R.id.llGraph);
 		dateRange = (Spinner) findViewById(R.id.spChartPeriods);
 		indicatorField = (Button) findViewById(R.id.btChartIndicators);
-		//indicatorField = (LinearLayout) findViewById(R.id.llChartIndicators);
+		// indicatorField = (LinearLayout) findViewById(R.id.llChartIndicators);
 		tickerField = (TextView) findViewById(R.id.tvGraphTicker);
 
 		periods = context.getResources().getStringArray(R.array.chart_periods);
@@ -129,25 +147,35 @@ public class GraphActivity extends Activity {
 
 	private void setChartPeriod(String period) {
 
+		currentPeriod = period;
 		if (period.equals(periods[0])) {
 			// 1m
-			startDate = 30;
+			startDate = todayDate.minusMonths(1);
 		} else if (period.equals(periods[1])) {
 			// 3m
-			startDate = 90;
+			startDate = todayDate.minusMonths(3);
 		} else if (period.equals(periods[2])) {
 			// 6m
-			startDate = 180;
+			startDate = todayDate.minusMonths(6);
 		} else if (period.equals(periods[3])) {
 			// 1y
-			startDate = 360;
+			startDate = todayDate.minusYears(1);
 		} else if (period.equals(periods[4])) {
 			// 2y
-			startDate = 720;
+			startDate = todayDate.minusYears(2);
 		} else if (period.equals(periods[5])) {
 			// 3y
-			startDate = 1080;
+			startDate = todayDate.minusYears(3);
 		}
+		workingDays = Utilities.calculateWorkDays(startDate.toDate(),
+				todayDate.toDate());
+		Log.d("DATE",
+				period + " working days from " + todayDate.getYear() + "-"
+						+ todayDate.getMonthOfYear() + "-"
+						+ todayDate.getDayOfMonth() + " to "
+						+ startDate.getYear() + "-"
+						+ startDate.getMonthOfYear() + "-"
+						+ startDate.getDayOfMonth() + " is " + workingDays);
 	}
 
 	private void setGraphData() {
@@ -168,9 +196,9 @@ public class GraphActivity extends Activity {
 			minVal_Y = Float.MAX_VALUE;
 			maxVal_Y = Float.MIN_VALUE;
 
-			if (startDate > PriceDataStorage.getSize()) {
+			if (workingDays > PriceDataStorage.getSize()) {
 				Log.e("GRAPH", "date larger than price data size");
-				startDate = PriceDataStorage.getSize();
+				workingDays = PriceDataStorage.getSize();
 			}
 
 			// add indicator, color and point style values
@@ -180,16 +208,16 @@ public class GraphActivity extends Activity {
 					// add titles names
 					lineTitles.add(ind.getName() + "+");
 					lineTitles.add(ind.getName() + "-");
-					float[] indPosValues = new float[startDate];
-					float[] indNegValues = new float[startDate];
+					float[] indPosValues = new float[workingDays];
+					float[] indNegValues = new float[workingDays];
 					// create positive values
 					populateValuesBasedOnDateRange(indPosValues,
 							ind.getPositives(), ind.getPositives().length
-									- startDate, startDate);
+									- workingDays, workingDays);
 					// create negative values
 					populateValuesBasedOnDateRange(indNegValues,
 							ind.getNegatives(), ind.getNegatives().length
-									- startDate, startDate);
+									- workingDays, workingDays);
 					// add pos and neg values to the line values
 					lineValues.add(indPosValues);
 					lineValues.add(indNegValues);
@@ -214,21 +242,27 @@ public class GraphActivity extends Activity {
 			}
 
 			// add the zero line
-			lineValues.add(new float[startDate]);
+			lineValues.add(new float[workingDays]);
 			lineTitles.add("ZERO");
 			lineColors.add(GraphingConstants.ZERO_COLOR);
 			pointStyles.add(PointStyle.POINT);
 
 			// add the price values
-			priceValues = new float[startDate];
+			priceValues = new float[workingDays];
 			populateValuesBasedOnDateRange(priceValues,
 					PriceDataStorage.getPrices(), PriceDataStorage.getPrices()
-							.size() - startDate, startDate);
+							.size() - workingDays, workingDays);
 
 			lineValues.add(priceValues);
 			lineTitles.add("PRICE");
 			lineColors.add(GraphingConstants.PRICE_COLOR);
 			pointStyles.add(PointStyle.POINT);
+
+			// populate date values
+			dateValues = new ArrayList<DateTime>();
+			populateValuesBasedOnDateRange(dateValues,
+					PriceDataStorage.getDates(), PriceDataStorage.getDates()
+							.size() - workingDays, workingDays);
 
 		} else {
 			Log.e("GRAPH", "indicator names are null when building titles");
@@ -269,6 +303,13 @@ public class GraphActivity extends Activity {
 		}
 	}
 
+	private void populateValuesBasedOnDateRange(ArrayList<DateTime> data,
+			ArrayList<Integer> valData, int start, int limit) {
+		for (int i = start, j = 0; j < limit; i++, j++) {
+			data.add(createDateTime(valData.get(i)));
+		}
+	}
+
 	private void displayGraph() {
 		if (graphView.getChildCount() > 0) {
 			graphView.removeAllViews();
@@ -294,7 +335,7 @@ public class GraphActivity extends Activity {
 				android.R.layout.simple_spinner_item, dates));
 
 		indicatorField.setOnClickListener(new IndicatorOnClickListener());
-		
+
 		/*
 		 * indicatorField.setAdapter(new IndicatorAdapter(this,
 		 * android.R.layout.simple_spinner_item, indicatorList));
@@ -304,7 +345,7 @@ public class GraphActivity extends Activity {
 	/*
 	 * private void setupDate() { try { today = new
 	 * SimpleDateFormat("YYYY-MM-DD", Locale.ENGLISH)
-	 * .parse(priceData[0].getDate()); } catch (ParseException e) { // TODO
+	 * .parse(priceData[0].getDate()); } catch (ParseException e) { //
 	 * Auto-generated catch block e.printStackTrace(); } }
 	 */
 
@@ -313,19 +354,18 @@ public class GraphActivity extends Activity {
 		return Utilities.round((float) val, 2);
 	}
 
-	private float getIncrement(float max, float min) {
+	private float getYIncrement(float max, float min) {
 		float num1 = Math.abs(max);
 		float num2 = Math.abs(min);
-		return ((num1 + num2) / GraphingConstants.NUMBER_OF_LABELS);
+		return ((num1 + num2) / GraphingConstants.NUMBER_OF_Y_LABELS);
 	}
 
 	private void buildYLabels(XYMultipleSeriesRenderer renderer) {
 		String label;
-
 		float start = maxPrice;
 		float end = minPrice;
-		float inc = getIncrement(maxPrice, minPrice);
-		for (int i = 0; i <= GraphingConstants.NUMBER_OF_LABELS; i++) {
+		float inc = getYIncrement(maxPrice, minPrice);
+		for (int i = 0; i <= GraphingConstants.NUMBER_OF_Y_LABELS; i++) {
 			float value = convertYLabelValue(start);
 			label = (value + "%");
 			renderer.addYTextLabel(start * GraphingConstants.PRICE_VALUE_SCALE,
@@ -337,6 +377,193 @@ public class GraphActivity extends Activity {
 		}
 	}
 
+	private String createDateString(int dateInt) {
+		String date = createDateTime(dateInt).toString("yyyy/MM/dd");
+		if (currentPeriod.equals(periods[0])) {
+			// 1m
+			date = date.substring(5);
+		} else if (currentPeriod.equals(periods[1])) {
+			// 3m
+			date = date.substring(5);
+		} else if (currentPeriod.equals(periods[2])) {
+			// 6m
+			date = date.substring(5);
+		} else if (currentPeriod.equals(periods[3])) {
+			// 1y
+			date = date.substring(5);
+		} else if (currentPeriod.equals(periods[4])) {
+			// 2y
+			date = date.substring(5);
+		} else if (currentPeriod.equals(periods[5])) {
+			// 3y
+			date = date.substring(5);
+		}
+		return date;
+	}
+
+	private int getXIncrement(int max, int min) {
+		return (max + min) / GraphingConstants.NUMBER_OF_X_LABELS;
+	}
+
+	private void buildXLabels(XYMultipleSeriesRenderer renderer) {
+		// TODO: ADD DATES
+		int inc = getXIncrement(workingDays, 0);
+
+		if (currentPeriod.equals(periods[0])) {
+			// 1m
+			String label = startDate.toString("MMM");
+			int currMonth = startDate.getMonthOfYear();
+			renderer.addXTextLabel(0, label);
+			for (int i = inc; i < dateValues.size(); i += inc) {
+				DateTime currentDate = dateValues.get(i);
+				label = "";
+				if (currentDate.getMonthOfYear() != currMonth) {
+					label += currentDate.toString("MMM ");
+					currMonth = currentDate.getMonthOfYear();
+				}
+				label += currentDate.toString("dd");
+				renderer.addXTextLabel(i, label);
+			}
+		} else if (currentPeriod.equals(periods[1])) {
+			// 3m
+			int currMonth = startDate.getMonthOfYear();
+			for (int i = 0; i < dateValues.size(); i++) {
+				DateTime currentDate = dateValues.get(i);
+				if (currentDate.getMonthOfYear() != currMonth) {
+					String label = currentDate.toString("MMM yyyy");
+					currMonth = currentDate.getMonthOfYear();
+					renderer.addXTextLabel(i, label);
+				}
+			}
+		} else if (currentPeriod.equals(periods[2])) {
+			// 6m
+			int currMonth = startDate.getMonthOfYear();
+			int skipper = 0;
+			for (int i = 0; i < dateValues.size(); i++) {
+				DateTime currentDate = dateValues.get(i);
+				if (currentDate.getMonthOfYear() != currMonth) {
+					skipper++;
+					if (skipper % 2 == 0) {
+						String month = currentDate.toString("MMM");
+						String year2digs = currentDate.toString("yyyy")
+								.substring(2);
+						currMonth = currentDate.getMonthOfYear();
+						renderer.addXTextLabel(i, month + "'" + year2digs);
+					}
+				}
+			}
+		} else if (currentPeriod.equals(periods[3])) {
+			// 1y
+			int currMonth = startDate.getMonthOfYear();
+			int skipper = 0;
+			for (int i = 0; i < dateValues.size(); i++) {
+				DateTime currentDate = dateValues.get(i);
+				if (currentDate.getMonthOfYear() != currMonth) {
+					skipper++;
+					currMonth = currentDate.getMonthOfYear();
+					if (skipper % 2 == 0) {
+						String month = currentDate.toString("MMM");
+						String year2digs = currentDate.toString("yyyy")
+								.substring(2);
+						renderer.addXTextLabel(i, month + "'" + year2digs);
+					}
+				}
+			}
+
+		} else if (currentPeriod.equals(periods[4])) {
+			// 2y
+			
+			String label = startDate.toString("yyyy");
+			int currYear = startDate.getYear();
+			renderer.addXTextLabel(0, label);
+			for (int i = inc; i < dateValues.size(); i += inc) {
+				DateTime currentDate = dateValues.get(i);
+				label = "";
+				if (currentDate.getYear() != currYear) {
+					label += currentDate.toString("yyyy ");
+					currYear = currentDate.getYear();
+				}
+				label += currentDate.toString("MMM");
+				renderer.addXTextLabel(i, label);
+			}
+			
+			/*int currMonth = startDate.getMonthOfYear();
+			int skipper = 0;
+			for (int i = 0; i < dateValues.size(); i++) {
+				DateTime currentDate = dateValues.get(i);
+				if (currentDate.getMonthOfYear() != currMonth) {
+					skipper++;
+					currMonth = currentDate.getMonthOfYear();
+					if (skipper % 4 == 0) {
+						String month = currentDate.toString("MMM");
+						String year2digs = currentDate.toString("yyyy")
+								.substring(2);
+						Log.d("DATEYR", month + "'" + year2digs);
+						renderer.addXTextLabel(i, month + "'" + year2digs);
+					}
+				}
+			}*/
+
+		} else if (currentPeriod.equals(periods[5])) {
+			// 3y
+			
+			String label = startDate.toString("yyyy");
+			int currYear = startDate.getYear();
+			renderer.addXTextLabel(0, label);
+			for (int i = inc; i < dateValues.size(); i += inc) {
+				DateTime currentDate = dateValues.get(i);
+				label = "";
+				if (currentDate.getYear() != currYear) {
+					label += currentDate.toString("yyyy ");
+					currYear = currentDate.getYear();
+				}
+				label += currentDate.toString("MMM");
+				renderer.addXTextLabel(i, label);
+			}
+			
+			/*int currMonth = startDate.getMonthOfYear();
+			int skipper = 0;
+			for (int i = 0; i < dateValues.size(); i++) {
+				DateTime currentDate = dateValues.get(i);
+				if (currentDate.getMonthOfYear() != currMonth) {
+					skipper++;
+					currMonth = currentDate.getMonthOfYear();
+					if (skipper % 6 == 0) {
+						String month = currentDate.toString("MMM");
+						String year2digs = currentDate.toString("yyyy")
+								.substring(2);
+						Log.d("DATEYR", month + "'" + year2digs);
+						renderer.addXTextLabel(i, month + "'" + year2digs);
+					}
+				}
+			}*/
+		}
+	}
+
+	private void setupRendererData(XYMultipleSeriesRenderer renderer) {
+		renderer.setPointSize(5f);
+		renderer.setMargins(new int[] { 25, 20, 30, 10 });
+		renderer.setXLabels(0);
+		renderer.setYLabels(0);
+		renderer.setBarWidth(10.0f);
+		renderer.setChartTitleTextSize(20);
+		renderer.setTextTypeface("sans_serif", Typeface.BOLD);
+		renderer.setYLabelsAlign(Paint.Align.LEFT);
+		renderer.setLabelsTextSize(16.5f);
+		renderer.setFitLegend(true);
+		renderer.setAxisTitleTextSize(17f);
+		renderer.setLegendTextSize(16.5f);
+		renderer.setBackgroundColor(Color.BLACK);
+		renderer.setApplyBackgroundColor(true);
+		renderer.setShowCustomTextGrid(true);
+
+		/*
+		 * renderer.setZoomButtonsVisible(true); renderer.setPanLimits(new
+		 * double[] { -10, 20, -10, 40 }); renderer.setZoomLimits(new double[] {
+		 * -10, 20, -10, 40 }); renderer.setZoomRate(1.05f);
+		 */
+	}
+
 	private View buildGraphView() {
 		// String[] titles = { "BUY", "SELL", "PRICE", "ZERO" };
 
@@ -344,9 +571,9 @@ public class GraphActivity extends Activity {
 
 		Log.d("GRAPH", "Length:\t" + length);
 
-		float screenPaddingX = 10;
+		float screenPaddingX = 10f;
 		float screenPaddingY = 0;
-		float minX = -screenPaddingX, maxX = startDate + screenPaddingX;
+		float minX = -screenPaddingX, maxX = workingDays + screenPaddingX;
 
 		// float minY = (minVal_Y * GraphingConstants.PRICE_VALUE_SCALE) -
 		// screenPaddingY;
@@ -355,29 +582,21 @@ public class GraphActivity extends Activity {
 
 		float larger = (Math.abs(minPrice) > Math.abs(maxPrice) ? Math
 				.abs(minPrice) : Math.abs(maxPrice));
-		
-		GraphingConstants.PRICE_VALUE_SCALE = (GraphingConstants.MAX_Y/larger);
-		
+
+		GraphingConstants.PRICE_VALUE_SCALE = (GraphingConstants.MAX_Y / larger);
+
 		float minY = GraphingConstants.MIN_Y;
 		float maxY = GraphingConstants.MAX_Y;
 
 		XYMultipleSeriesRenderer renderer = ChartMethods.buildRenderer(
 				lineColors, pointStyles);
-		ChartMethods.setChartSettings(renderer, "GRAPH", "Time", "Values",
-				minX, maxX, minY, maxY, Color.WHITE, Color.WHITE);
-		renderer.setXLabels(12);
-		renderer.setYLabels(1);
-		renderer.setBarWidth(10.0f);
-		renderer.setChartTitleTextSize(20);
-		renderer.setTextTypeface("sans_serif", Typeface.BOLD);
-		renderer.setLabelsTextSize(14f);
-		renderer.setAxisTitleTextSize(15);
-		renderer.setLegendTextSize(15);
-		renderer.setBackgroundColor(Color.BLACK);
-		renderer.setApplyBackgroundColor(true);
-		renderer.setShowGrid(true);
+		ChartMethods.setChartSettings(renderer, "", "",
+				"% Change From Today", minX, maxX, minY, maxY, Color.WHITE,
+				Color.WHITE);
 
 		buildYLabels(renderer);
+		buildXLabels(renderer);
+		setupRendererData(renderer);
 
 		length = renderer.getSeriesRendererCount();
 
@@ -427,12 +646,10 @@ public class GraphActivity extends Activity {
 
 	private class IndicatorOnClickListener implements OnClickListener {
 
-		
 		public void onClick(View arg0) {
 			Intent intent = new Intent(context, IndicatorPickerActivity.class);
 			startActivityForResult(intent, 0);
 		}
-
 
 	}
 }

@@ -89,12 +89,6 @@ public class ChartMethods {
 
 	public static void setRenderer(XYMultipleSeriesRenderer renderer,
 			ArrayList<Integer> lineColors, ArrayList<PointStyle> pointStyles) {
-		renderer.setAxisTitleTextSize(16);
-		renderer.setChartTitleTextSize(20);
-		renderer.setLabelsTextSize(15);
-		renderer.setLegendTextSize(15);
-		renderer.setPointSize(5f);
-		renderer.setMargins(new int[] { 0, 30, 15, 20 });
 		int length = lineColors.size();
 		for (int i = 0; i < length; i++) {
 			XYSeriesRenderer r = new XYSeriesRenderer();
@@ -133,7 +127,9 @@ public class ChartMethods {
 			String title, String xTitle, String yTitle, float xMin, float xMax,
 			float yMin, float yMax, int axesColor, int labelsColor) {
 		renderer.setChartTitle(title);
-		renderer.setXTitle(xTitle);
+		if (!xTitle.isEmpty()) {
+			renderer.setXTitle(xTitle);
+		}
 		renderer.setYTitle(yTitle);
 		renderer.setXAxisMin(xMin);
 		renderer.setXAxisMax(xMax);

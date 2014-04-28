@@ -16,6 +16,6 @@
 			<attribute name="javadoc_location" value="file:/Users/nemzilla/Downloads/achartengine-1.1.0-javadocs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/nemzilla/Documents/achartengine-1.1.0-javadocs.zip"/>
+	<classpathentry kind="lib" path="libs/joda-time-2.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

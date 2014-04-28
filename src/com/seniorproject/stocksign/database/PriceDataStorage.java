@@ -21,6 +21,7 @@ public class PriceDataStorage {
 	// private static ArrayList<Float> highPrices = null;
 	// private static ArrayList<Float> lowPrices = null;
 	private static ArrayList<Float> prices = null;
+	private static ArrayList<Integer> dates = null;
 	private static HashMap<String, IndicatorInfo> indicatorMap = null;
 	private static TreeMap<String, ?> activeIndicators = null;
 
@@ -59,11 +60,37 @@ public class PriceDataStorage {
 				activeIndicators);
 
 		
-		// initialize data lists
-		PriceDataStorage.setupLists();
+		// initialize and populate data lists
+		PriceDataStorage.initializeLists();
 		PriceDataStorage.populateLists(priceData);
 	}
 
+	private static void initializeLists() {
+		if (prices == null) {
+			prices = new ArrayList<Float>();
+		} else if (!prices.isEmpty()) {
+			prices.clear();
+		}
+		
+		if(dates == null) {
+			dates = new ArrayList<Integer>();
+		} else if (!dates.isEmpty()) {
+			dates.clear();
+		}
+		/*
+		 * if (closePrices == null) { closePrices = new ArrayList<Float>(); }
+		 * else { closePrices.clear(); } if (highPrices == null) { highPrices =
+		 * new ArrayList<Float>(); } else { highPrices.clear(); } if (lowPrices
+		 * == null) { lowPrices = new ArrayList<Float>(); } else {
+		 * lowPrices.clear(); }
+		 */
+		if (indicatorMap == null) {
+			indicatorMap = new HashMap<String, IndicatorInfo>();
+		} else if (!indicatorMap.isEmpty()) {
+			indicatorMap.clear();
+		}
+	}
+	
 	private static void populateLists(PriceData[] priceData) {
 
 		Log.d("PRICE", "first date is " + priceData[0].getDate()
@@ -72,6 +99,7 @@ public class PriceDataStorage {
 		// populate price lists
 		for (int i = 0; i < priceData.length; i++) {
 			PriceDataStorage.prices.add(priceData[i].getClose());
+			PriceDataStorage.dates.add(priceData[i].getDate());
 			// PriceDataStorage.closePrices.add(priceData[i].getClose());
 			// PriceDataStorage.highPrices.add(priceData[i].getHigh());
 			// PriceDataStorage.lowPrices.add(priceData[i].getLow());
@@ -107,26 +135,6 @@ public class PriceDataStorage {
 		}
 	}
 
-	private static void setupLists() {
-		if (prices == null) {
-			prices = new ArrayList<Float>();
-		} else if (!prices.isEmpty()) {
-			prices.clear();
-		}
-		/*
-		 * if (closePrices == null) { closePrices = new ArrayList<Float>(); }
-		 * else { closePrices.clear(); } if (highPrices == null) { highPrices =
-		 * new ArrayList<Float>(); } else { highPrices.clear(); } if (lowPrices
-		 * == null) { lowPrices = new ArrayList<Float>(); } else {
-		 * lowPrices.clear(); }
-		 */
-		if (indicatorMap == null) {
-			indicatorMap = new HashMap<String, IndicatorInfo>();
-		} else if (!indicatorMap.isEmpty()) {
-			indicatorMap.clear();
-		}
-	}
-
 	public static int getSize() {
 		return size;
 	}
@@ -137,6 +145,10 @@ public class PriceDataStorage {
 
 	public static ArrayList<Float> getPrices() {
 		return prices;
+	}
+	
+	public static ArrayList<Integer> getDates() {
+		return dates;
 	}
 
 	/*
