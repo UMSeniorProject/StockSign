@@ -39,6 +39,7 @@ public class IndicatorAdapter extends ArrayAdapter<IndicatorInfo> {
 		((TextView) v)
 				.setTextSize(ApplicationConstants.SPINNER_GRAPH_TEXT_SIZE);
 		((TextView) v).setGravity(Gravity.LEFT);
+
 		return v;
 	}
 

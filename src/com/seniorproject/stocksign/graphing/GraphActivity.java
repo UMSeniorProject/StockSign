@@ -25,10 +25,13 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
@@ -52,6 +55,7 @@ public class GraphActivity extends Activity {
 	private LinearLayout graphView = null;
 	private Spinner dateRange = null;
 	private Button indicatorField = null;
+	//private LinearLayout indicatorField = null;
 	private TextView tickerField = null;
 
 	private int startDate = 100;
@@ -116,7 +120,8 @@ public class GraphActivity extends Activity {
 	private void initializeXML() {
 		graphView = (LinearLayout) findViewById(R.id.llGraph);
 		dateRange = (Spinner) findViewById(R.id.spChartPeriods);
-		indicatorField = (Button) findViewById(R.id.btChartLines);
+		indicatorField = (Button) findViewById(R.id.btChartIndicators);
+		//indicatorField = (LinearLayout) findViewById(R.id.llChartIndicators);
 		tickerField = (TextView) findViewById(R.id.tvGraphTicker);
 
 		periods = context.getResources().getStringArray(R.array.chart_periods);
@@ -289,6 +294,7 @@ public class GraphActivity extends Activity {
 				android.R.layout.simple_spinner_item, dates));
 
 		indicatorField.setOnClickListener(new IndicatorOnClickListener());
+		
 		/*
 		 * indicatorField.setAdapter(new IndicatorAdapter(this,
 		 * android.R.layout.simple_spinner_item, indicatorList));
@@ -421,11 +427,12 @@ public class GraphActivity extends Activity {
 
 	private class IndicatorOnClickListener implements OnClickListener {
 
-		@Override
+		
 		public void onClick(View arg0) {
 			Intent intent = new Intent(context, IndicatorPickerActivity.class);
 			startActivityForResult(intent, 0);
 		}
+
 
 	}
 }

@@ -14,9 +14,8 @@
         <Spinner
             android:id="@+id/spChartPeriods"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:background="@drawable/btn_dropdown"
             android:entries="@array/chart_periods"
@@ -25,17 +24,43 @@
         </Spinner>
 
         <Button
-            android:id="@+id/btChartLines"
+            android:id="@+id/btChartIndicators"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:background="@drawable/btn_dropdown"
+            android:text="@string/title_indicator"
+            android:textAlignment="viewStart"
+            android:textColor="#FFFFFF"
+            android:textDirection="firstStrong"
+            android:paddingLeft="7dp" >
+        </Button>
+
+        <!--
+        <LinearLayout
+            android:id="@+id/llChartIndicators"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
             android:layout_gravity="left"
             android:layout_marginLeft="2dp"
             android:layout_weight="1"
             android:background="@drawable/btn_dropdown"
-            android:text="@string/title_indicator"
-            android:textAlignment="textStart"
-            android:textColor="#FFFFFF" >
-       </Button>
+            android:clickable="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/title_indicator"
+                android:textAlignment="viewStart"
+                android:textColor="#FFFFFF"
+                android:textDirection="firstStrong" >
+
+            </TextView>
+        </LinearLayout>
+        -->
 
         <TextView
             android:id="@+id/tvGraphTicker"
