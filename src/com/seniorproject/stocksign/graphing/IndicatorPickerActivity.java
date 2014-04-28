@@ -26,7 +26,6 @@ public class IndicatorPickerActivity extends Activity {
 	private CheckBox indicator2 = null;
 	private CheckBox indicator3 = null;
 	private CheckBox indicator4 = null;
-	private Button displayBtn = null;
 
 	private Context context = null;
 	private SharedPreferences indicatorSettings = null;
@@ -36,7 +35,6 @@ public class IndicatorPickerActivity extends Activity {
 		indicator2 = (CheckBox) findViewById(R.id.cbInd1);
 		indicator3 = (CheckBox) findViewById(R.id.cbInd2);
 		indicator4 = (CheckBox) findViewById(R.id.cbInd3);
-		displayBtn = (Button) findViewById(R.id.btDisplay);
 	}
 
 	@Override
@@ -48,7 +46,6 @@ public class IndicatorPickerActivity extends Activity {
 		setupIndicatorText();
 		setupIndicatorCheckBoxes();
 		setupIndicatorListeners();
-		setupDisplayButton();
 	}
 
 	// TODO: indicator names should be added programmatically
@@ -189,21 +186,6 @@ public class IndicatorPickerActivity extends Activity {
 				if(!indicator4.isChecked() && indicatorSettings.contains(indName)) {
 					editor.remove(indName).commit();
 				}
-			}
-
-		});
-	}
-
-	private void setupDisplayButton() {
-		displayBtn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				/*Intent intent = new Intent(context, GraphActivity.class);
-				startActivity(intent);*/
-				finish();
-				// to get rid of the animation restart
-				overridePendingTransition(0, 0);
 			}
 
 		});

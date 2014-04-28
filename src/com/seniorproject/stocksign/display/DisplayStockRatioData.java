@@ -42,6 +42,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
@@ -92,11 +93,13 @@ public class DisplayStockRatioData extends Activity {
 	private TableRow growthScoreRow = null;
 
 	private LinearLayout mainDisplayLayout = null;
+	private RelativeLayout progressBarLayout = null;
 
 	private SharedPreferences portfolioSettings = null;
 	private SharedPreferences indicatorSettings = null;
 	private Stock theStock = null;
-	
+	private boolean gotRatioData;
+
 	private MenuInflator mInflator = null;
 
 	// MySpinnerDialog dialog = null;
@@ -116,6 +119,7 @@ public class DisplayStockRatioData extends Activity {
 		divScoreRow = (TableRow) findViewById(R.id.trStockDivScore);
 		growthScoreRow = (TableRow) findViewById(R.id.trStockGrowthScore);
 		mainDisplayLayout = (LinearLayout) findViewById(R.id.llDisplayStockData);
+		progressBarLayout = (RelativeLayout) findViewById(R.id.rlRatioData);
 	}
 
 	private void fetchKinvey(String ticker) {
@@ -137,11 +141,14 @@ public class DisplayStockRatioData extends Activity {
 		/* remember the context of this activity */
 		context = this;
 
+		/* initialize the ratio data flag */
+		gotRatioData = false;
+
 		/* initialize the menu */
 		mInflator = new MenuInflator(this);
-		
-		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		
+
+		// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		/* get ticker name sent to this activity */
 		Bundle b = intent.getBundleExtra(ApplicationConstants.RATIO_BUNDLE);
@@ -276,9 +283,10 @@ public class DisplayStockRatioData extends Activity {
 	/* ratio data responce method */
 	public void kinveyResponceStockMethod(Object object) {
 
+		progressBarLayout.setVisibility(View.GONE);
+		gotRatioData = true;
 		if (object != null) {
 			portfolioButton.setEnabled(true);
-
 			// stock data
 			theStock = (Stock) object;
 			String[] ratioDataArray = theStock.values().toString().split(",");
@@ -306,6 +314,7 @@ public class DisplayStockRatioData extends Activity {
 
 			// setElementsVisibility();
 		} else {
+			Utilities.displayToastNoInternet(this);
 			Log.d("DISPLAY", "kinvey responce got null");
 		}
 	}
@@ -317,27 +326,33 @@ public class DisplayStockRatioData extends Activity {
 		 * .getText().toString());
 		 */
 
-		Utilities.displayToastPositionaly(this, Math.round(graphButton.getPivotX() + 120),
-				Math.round(graphButton.getPivotY()) - 150, "Graph Loaded");
+		if (objects != null) {
+			Utilities.displayToastPositionaly(this,
+					Math.round(graphButton.getPivotX() + 120),
+					Math.round(graphButton.getPivotY()) - 150, "Graph Loaded");
 
-		graphButton.setEnabled(true);
-		graphButton.setBackgroundResource(R.drawable.best_192x96);
+			graphButton.setEnabled(true);
+			graphButton.setBackgroundResource(R.drawable.best_192x96);
 
-		indicatorSettings = getSharedPreferences(
-				ApplicationConstants.INDICATOR_PREFERENCES, 0);
+			indicatorSettings = getSharedPreferences(
+					ApplicationConstants.INDICATOR_PREFERENCES, 0);
 
-		PriceDataStorage.setPriceData((PriceData[]) objects, stockTicker
-				.getText().toString(), context, indicatorSettings.getAll());
+			PriceDataStorage.setPriceData((PriceData[]) objects, stockTicker
+					.getText().toString(), context, indicatorSettings.getAll());
 
-		graphButton.setOnClickListener(new OnClickListener() {
+			graphButton.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent(context, GraphActivity.class);
-				startActivity(intent);
-			}
+				@Override
+				public void onClick(View arg0) {
+					Intent intent = new Intent(context, GraphActivity.class);
+					startActivity(intent);
+				}
 
-		});
+			});
+		} else {
+			Utilities.displayToast(context, "Check Internet", "Connection");
+			Log.d("DISPLAY", "kinvey responce got null");
+		}
 	}
 
 	private void setElementsVisibility() {
@@ -369,12 +384,12 @@ public class DisplayStockRatioData extends Activity {
 		// I can also get the calling activity ID but its unnecessary at this
 		// time
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return mInflator.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return mInflator.onOptionsItemSelected(item);
@@ -384,20 +399,26 @@ public class DisplayStockRatioData extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		//fetchKinvey(stockName.getText().toString());
+		if (!gotRatioData) {
+			progressBarLayout.setVisibility(View.VISIBLE);
+		} else {
+			progressBarLayout.setVisibility(View.GONE);
+		}
+		// fetchKinvey(stockName.getText().toString());
 	}
 
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		//fetchKinvey(stockName.getText().toString());
+		// fetchKinvey(stockName.getText().toString());
 	}
 
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
+		progressBarLayout.setVisibility(View.VISIBLE);
 		// mainDisplayLayout.setVisibility(View.INVISIBLE);
 	}
 

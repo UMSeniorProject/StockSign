@@ -17,6 +17,7 @@ import com.kinvey.java.User;
 import com.kinvey.java.query.AbstractQuery.SortOrder;
 import com.seniorproject.stocksign.activity.ActivityConstants;
 import com.seniorproject.stocksign.activity.ApplicationConstants;
+import com.seniorproject.stocksign.activity.Utilities;
 import com.seniorproject.stocksign.database.PriceData;
 import com.seniorproject.stocksign.database.PriceDataStorage;
 import com.seniorproject.stocksign.database.SectorData;
@@ -50,11 +51,13 @@ public class ConnectToKinveyTask implements ActivityConstants{
 		  		//ping (test) the connection to Kinvey
 				mKinveyClient.ping(new KinveyPingCallback() {
 				    public void onFailure(Throwable t) {
-				        Log.e("KinveyPing", "Kinvey Ping Failed", t);
+				        //Log.e("KinveyPing", "Kinvey Ping Failed", t);
+    	                Utilities.displayToastNoInternet(callingActivity);
 				        conn_success = false;
 				    }
 				    public void onSuccess(Boolean b) {
-				        Log.d("KinveyPing", "Kinvey Ping Success");
+				       //Log.d("KinveyPing", "Kinvey Ping Success");
+				        KinveyConnectionSingleton.setConnected();
 				        conn_success = true;
 				    }
 				});
@@ -65,6 +68,7 @@ public class ConnectToKinveyTask implements ActivityConstants{
 		    	    @Override
 		    	    public void onFailure(Throwable error) {
 		    	        //Log.e("KinveyLogin", "Login Failure: "+error.getCause().getMessage(), error);
+		    	    	Utilities.displayToastNoInternet(callingActivity);
 		    	        conn_success = false;
 		    	    }
 		    	    
@@ -74,16 +78,15 @@ public class ConnectToKinveyTask implements ActivityConstants{
 		    	        mKinveyClient.ping(new KinveyPingCallback() {
 		    	            @Override
 		    	            public void onSuccess(Boolean result) {
-		    	                Toast.makeText(callingActivity.getApplicationContext(), "kinvey ping success!",
-		    	                        Toast.LENGTH_LONG).show();
+		    	                /*Toast.makeText(callingActivity.getApplicationContext(), "kinvey ping success!",
+		    	                        Toast.LENGTH_LONG).show();*/
+		    	                KinveyConnectionSingleton.setConnected();
 		    	                conn_success = true;
 		    	            }
 
 		    	            @Override
 		    	            public void onFailure(Throwable error) {
-		    	                Toast.makeText(callingActivity.getApplicationContext(),
-		    	                        "kinvey ping failed!",
-		    	                        Toast.LENGTH_LONG).show();
+		    	            	Utilities.displayToastNoInternet(callingActivity);
 		    	                conn_success = false;
 		    	            }
 		    	        });
@@ -106,7 +109,13 @@ public class ConnectToKinveyTask implements ActivityConstants{
 				}
 				@Override
 				public void onFailure(Throwable error) { 
-					Log.d("fail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+					Throwable cause = error.getCause();
+					if(cause != null) {
+						Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+					} else {
+						Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause());
+					}
+					KinveyCaller.callAppropriateActivityMethod(caller, null);
 				}
 
 			});
@@ -132,7 +141,13 @@ public class ConnectToKinveyTask implements ActivityConstants{
 				}
 				@Override
 				public void onFailure(Throwable error) { 
-					Log.d("fail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+					Throwable cause = error.getCause();
+					if(cause != null) {
+						Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+					} else {
+						Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause());
+					}
+					KinveyCaller.callAppropriateActivityMethod(caller, null);
 				}
 
 			});
@@ -173,6 +188,7 @@ public class ConnectToKinveyTask implements ActivityConstants{
 					} else {
 						Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause());
 					}
+					KinveyCaller.callAppropriateActivityMethod(caller, null);
 				}
 
 			});
@@ -200,8 +216,13 @@ public class ConnectToKinveyTask implements ActivityConstants{
 
 			@Override
 			public void onFailure(Throwable error) {
-				Log.d("fail", "failed to fetchByFilterCriteria: "
-						+ error.getCause().getMessage());
+				Throwable cause = error.getCause();
+				if(cause != null) {
+					Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+				} else {
+					Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause());
+				}
+				KinveyCaller.callAppropriateFragmentMethod(fragment, null, rv, scoreType);
 			}
 
 		});
@@ -228,7 +249,12 @@ public class ConnectToKinveyTask implements ActivityConstants{
 				}
 				@Override
 				public void onFailure(Throwable error) { 
-					Log.d("fail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+					Throwable cause = error.getCause();
+					if(cause != null) {
+						Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause().getMessage());
+					} else {
+						Log.d("KinveyFail", "failed to fetchByFilterCriteria: "+error.getCause());
+					}
 				}
 
 			});

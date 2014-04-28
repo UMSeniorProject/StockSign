@@ -24,6 +24,11 @@ public class Utilities {
 		Toast.makeText(context, toastMessage, duration).show();
 	}
 
+	public static void displayToastNoInternet(Context context) {
+		Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG)
+				.show();
+	}
+
 	public static void displayToastPositionaly(Context context, int xOffset,
 			int yOffset, String toastMessage) {
 		int duration = Toast.LENGTH_SHORT;
@@ -32,8 +37,9 @@ public class Utilities {
 		toast.setDuration(duration);
 		toast.show();
 	}
-	
-	public static void displayToastInView(Context context, View view, String toastMessage) {
+
+	public static void displayToastInView(Context context, View view,
+			String toastMessage) {
 		int duration = Toast.LENGTH_SHORT;
 		Toast toast = Toast.makeText(context, toastMessage, duration);
 		toast.setView(view);

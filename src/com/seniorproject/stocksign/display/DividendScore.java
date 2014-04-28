@@ -139,10 +139,6 @@ public class DividendScore extends Activity {
 		}
 	}
 	
-	public void kinveyResponceMethod(Object[] data) {
-		
-	}
-	
 	private void addClick(TableRow tr, final String ticker) {
 		// TODO Auto-generated method stub
 		tr.setOnClickListener(new OnClickListener() {

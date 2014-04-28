@@ -93,10 +93,10 @@ public class MainActivity extends FragmentActivity implements
 				ActivityConstants.MainActivity)) {
 			mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
 			ConnectToKinveyTask.setCallingActivity(this);
-			// login and fire off the ping call to ensure we can communicate
-			// with Kinvey
-			ConnectToKinveyTask.testKinveyService();
 		}
+		// login and fire off the ping call to ensure we can communicate
+		// with Kinvey
+		ConnectToKinveyTask.testKinveyService();
 	}
 	
 	protected void loadTickerTrie() {
@@ -227,9 +227,9 @@ public class MainActivity extends FragmentActivity implements
 
 	public void refresh() {
 
-		if(mKinveyClient == null) {
+		/*if(mKinveyClient == null || !KinveyConnectionSingleton.isConnected()) {
 			connectToKinvey();
-		}
+		}*/
 		
 		Context context = getApplicationContext();
 		CharSequence refreshtoast = "Refreshing...";

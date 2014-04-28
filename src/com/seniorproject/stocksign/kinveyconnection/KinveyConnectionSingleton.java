@@ -11,6 +11,7 @@ public class KinveyConnectionSingleton implements ActivityConstants {
 
 	private static KinveyConnectionSingleton instance = null;
 	private static Client mKinveyClient = null;
+	private static boolean connected = false;
 	
 	protected KinveyConnectionSingleton(Context applicationContext) {
 		mKinveyClient = new Client.Builder(applicationContext).build();
@@ -35,6 +36,18 @@ public class KinveyConnectionSingleton implements ActivityConstants {
 	//thread safe
 	public static synchronized Client getKinveyClient() {
 		return mKinveyClient;
+	}
+	
+	public static boolean isConnected() {
+		return connected;
+	}
+	
+	public static void setConnected() {
+		connected = true;
+	}
+	
+	public static void setDisconnected() {
+		connected = false;
 	}
 	
 }

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kinvey.android.Client;
@@ -31,10 +32,15 @@ import com.seniorproject.stocksign.kinveyconnection.KinveyConnectionSingleton;
  */
 public class HotStocksSectionFragment extends Fragment {
 
-	Client mKinveyClient = null;
-	Stock[] bestTotal = null;
-	Stock[] bestDiv = null;
-	Stock[] bestGrow = null;
+	private Client mKinveyClient = null;
+	private Stock[] bestTotal = null;
+	private Stock[] bestDiv = null;
+	private Stock[] bestGrow = null;
+	private RelativeLayout rlHotStocks = null;
+	
+	private boolean gotTotalScore;
+	private boolean gotDivScore;
+	private boolean gotGrowthScore;
 
 	/** Should not be instantiated, empty constructor */
 	public HotStocksSectionFragment() {
@@ -54,6 +60,10 @@ public class HotStocksSectionFragment extends Fragment {
 
 		mKinveyClient = KinveyConnectionSingleton.getKinveyClient();
 
+		gotTotalScore = false;
+		gotDivScore = false;
+		gotGrowthScore = false;
+		
 		kinveyDataFetcher(rootView, ApplicationConstants.TOTALSCORE_COLUMN,
 				ApplicationConstants.TOTALSCORE_LIMIT);
 		kinveyDataFetcher(rootView, ApplicationConstants.DIVSCORE_COLUMN,
@@ -70,6 +80,9 @@ public class HotStocksSectionFragment extends Fragment {
 		TextView tscore = (TextView) rootView.findViewById(R.id.tvHotTotalScoreTitle);
 		TextView dscore = (TextView) rootView.findViewById(R.id.tvHotDivScoreTitle);
 
+		rlHotStocks = (RelativeLayout) rootView.findViewById(R.id.rlHotStocks);
+		rlHotStocks.setVisibility(View.VISIBLE);
+		
 		gscore.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -145,8 +158,8 @@ public class HotStocksSectionFragment extends Fragment {
 		});
 		return rootView;
 	}
-
-	protected void loadSectorData() {
+	
+	private void loadSectorData() {
 		ConnectToKinveyTask.kinveyFetchSectorData();
 	}
 
@@ -162,6 +175,7 @@ public class HotStocksSectionFragment extends Fragment {
 		if (scoreType.equals(ApplicationConstants.TOTALSCORE_COLUMN)) {
 			// total score table
 			bestTotal = stocks;
+			gotTotalScore = true;
 
 			TextView tstock1 = (TextView) rv.findViewById(R.id.tvHotTotalScoreTicker1);
 			TextView tstock2 = (TextView) rv.findViewById(R.id.tvHotTotalScoreTicker2);
@@ -193,12 +207,13 @@ public class HotStocksSectionFragment extends Fragment {
 				tgrade3.setText(missingScore);
 			}
 
-			return;
+			//return;
 		}
 
 		if (scoreType.equals(ApplicationConstants.DIVSCORE_COLUMN)) {
 			// div score table
 			bestDiv = stocks;
+			gotDivScore = true;
 
 			TextView dstock1 = (TextView) rv.findViewById(R.id.tvHotDivScoreTicker1);
 			TextView dstock2 = (TextView) rv.findViewById(R.id.tvHotDivScoreTicker2);
@@ -230,12 +245,13 @@ public class HotStocksSectionFragment extends Fragment {
 				dgrade3.setText(missingScore);
 			}
 
-			return;
+			//return;
 		}
 
 		if (scoreType.equals(ApplicationConstants.GROWTHSCORE_COLUMN)) {
 			// growth score table
 			bestGrow = stocks;
+			gotGrowthScore = true;
 
 			TextView gstock1 = (TextView) rv.findViewById(R.id.tvHotGrowthScoreTicker1);
 			TextView gstock2 = (TextView) rv.findViewById(R.id.tvHotGrowthScoreTicker2);
@@ -266,7 +282,15 @@ public class HotStocksSectionFragment extends Fragment {
 				ggrade2.setText(missingScore);
 				ggrade3.setText(missingScore);
 			}
-			return;
+			
+			//return;
+		}
+		
+		/* remove th*/
+		if(gotTotalScore && gotDivScore && gotGrowthScore){
+			rlHotStocks.setVisibility(View.GONE);
+		} else if(stocks == null) {
+			rlHotStocks.setVisibility(View.GONE);
 		}
 	}
 

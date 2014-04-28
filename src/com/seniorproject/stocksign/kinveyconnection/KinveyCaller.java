@@ -23,15 +23,12 @@ public class KinveyCaller {
 	public static void callAppropriateActivityMethod(Activity caller, Object[] data) {
 		if(caller == null) {
 			Log.e("KinveyCaller", "Caller is NULL");
-			return;
 		}
 		
 		if(data == null) {
 			Log.e("KinveyCaller", "data is NULL");
-			return;
 		} else if(data.length == 0) {
 			Log.e("KinveyCaller", "data is empty");
-			return;
 		}
 		
 		if(caller instanceof MainActivity) {
@@ -41,13 +38,15 @@ public class KinveyCaller {
 				((DisplayStockRatioData) caller).kinveyResponceStockMethod(data[0]);
 			} else if(data instanceof PriceData[]) {
 				((DisplayStockRatioData) caller).kinveyResponcePriceMethod(data);
+			} else if(data == null) {
+				((DisplayStockRatioData) caller).kinveyResponceStockMethod(null);
 			}
 			
 		} else if(caller instanceof SearchStockActivity) {
 			// POSSIBLY ADD LOADING OF PRICE DATA HERE INSTEAD OF DISPLAYRATIOACTIVITY
 		} else if(caller instanceof DividendScore) {
 			if(data instanceof Stock[]) {
-				((DividendScore) caller).kinveyResponceMethod(data);
+
 			} else if(data instanceof PriceData[]) {
 				
 			}
@@ -67,10 +66,11 @@ public class KinveyCaller {
 		}
 		
 		if(fragment instanceof HotStocksSectionFragment) {
+			Stock[] stocks = null;
 			if(data instanceof Stock[]) {
-				Stock[] stocks = Arrays.copyOf(data, data.length, Stock[].class);
-				((HotStocksSectionFragment) fragment).kinveyResponceMethod(stocks, view, scoreType);
+				stocks = Arrays.copyOf(data, data.length, Stock[].class);				
 			}
+			((HotStocksSectionFragment) fragment).kinveyResponceMethod(stocks, view, scoreType);
 		}
 	}
 }
